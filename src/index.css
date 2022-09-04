@@ -1,13 +1,184 @@
-body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans:wght@100;300;600;700;900&display=swap');
+
+:root {
+  /*## COLOR VARIABLES ##*/
+  --dominantColor: #6e6c6f;
+  --dominantColorSoft: #e3e2e3;
+  --complementaryColor: #4b464b;
+  --accentColor: #b71eb7;
+  --accentColorDark: #4d0b4d;
+
+  /*## MARGIN VARIABLES ##*/
+  --marginInLine: 1rem;
+  --marginBlock: 0.2rem;
+
+  /*## BLOCK SIZES VARIABLES ##*/
+  --headerHeight: 3rem;
+  --footerHeight: 2rem;
+
+  /* -- ##  POST BOX SIZES ##*/
+  --boxPostMinHeight: 6rem;
+  /* --boxPostMinHeight: 6rem; */
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Noto Sans', sans-serif;
+}
+
+body {
+  height: 100vh;
+  width: 100vw;
+  background-color: var(--dominantColorSoft);
+}
+
+.header {
+  background-color: var(--dominantColor);
+
+  display: flex;
+  justify-content: space-between;
+  min-height: var(--headerHeight);
+  padding-inline: var(--marginInLine);
+}
+
+.postBox {
+  min-height: var(--boxPostMinHeight);
+  min-width: calc(100vw - var(--marginInLine) * 2);
+  margin-inline: var(--marginInLine);
+  margin-block: var(--marginBlock);
+}
+
+.title {
+  text-align: center;
+}
+
+.newPost {
+  display: flex;
+  flex-direction: column;
+}
+
+.newPost form {
+  display: flex;
+  flex-direction: column;
+}
+
+.Posts_Container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.Posts_Container .title {
+  background-color: var(--complementaryColor);
+  color: var(--dominantColorSoft);
+  min-width: 100vw;
+}
+.Posts_Container .Post {
+  background-color: #fff;
+  display: flex;
+  padding: 0.5rem;
+  gap: 0.5rem;
+}
+
+.Post .userImage {
+  justify-content: center;
+  background-color: var(--complementarySoftColor);
+  height: 4rem;
+  min-width: 4rem;
+  border-radius: 50%;
+  overflow: hidden;
+}
+
+.userImage .userImage_image {
+  height: 4rem;
+  width: 4rem;
+}
+
+.Post .postData {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.postData .title {
+  background-color: var(--dominantColor);
+  color: var(--complementaryColor);
+  min-width: 100%;
+}
+.postData .postFooter {
+  border-top: solid 1px var(--dominantColorSoft);
+  margin-top: auto;
+  min-width: 100%;
+}
+
+.postData .post_user {
+  font-weight: bold;
+}
+
+.postData .postFooter_list {
+  display: flex;
+  justify-content: space-around;
+  list-style: none;
+}
+
+.postFooter_list li {
+  display: flex;
+  margin-top: 0.5rem;
+  padding: 0.2rem;
+  cursor: pointer;
+}
+
+.postFooter_list .icon {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+  width: 2rem;
+  height: 2rem;
+}
+
+.postFooter_list svg {
+  width: 1.5rem;
+  height: 1.5rem;
+  border-radius: 50%;
+}
+
+.postFooter_list li:hover .icon {
+  background-color: red;
+}
+
+.icon.reaction_active {
+  background-color: red;
+}
+
+.postFooter_list li span {
+  align-self: center;
+}
+
+.informationPanel {
+  display: flex;
+  justify-content: space-between;
+  padding-inline: var(--marginInLine);
+}
+
+.informationPanel .userImage {
+  height: 4rem;
+  width: 4rem;
+  border: solid 2px var(--complementaryColor);
+  border-radius: 50%;
+  overflow: hidden;
+  background-color: var(--complementarySoftColor);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.userImage .userImage_image {
+  width: 4rem;
+}
+
+.userInformation {
+  display: flex;
+  flex-direction: column;
 }
