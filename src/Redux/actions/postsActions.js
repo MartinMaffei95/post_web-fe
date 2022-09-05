@@ -2,6 +2,8 @@ import {
   GET_INIT_POSTS_SUCCESS,
   GET_INIT_POSTS_REQUEST,
   GET_INIT_POSTS_FAILURE,
+  CREATE_COMMENT_IN_POST,
+  WRITING_COMMENT_IN_POST,
 } from './actions';
 import axios from 'axios';
 
@@ -13,6 +15,14 @@ export const postSucces = (data) => ({
 export const postFailure = (error) => ({
   type: GET_INIT_POSTS_FAILURE,
   payload: error,
+});
+export const makeComment = (postData, profileData) => ({
+  type: CREATE_COMMENT_IN_POST,
+  payload: { postData, profileData },
+});
+export const handleComment = (state) => ({
+  type: WRITING_COMMENT_IN_POST,
+  payload: state,
 });
 
 export const getInitPosts = () => (dispatch) => {
@@ -45,4 +55,12 @@ export const getPostsWithProfile = (profileID) => (dispatch) => {
     .catch((err) => {
       dispatch(postFailure(err));
     });
+};
+
+export const getPostFromHome = (postData, profile) => (dispatch) => {
+  dispatch(makeComment(postData, profile));
+};
+
+export const handleWriteComment = (state) => (dispatch) => {
+  dispatch(handleComment(state));
 };

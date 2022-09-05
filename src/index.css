@@ -182,3 +182,46 @@ body {
   display: flex;
   flex-direction: column;
 }
+
+.comment-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  display: flex;
+  flex-direction: column;
+  background-color: #fff;
+  width: 100%;
+  height: 100%;
+
+  opacity: 0;
+  pointer-events: none;
+}
+
+.comment-modal.active {
+  opacity: 1;
+  pointer-events: all;
+}
+
+.writeCommentContainer {
+  margin-top: 2rem;
+}
+.writeCommentContainer .postBox {
+  min-width: 100%;
+}
+
+.writeComment_writeContainer {
+  display: flex;
+}
+
+.yourComment {
+  background-color: #d6d6d6;
+  border: none;
+  resize: none;
+  width: 80vw;
+}
+
+.postButton {
+  position: absolute;
+  top: 2rem;
+  right: 1rem;
+}

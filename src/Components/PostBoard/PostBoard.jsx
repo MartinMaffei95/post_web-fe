@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useEffect } from 'react';
 import { connect } from 'react-redux';
 import Post from '../Post/Post';
 import { getInitPosts } from '../../Redux/actions/postsActions';
+import MakeAComment from '../MakeAComment/MakeAComment';
 const PostBoard = ({
   posts,
   reloadHomePage,
@@ -11,25 +12,33 @@ const PostBoard = ({
 }) => {
   let isProfile = postFromUser;
 
+  const [renderPosts, setRenderPosts] = useState();
+
   useEffect(() => {
-    if (!isProfile) {
-      reloadHomePage();
+    if (postFromUser) {
+      // is a user POST
+      return setRenderPosts(geterPostFromUser);
     }
-  }, []);
+    if (!postFromUser) {
+      // is NOT a user POST
+      return setRenderPosts(posts);
+    }
+  }, [posts, geterPostFromUser]);
   return (
     <>
+      <MakeAComment />
       {isProfile && <div></div>}
       {isProfile ? (
         <div className="Posts_Container">
           <h3 className="title">Publicaciones</h3>
-          {geterPostFromUser?.map((p) => (
+          {renderPosts?.map((p) => (
             <Post postData={p} key={p._id} />
           ))}
         </div>
       ) : (
         <div className="Posts_Container">
           <h3 className="title">Publicaciones</h3>
-          {posts?.map((p) => (
+          {renderPosts?.map((p) => (
             <Post postData={p} key={p._id} reloadFunction={reloadHomePage} />
           ))}
         </div>

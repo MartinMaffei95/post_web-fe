@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import {
   AiFillLike,
@@ -10,8 +10,13 @@ import {
 } from 'react-icons/ai';
 import useFetchProfile from '../../Hooks/useFetchProfile';
 import axios from 'axios';
+import { connect } from 'react-redux';
+import {
+  getPostFromHome,
+  handleWriteComment,
+} from '../../Redux/actions/postsActions';
 
-const Post = ({ postData, reloadFunction }) => {
+const Post = ({ postData, reloadFunction, makingComment }) => {
   const { profile } = useFetchProfile(postData?.author?.userID);
   const navigate = useNavigate();
   const profileName = useRef();
@@ -21,9 +26,11 @@ const Post = ({ postData, reloadFunction }) => {
     });
   };
 
+  const [renderPost, setRenderPost] = useState(postData);
+
   const myID = localStorage.getItem('userID');
   const likePost = () => {
-    axios(`http://localhost:4000/post/${postData?._id}/like_post`, {
+    axios(`http://localhost:4000/post/${renderPost?._id}/like_post`, {
       method: 'POST',
       headers: {
         contentType: 'application/json',
@@ -32,11 +39,11 @@ const Post = ({ postData, reloadFunction }) => {
       data: {
         id: myID,
       },
-    }).then((res) => reloadFunction());
+    }).then((res) => setRenderPost(res.data.post));
   };
 
   const unlikePost = () => {
-    axios(`http://localhost:4000/post/${postData?._id}/unlike_post`, {
+    axios(`http://localhost:4000/post/${renderPost?._id}/unlike_post`, {
       method: 'POST',
       headers: {
         contentType: 'application/json',
@@ -45,11 +52,12 @@ const Post = ({ postData, reloadFunction }) => {
       data: {
         id: myID,
       },
-    }).then((res) => reloadFunction());
+    }).then((res) => setRenderPost(res.data.post));
   };
 
-  useEffect(() => {}, [postData]);
-
+  useEffect(() => {
+    setRenderPost(postData);
+  }, [postData]);
   return (
     <div className="Post postBox">
       <div className="userImage">
@@ -59,36 +67,41 @@ const Post = ({ postData, reloadFunction }) => {
       <div className="postData">
         <span
           ref={profileName}
-          data-user-id={postData?.author?.userID}
+          data-user-id={renderPost?.author?.userID}
           className="post_user"
           onClick={goToProfile}
         >
-          {postData?.author?.username}
+          {renderPost?.author?.username}
         </span>
 
-        <p className="post_text">{postData?.text}</p>
+        <p className="post_text">{renderPost?.text}</p>
         <div className="postFooter">
           <ul className="postFooter_list">
             <li>
-              <div className="icon">
+              <div
+                className="icon"
+                onClick={() => {
+                  makingComment(postData, profile?.profileData);
+                }}
+              >
                 <AiOutlineMessage />
               </div>
-              <span>1352</span>
+              <span>{renderPost?.comments?.length}</span>
             </li>
             <li>
-              {postData?.likes?.includes(myID) ? (
+              {renderPost?.likes?.includes(myID) ? (
                 <>
                   <div className="icon reaction_active" onClick={unlikePost}>
-                    <AiOutlineHeart />
+                    <AiFillHeart />
                   </div>
-                  <span>{postData?.likes?.length}</span>
+                  <span>{renderPost?.likes?.length}</span>
                 </>
               ) : (
                 <>
                   <div className="icon" onClick={likePost}>
                     <AiOutlineHeart />
                   </div>
-                  <span>{postData?.likes?.length}</span>
+                  <span>{renderPost?.likes?.length}</span>
                 </>
               )}
             </li>
@@ -106,4 +119,14 @@ const Post = ({ postData, reloadFunction }) => {
   );
 };
 
-export default Post;
+const mapStateToProps = (state) => ({
+  posts: state.postReducer.posts,
+});
+const mapDispatchToProps = (dispatch) => ({
+  makingComment(postData, profile) {
+    dispatch(getPostFromHome(postData, profile));
+    dispatch(handleWriteComment(true));
+  },
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Post);

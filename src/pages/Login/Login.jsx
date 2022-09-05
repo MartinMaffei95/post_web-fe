@@ -2,8 +2,10 @@ import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import * as Yup from 'yup';
 import { useFormik } from 'formik';
+import { connect } from 'react-redux';
+import { getMyProfileData } from '../../Redux/actions/profilesActions';
 
-const Login = () => {
+const Login = ({ getMyData }) => {
   const initialValues = {
     username: '',
     password: '',
@@ -30,6 +32,8 @@ const Login = () => {
           localStorage.setItem('token', data?.token);
           localStorage.setItem('username', data?.user?.username);
           localStorage.setItem('userID', data?.user?._id);
+          getMyData(data?.user?._id, data?.token);
+
           return navigate('/', { replace: true });
         } else {
           alert(data.message);
@@ -94,4 +98,12 @@ const Login = () => {
   );
 };
 
-export default Login;
+const mapDispatchToProps = (dispatch) => ({
+  getMyData(myProfileID, token) {
+    dispatch(getMyProfileData(myProfileID, token));
+  },
+});
+
+const mapStateToProps = (state) => ({});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Login);

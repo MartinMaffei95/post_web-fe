@@ -2,11 +2,12 @@ import {
   GET_INIT_PROFILE_SUCCESS,
   GET_INIT_PROFILE_REQUEST,
   GET_INIT_PROFILE_FAILURE,
+  GET_MY_PROFILE,
 } from '../../actions/actions';
 
 const initialStore = {
   loading: false,
-  // profileInformation: [],
+  myProfileInformation: {},
   profileSelectedInfo: [],
   posts: [],
   error: '',
@@ -27,9 +28,17 @@ export const profileReducer = (state = initialStore, action) => {
       };
     case GET_INIT_PROFILE_FAILURE: //## GET as a bad request :(
       return {
+        ...state,
         loading: false, //## web is not loading
         errors: action.payload, //## saving errors on this array
         userInformation: [], //## dont have profile so its a empty array
+      };
+    case GET_MY_PROFILE:
+      return {
+        ...state,
+        loading: false, //## web is not loading
+        errors: '', //## dont have errors
+        myProfileInformation: action.payload, //## saving profile on this array
       };
 
     default:

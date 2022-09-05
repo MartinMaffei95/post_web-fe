@@ -2,6 +2,7 @@ import {
   GET_INIT_PROFILE_SUCCESS,
   GET_INIT_PROFILE_REQUEST,
   GET_INIT_PROFILE_FAILURE,
+  GET_MY_PROFILE,
 } from './actions';
 import axios from 'axios';
 
@@ -15,6 +16,11 @@ export const profileFailure = (error) => ({
   payload: error,
 });
 
+export const sendMyProfile = (myProfileData) => ({
+  type: GET_MY_PROFILE,
+  payload: myProfileData,
+});
+
 export const getProfileInformation = (profileID) => (dispatch) => {
   dispatch(profileRequest());
 
@@ -26,6 +32,22 @@ export const getProfileInformation = (profileID) => (dispatch) => {
     },
   })
     .then((res) => dispatch(profileSucces(res.data.profileData)))
+    .catch((err) => {
+      dispatch(profileFailure(err));
+    });
+};
+
+export const getMyProfileData = (profileID, token) => (dispatch) => {
+  dispatch(profileRequest());
+
+  axios(`${process.env.REACT_APP_URI}profile/${profileID}`, {
+    method: 'GET',
+    headers: {
+      contentType: 'application/json',
+      Authorization: 'Bearer ' + token,
+    },
+  })
+    .then((res) => dispatch(sendMyProfile(res.data.profileData)))
     .catch((err) => {
       dispatch(profileFailure(err));
     });
