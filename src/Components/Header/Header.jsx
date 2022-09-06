@@ -1,9 +1,12 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-
-const Header = () => {
+import { TbMessage2Share } from 'react-icons/tb';
+import { AiFillCaretDown } from 'react-icons/ai';
+import { connect } from 'react-redux';
+import { useEffect } from 'react';
+const Header = ({ userData }) => {
   let navigate = useNavigate();
-
+  const [isActive, setIsActive] = useState(false);
   const handleLogout = () => {
     localStorage.removeItem('token');
     localStorage.removeItem('username');
@@ -14,21 +17,69 @@ const Header = () => {
       replace: true,
     });
   };
+
+  useEffect(() => {}, [isActive]);
   return (
     <header className="header">
-      <h3
+      <div
+        className="logoContainer"
         onClick={() => {
           navigate('/', { replace: true });
         }}
       >
-        PostWEB
-      </h3>
-      <span data-user-id={localStorage.getItem('userID')} onClick={goToProfile}>
-        {localStorage.getItem('username')}
-      </span>
-      <button onClick={handleLogout}> Cerrar Sesion </button>
+        <span className="logoIcon">
+          <span className="logoIcon_text">Inicio</span>
+          <hr />
+        </span>
+      </div>
+      <div className={`backgroundMenu ${isActive ? 'active' : ''}`}></div>
+
+      <div className="menuContainer">
+        <div className="openMenu">
+          <div
+            className="userImage"
+            onClick={() => {
+              setIsActive(true);
+            }}
+          >
+            <img className="userImage_image" src={userData?.image} />
+          </div>
+        </div>
+        {/* In this menu have Count information */}
+        <ul className={`menu_list ${isActive ? 'active' : ''}`}>
+          <div>
+            <button
+              onClick={() => {
+                setIsActive(false);
+              }}
+            >
+              X
+            </button>
+            <span>Informacion de la cuenta</span>
+          </div>
+          <div className="accountInfo_menu">
+            <div className="userImage">
+              <img className="userImage_image" src={userData?.image} />
+            </div>
+            <span>{userData?.username}</span>
+            <hr />
+          </div>
+          <li>Mi perfil</li>
+          <li>Opcion 2</li>
+          <li>Opcion 3</li>
+          <li>
+            <button onClick={handleLogout}> Cerrar Sesion </button>
+          </li>
+        </ul>
+      </div>
     </header>
   );
 };
 
-export default Header;
+const mapStateToProps = (state) => ({
+  userData: state.profileReducer.myProfileInformation,
+});
+
+const mapDispatchToProps = (dispatch) => ({});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Header);

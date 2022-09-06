@@ -20,6 +20,7 @@ const Post = ({ postData, reloadFunction, makingComment }) => {
   const { profile } = useFetchProfile(postData?.author?.userID);
   const navigate = useNavigate();
   const profileName = useRef();
+  const postConatiner = useRef();
   const goToProfile = (e) => {
     navigate(`/profile/${e.target.getAttribute('data-user-id')}`, {
       replace: true,
@@ -55,65 +56,78 @@ const Post = ({ postData, reloadFunction, makingComment }) => {
     }).then((res) => setRenderPost(res.data.post));
   };
 
+  const toPost = (e) => {
+    let tar = e.target.className;
+    if (
+      tar.includes('postData') ||
+      tar.includes('postBox') ||
+      tar.includes('userImage') ||
+      tar.includes('post_text')
+    ) {
+      navigate(`/post/${renderPost?._id}`, { replace: false });
+    }
+  };
+
   useEffect(() => {
     setRenderPost(postData);
   }, [postData]);
   return (
-    <div className="Post postBox">
+    <div className="Post postBox gridPost" onClick={toPost} ref={postConatiner}>
       <div className="userImage">
         <img className="userImage_image" src={profile?.profileData?.image} />
       </div>
-
-      <div className="postData">
+      <div ref={profileName} className="post_user">
         <span
-          ref={profileName}
-          data-user-id={renderPost?.author?.userID}
-          className="post_user"
           onClick={goToProfile}
+          className="post_user_span"
+          data-user-id={renderPost?.author?.userID}
         >
           {renderPost?.author?.username}
         </span>
+      </div>
+      <span className="post_timeLast"> 8hs</span>
+      <p className="post_text">{renderPost?.text}</p>
+      <div className="postFooter">
+        <ul className="postFooter_list">
+          <li>
+            <div
+              className="icon"
+              onClick={() => {
+                makingComment(postData, profile?.profileData);
+              }}
+            >
+              <AiOutlineMessage className="messageIcon" />
+            </div>
+            <span>{renderPost?.comments?.length}</span>
+          </li>
+          <li>
+            {renderPost?.likes?.includes(myID) ? (
+              <>
+                <div
+                  className="icon reaction_active heartIcon"
+                  onClick={unlikePost}
+                >
+                  <AiFillHeart />
+                </div>
+                <span>{renderPost?.likes?.length}</span>
+              </>
+            ) : (
+              <>
+                <div className="icon heartIcon" onClick={likePost}>
+                  <AiOutlineHeart />
+                </div>
+                <span>{renderPost?.likes?.length}</span>
+              </>
+            )}
+          </li>
 
-        <p className="post_text">{renderPost?.text}</p>
-        <div className="postFooter">
-          <ul className="postFooter_list">
-            <li>
-              <div
-                className="icon"
-                onClick={() => {
-                  makingComment(postData, profile?.profileData);
-                }}
-              >
-                <AiOutlineMessage />
-              </div>
-              <span>{renderPost?.comments?.length}</span>
-            </li>
-            <li>
-              {renderPost?.likes?.includes(myID) ? (
-                <>
-                  <div className="icon reaction_active" onClick={unlikePost}>
-                    <AiFillHeart />
-                  </div>
-                  <span>{renderPost?.likes?.length}</span>
-                </>
-              ) : (
-                <>
-                  <div className="icon" onClick={likePost}>
-                    <AiOutlineHeart />
-                  </div>
-                  <span>{renderPost?.likes?.length}</span>
-                </>
-              )}
-            </li>
-
-            <li>
-              <div className="icon">
-                <AiOutlineRetweet />
-              </div>
-              <span>1352</span>
-            </li>
-          </ul>
-        </div>
+          <li>
+            <div className="icon">
+              <AiOutlineRetweet className="shareIcon" />
+            </div>
+            <span>1352</span>
+          </li>
+        </ul>
       </div>
     </div>
   );

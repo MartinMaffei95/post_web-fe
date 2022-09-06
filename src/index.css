@@ -8,6 +8,18 @@
   --accentColor: #b71eb7;
   --accentColorDark: #4d0b4d;
 
+  --likeColorIcon: #ff0936;
+  --likeColor: #d24444cd;
+  --likeColorSoft: #d24444a2;
+
+  --msgColor: #5481b7;
+  --msgColorSoft: #5481b78d;
+  --msgColorIcon: #1e00ff;
+
+  --shareColor: #66bf56;
+  --shareColorSoft: #63b754ba;
+  --shareColorIcon: #0d5600;
+
   /*## MARGIN VARIABLES ##*/
   --marginInLine: 1rem;
   --marginBlock: 0.2rem;
@@ -31,27 +43,79 @@
 body {
   height: 100vh;
   width: 100vw;
-  background-color: var(--dominantColorSoft);
+  background-color: #fff;
 }
-
+/* HEADER */
 .header {
-  background-color: var(--dominantColor);
+  background-color: #fff;
 
   display: flex;
   justify-content: space-between;
   min-height: var(--headerHeight);
   padding-inline: var(--marginInLine);
+  border-bottom: 2px solid #000000;
 }
+
+.logoContainer {
+  cursor: pointer;
+}
+
+.logoContainer .logoIcon svg {
+  color: #000000d4;
+  width: var(--headerHeight);
+  height: var(--headerHeight);
+}
+.logoContainer:hover .logoIcon svg,
+.logoContainer:hover .logoIcon_text {
+  color: #000000;
+}
+
+.logoContainer .logoIcon_text {
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+.header .menuContainer {
+  position: relative;
+}
+.header .openMenu {
+  display: flex;
+}
+.backgroundMenu {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  width: 100vw;
+  background-color: #0000004b;
+
+  pointer-events: none;
+  opacity: 0;
+}
+
+.backgroundMenu.active {
+  pointer-events: all;
+  opacity: 1;
+}
+.menu_list {
+  list-style: none;
+  position: absolute;
+  background-color: #fff;
+  top: 0;
+  left: calc(100% + var(--marginInLine));
+  height: 100vh;
+  width: 60vw;
+  transition: 0.5s;
+}
+
+.menu_list.active {
+  transform: translateX(calc(-100% + var(--marginInLine)));
+}
+/* POST */
 
 .postBox {
   min-height: var(--boxPostMinHeight);
-  min-width: calc(100vw - var(--marginInLine) * 2);
-  margin-inline: var(--marginInLine);
-  margin-block: var(--marginBlock);
-}
-
-.title {
-  text-align: center;
+  min-width: 100vw;
 }
 
 .newPost {
@@ -70,54 +134,61 @@ body {
   align-items: center;
 }
 
-.Posts_Container .title {
-  background-color: var(--complementaryColor);
-  color: var(--dominantColorSoft);
-  min-width: 100vw;
+.gridPost {
+  display: grid;
+  grid-template-areas:
+    'image username username time'
+    'image post post post'
+    'image footer footer footer';
+  grid-template-columns: 4rem 1fr 1fr 1fr;
 }
+
 .Posts_Container .Post {
   background-color: #fff;
-  display: flex;
-  padding: 0.5rem;
-  gap: 0.5rem;
+  padding: var(--marginBlock) var(--marginInLine);
+  padding-top: var(--marginInLine);
+  border-bottom: solid 1px var(--dominantColorSoft);
+}
+.post_timeLast {
+  grid-area: time;
+}
+
+.Posts_Container .Post:hover {
+  background-color: rgb(212, 210, 210);
 }
 
 .Post .userImage {
-  justify-content: center;
   background-color: var(--complementarySoftColor);
-  height: 4rem;
-  min-width: 4rem;
+  height: 3rem;
+  width: 3rem;
+  background-color: var(--dominantColorSoft);
   border-radius: 50%;
   overflow: hidden;
+  grid-area: image;
 }
 
 .userImage .userImage_image {
-  height: 4rem;
-  width: 4rem;
+  background-size: contain;
+  height: 3rem;
+  width: 3rem;
 }
 
-.Post .postData {
-  display: flex;
-  flex-direction: column;
-  flex: 1;
+.postBox .post_user {
+  font-weight: bold;
+  cursor: pointer;
+  grid-area: username;
+}
+.postBox .post_text {
+  grid-area: post;
 }
 
-.postData .title {
-  background-color: var(--dominantColor);
-  color: var(--complementaryColor);
-  min-width: 100%;
-}
-.postData .postFooter {
-  border-top: solid 1px var(--dominantColorSoft);
+.postBox .postFooter {
   margin-top: auto;
   min-width: 100%;
+  grid-area: footer;
 }
 
-.postData .post_user {
-  font-weight: bold;
-}
-
-.postData .postFooter_list {
+.postBox .postFooter_list {
   display: flex;
   justify-content: space-around;
   list-style: none;
@@ -139,22 +210,42 @@ body {
   height: 2rem;
 }
 
-.postFooter_list svg {
-  width: 1.5rem;
-  height: 1.5rem;
+.postFooter_list .icon {
+  border-radius: 50%;
+  color: var(--dominantColor);
+}
+
+.postFooter_list li .icon svg {
+  transition: 0.5s;
+}
+.postFooter_list li span {
+  align-self: center;
+  color: var(--dominantColor);
+}
+
+.postFooter_list li:hover .heartIcon svg {
+  background-color: var(--likeColorSoft);
+  box-shadow: 0 0 5px 5px var(--likeColorSoft);
+  color: var(--likeColorIcon);
   border-radius: 50%;
 }
 
-.postFooter_list li:hover .icon {
-  background-color: red;
-}
-
 .icon.reaction_active {
-  background-color: red;
+  color: var(--likeColorIcon);
 }
 
-.postFooter_list li span {
-  align-self: center;
+.postFooter_list li:hover .messageIcon {
+  background-color: var(--msgColorSoft);
+  box-shadow: 0 0 5px 5px var(--msgColorSoft);
+  color: var(--msgColorIcon);
+  border-radius: 50%;
+}
+
+.postFooter_list li:hover .shareIcon {
+  background-color: var(--shareColorSoft);
+  box-shadow: 0 0 5px 5px var(--shareColorSoft);
+  color: var(--shareColorIcon);
+  border-radius: 50%;
 }
 
 .informationPanel {
@@ -164,8 +255,8 @@ body {
 }
 
 .informationPanel .userImage {
-  height: 4rem;
-  width: 4rem;
+  height: 3rem;
+  width: 3rem;
   border: solid 2px var(--complementaryColor);
   border-radius: 50%;
   overflow: hidden;
@@ -175,7 +266,7 @@ body {
   align-items: center;
 }
 .userImage .userImage_image {
-  width: 4rem;
+  width: 3rem;
 }
 
 .userInformation {

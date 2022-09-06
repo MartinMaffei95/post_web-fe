@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import Post from '../Post/Post';
 import { getInitPosts } from '../../Redux/actions/postsActions';
 import MakeAComment from '../MakeAComment/MakeAComment';
+import { useNavigate } from 'react-router-dom';
 const PostBoard = ({
   posts,
   reloadHomePage,
@@ -13,7 +14,7 @@ const PostBoard = ({
   let isProfile = postFromUser;
 
   const [renderPosts, setRenderPosts] = useState();
-
+  const navigate = useNavigate();
   useEffect(() => {
     if (postFromUser) {
       // is a user POST
@@ -30,14 +31,12 @@ const PostBoard = ({
       {isProfile && <div></div>}
       {isProfile ? (
         <div className="Posts_Container">
-          <h3 className="title">Publicaciones</h3>
           {renderPosts?.map((p) => (
             <Post postData={p} key={p._id} />
           ))}
         </div>
       ) : (
         <div className="Posts_Container">
-          <h3 className="title">Publicaciones</h3>
           {renderPosts?.map((p) => (
             <Post postData={p} key={p._id} reloadFunction={reloadHomePage} />
           ))}
