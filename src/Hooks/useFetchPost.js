@@ -13,7 +13,7 @@ const useFetchPost = (postId) => {
         Authorization: 'Bearer ' + localStorage.getItem('token'),
       },
     })
-      .then((res) => setPost(res.data.post))
+      .then((res) => setPost(res.data))
       .catch((err) => {
         setError(err);
       });

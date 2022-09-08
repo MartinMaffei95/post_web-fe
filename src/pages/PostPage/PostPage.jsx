@@ -4,7 +4,6 @@ import Header from '../../Components/Header/Header';
 import MakeAComment from '../../Components/MakeAComment/MakeAComment';
 import Post from '../../Components/Post/Post';
 import useFetchPost from '../../Hooks/useFetchPost';
-
 const PostPage = () => {
   let { postId } = useParams();
   const { post } = useFetchPost(postId);
@@ -12,6 +11,7 @@ const PostPage = () => {
   useEffect(() => {
     setRenderPost(post);
     console.log(renderPost);
+    console.log(Date.parse(Date()));
   }, [post]);
 
   return (
@@ -19,18 +19,13 @@ const PostPage = () => {
       <Header />
       <MakeAComment />
       <div className="Posts_Container postPage">
-        {renderPost && <Post postData={renderPost} />}
+        {renderPost?.post && <Post postData={renderPost?.post} />}
       </div>
       <hr />
       {/* Coments */}
       <div>
         {renderPost?.comments?.map((c) => (
-          <Post postData={c} />
-          // <div key={c?.comment_id}>
-          //   <hr />
-          //   <span>{c?.author?.username}</span>
-          //   <p>{c?.text}</p>
-          // </div>
+          <Post postData={c} key={c?._id} />
         ))}
       </div>
     </>

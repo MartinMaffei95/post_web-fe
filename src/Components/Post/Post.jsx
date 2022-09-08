@@ -68,6 +68,24 @@ const Post = ({ postData, reloadFunction, makingComment }) => {
     }
   };
 
+  const toMinutes = (postDate) => {
+    let actualDate = new Date();
+    //Parsing the dates
+    postDate = Date.parse(postDate);
+    actualDate = Date.parse(actualDate);
+    //diferences between
+    const diference = actualDate - postDate;
+    // returning the diference in minutes
+    const x = (actualDate - postDate) / 1000 / 60;
+    let date = Math.round(x);
+
+    // RETURN MINUTES or HOURS or DATE
+    if (date <= 1) return 'Ahora';
+    if (date >= 1440) return `Ayer`;
+    if (date >= 60) return `${Math.floor(date / 60)} h`;
+    if (date > 1) return `${date} m`;
+  };
+
   useEffect(() => {
     setRenderPost(postData);
   }, [postData]);
@@ -85,7 +103,7 @@ const Post = ({ postData, reloadFunction, makingComment }) => {
           {renderPost?.author?.username}
         </span>
       </div>
-      <span className="post_timeLast"> 8hs</span>
+      <span className="post_timeLast">{toMinutes(renderPost?.updatedAt)}</span>
       <p className="post_text">{renderPost?.text}</p>
       <div className="postFooter">
         <ul className="postFooter_list">
@@ -98,7 +116,9 @@ const Post = ({ postData, reloadFunction, makingComment }) => {
             >
               <AiOutlineMessage className="messageIcon" />
             </div>
-            <span>{renderPost?.comments?.length}</span>
+            <span>
+              {renderPost?.repliesLength ? renderPost?.repliesLength : 0}
+            </span>
           </li>
           <li>
             {renderPost?.likes?.includes(myID) ? (

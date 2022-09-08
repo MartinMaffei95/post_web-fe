@@ -9,6 +9,7 @@ const InformationPanel = ({ profileData }) => {
         <img className="userImage_image" src={profileData?.image} />
       </div>
       <div className="userInformation">
+        <button className="btn primary">Editar perfil</button>
         <span>{profileData?.username}</span>
         <span>{profileData?.email}</span>
       </div>

@@ -17,31 +17,30 @@ const MakeAComment = ({
   const [isActive, setIsActive] = useState(writtingComment);
   const [comment, setComment] = useState();
   const initialValues = {
-    userId: localStorage.getItem('userID'),
+    userID: localStorage.getItem('userID'),
     username: localStorage.getItem('username'),
     text: '',
   };
 
   const onSubmit = () => {
     console.log('ok');
-    fetch(
-      `${process.env.REACT_APP_URI}post/${actualPost?.postData?._id}/make_comment`,
-      {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: 'Bearer ' + localStorage.getItem('token'),
-        },
-        body: JSON.stringify({
-          userId: localStorage.getItem('userID'),
+    fetch(`${process.env.REACT_APP_URI}post/${actualPost?.postData?._id}`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: 'Bearer ' + localStorage.getItem('token'),
+      },
+      body: JSON.stringify({
+        text: values.text,
+        author: {
+          userID: localStorage.getItem('userID'),
           username: localStorage.getItem('username'),
-          text: values.text,
-        }),
-      }
-    )
+        },
+      }),
+    })
       .then((res) => res.json())
       .then((data) => {
-        if (data.message === 'COMMENT_ADDED') {
+        if (data.message === 'POST_CREATED') {
           resetForm();
           setRenderPost(data?.post);
           handleWrittingComment(false);

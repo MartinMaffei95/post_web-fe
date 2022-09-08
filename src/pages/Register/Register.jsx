@@ -63,42 +63,53 @@ const Register = () => {
   } = formik;
 
   return (
-    <div>
+    <div className="loginPage">
       <h3>Registro</h3>
-      <form onSubmit={handleSubmit}>
-        <input
-          type="text"
-          name="username"
-          value={values.username}
-          onChange={handleChange}
-          onBlur={handleBlur}
-        />
-        {errors.username && touched.username && (
-          <span className="error-message">{errors.username}</span>
-        )}
-        <input
-          type="text"
-          name="email"
-          value={values.email}
-          onChange={handleChange}
-          onBlur={handleBlur}
-        />
-        {errors.email && touched.email && (
-          <span className="error-message">{errors.email}</span>
-        )}
-        <input
-          type="password"
-          name="password"
-          value={values.password}
-          onChange={handleChange}
-          onBlur={handleBlur}
-        />
-        {errors.password && touched.password && (
-          <span className="error-message">{errors.password}</span>
-        )}
-        <input type="submit" />
-      </form>
-      <Link to="/login"> Ya tienes un cuenta?</Link>
+      <div className="formContainer">
+        <form className="formContainer_form" onSubmit={handleSubmit}>
+          <div className="inputContainer">
+            <label>Nombre de usuario:</label>
+            <input
+              type="text"
+              name="username"
+              value={values.username}
+              onChange={handleChange}
+              onBlur={handleBlur}
+            />
+          </div>
+          {errors.username && touched.username && (
+            <span className="error-message">{errors.username}</span>
+          )}
+          <div className="inputContainer">
+            <label>Email:</label>
+            <input
+              type="text"
+              name="email"
+              value={values.email}
+              onChange={handleChange}
+              onBlur={handleBlur}
+            />
+          </div>
+          {errors.email && touched.email && (
+            <span className="error-message">{errors.email}</span>
+          )}
+          <div className="inputContainer">
+            <label>Contraseña:</label>
+            <input
+              type="password"
+              name="password"
+              value={values.password}
+              onChange={handleChange}
+              onBlur={handleBlur}
+            />
+          </div>
+          {errors.password && touched.password && (
+            <span className="error-message">{errors.password}</span>
+          )}
+          <input type="submit" />
+        </form>
+        <Link to="/login"> Ya tienes un cuenta?</Link>
+      </div>
     </div>
   );
 };

@@ -5,8 +5,8 @@
   --dominantColor: #6e6c6f;
   --dominantColorSoft: #e3e2e3;
   --complementaryColor: #4b464b;
-  --accentColor: #b71eb7;
-  --accentColorDark: #4d0b4d;
+  --accentColor: #1eb7a8;
+  --accentColorDark: #126a7a;
 
   --likeColorIcon: #ff0936;
   --likeColor: #d24444cd;
@@ -150,6 +150,10 @@ body {
   border-bottom: solid 1px var(--dominantColorSoft);
 }
 .post_timeLast {
+  color: var(--dominantColor);
+  font-size: 0.7rem;
+  display: flex;
+  justify-content: flex-end;
   grid-area: time;
 }
 
@@ -267,6 +271,8 @@ body {
 }
 .userImage .userImage_image {
   width: 3rem;
+  background-color: var(--dominantColorSoft);
+  border-radius: 50%;
 }
 
 .userInformation {
@@ -315,4 +321,111 @@ body {
   position: absolute;
   top: 2rem;
   right: 1rem;
+}
+
+.loginPage {
+  height: 100vh;
+  width: 100vw;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  background-image: linear-gradient(60deg, #5481b7, #889bb3);
+}
+
+.formContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  /* background-color: var(--dominantColorSoft); */
+  background-color: #b5b1b150;
+  height: 70vh;
+  width: 80vw;
+}
+.formContainer_form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.inputContainer {
+  background-color: #fff;
+  width: 80%;
+  border: solid black 1px;
+  margin-block: 0.5rem;
+}
+
+.inputContainer input {
+  /* border: solid black 2px; */
+  border: none;
+  width: 100%;
+}
+
+/* #### BUTTONS ### */
+
+.btn {
+  background: none;
+  border: none;
+  font-weight: 700;
+  letter-spacing: 0.03rem;
+  border-radius: 8px;
+  padding: 0.2rem 0.5rem;
+  margin: 0.2rem 0.5rem;
+  cursor: pointer;
+}
+
+.btn.link {
+}
+
+.btn.accent {
+  background: var(--accentColorDark);
+  color: #fff;
+}
+.btn.primary {
+  background: var(--dominantColor);
+  color: #fff;
+  transition: color 0.2s;
+}
+.btn.primary:hover {
+  background: var(--dominantColorSoft);
+  color: #000;
+}
+
+.btn.secondary {
+  border: solid 2px var(--dominantColor);
+}
+
+.btn.animate {
+  /* border-bottom: solid 2px var(--dominantColor); */
+  position: relative;
+}
+
+.btn.animate::after {
+  content: '';
+  background-color: var(--complementaryColor);
+  position: absolute;
+  left: 50%;
+  top: 100%;
+  width: 00%;
+  height: 2px;
+  transition: 0.3s ease-in-out;
+}
+
+.btn.animate::before {
+  content: '';
+  background-color: var(--complementaryColor);
+  position: absolute;
+  right: 50%;
+  top: 100%;
+  width: 00%;
+  height: 2px;
+  transition: 0.3s ease-in-out;
+}
+
+.btn.animate:hover::before,
+.btn.animate:hover::after {
+  width: 50%;
 }

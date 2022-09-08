@@ -6,6 +6,7 @@ import { Routes, Route, Navigate, useNavigate } from 'react-router-dom';
 import Profile from '../pages/Profile/Profile';
 import PostBoard from '../Components/PostBoard/PostBoard';
 import PostPage from '../pages/PostPage/PostPage';
+import Styles from '../pages/Styles/Styles';
 const AppRoutes = () => {
   const navigate = useNavigate();
   const RequireAuth = ({ children }) => {
@@ -51,6 +52,8 @@ const AppRoutes = () => {
       <Route path="/register" element={<Register />}></Route>
       {/* ## Login page ## */}
       <Route path="/login" element={<Login />}></Route>
+      {/* ## Styles page ## */}
+      <Route path="/styles" element={<Styles />}></Route>
     </Routes>
   );
 };
