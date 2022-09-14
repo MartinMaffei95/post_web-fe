@@ -7,6 +7,7 @@ import {
   AiOutlineHeart,
   AiOutlineMessage,
   AiOutlineRetweet,
+  AiOutlineMore,
 } from 'react-icons/ai';
 import useFetchProfile from '../../Hooks/useFetchProfile';
 import axios from 'axios';
@@ -14,31 +15,47 @@ import { connect } from 'react-redux';
 import {
   getPostFromHome,
   handleWriteComment,
+  getPostsWithProfile,
 } from '../../Redux/actions/postsActions';
+import ProfileImage from '../../Molecules/ProfileImage/ProfileImage';
+import { useResize } from '../../Hooks/useResize';
 
-const Post = ({ postData, reloadFunction, makingComment }) => {
+import './style.Post.css';
+
+const Post = ({
+  postData,
+  reloadFunction,
+  makingComment,
+  fetchUserProfile,
+}) => {
   const { profile } = useFetchProfile(postData?.author?.userID);
   const navigate = useNavigate();
   const profileName = useRef();
   const postConatiner = useRef();
+
   const goToProfile = (e) => {
     navigate(`/profile/${e.target.getAttribute('data-user-id')}`, {
       replace: true,
     });
   };
+  const goToComment = (e) => {
+    navigate(`/compose/${e.target.getAttribute('data-user-id')}/comment`, {
+      replace: true,
+    });
+  };
 
+  const { isPhone } = useResize();
   const [renderPost, setRenderPost] = useState(postData);
 
   const myID = localStorage.getItem('userID');
+
+  // Functions
   const likePost = () => {
     axios(`http://localhost:4000/post/${renderPost?._id}/like_post`, {
       method: 'POST',
       headers: {
         contentType: 'application/json',
         authorization: 'Bearer ' + localStorage.getItem('token'),
-      },
-      data: {
-        id: myID,
       },
     }).then((res) => setRenderPost(res.data.post));
   };
@@ -50,10 +67,22 @@ const Post = ({ postData, reloadFunction, makingComment }) => {
         contentType: 'application/json',
         authorization: 'Bearer ' + localStorage.getItem('token'),
       },
-      data: {
-        id: myID,
-      },
     }).then((res) => setRenderPost(res.data.post));
+  };
+
+  const deletePost = () => {
+    axios(`http://localhost:4000/post/${renderPost?._id}`, {
+      method: 'DELETE',
+      headers: {
+        contentType: 'application/json',
+        authorization: 'Bearer ' + localStorage.getItem('token'),
+      },
+    }).then((res) => {
+      if (res.data.message === 'POST_DELETED') {
+        fetchUserProfile(localStorage.getItem('userID'));
+        reloadFunction();
+      }
+    });
   };
 
   const toPost = (e) => {
@@ -71,8 +100,8 @@ const Post = ({ postData, reloadFunction, makingComment }) => {
   const toMinutes = (postDate) => {
     let actualDate = new Date();
     //Parsing the dates
-    postDate = Date.parse(postDate);
-    actualDate = Date.parse(actualDate);
+    postDate = new Date(postDate);
+    actualDate = new Date(actualDate);
     //diferences between
     const diference = actualDate - postDate;
     // returning the diference in minutes
@@ -89,11 +118,10 @@ const Post = ({ postData, reloadFunction, makingComment }) => {
   useEffect(() => {
     setRenderPost(postData);
   }, [postData]);
+
   return (
     <div className="Post postBox gridPost" onClick={toPost} ref={postConatiner}>
-      <div className="userImage">
-        <img className="userImage_image" src={profile?.profileData?.image} />
-      </div>
+      <ProfileImage src={profile?.profileData?.image} />
       <div ref={profileName} className="post_user">
         <span
           onClick={goToProfile}
@@ -103,19 +131,59 @@ const Post = ({ postData, reloadFunction, makingComment }) => {
           {renderPost?.author?.username}
         </span>
       </div>
-      <span className="post_timeLast">{toMinutes(renderPost?.updatedAt)}</span>
+
+      <span className="post_timeLast">
+        <span>{toMinutes(renderPost?.updatedAt)}</span>
+
+        <div className={`moreOptions_Post`}>
+          <span>
+            <AiOutlineMore />
+          </span>
+          <ul className={`contextMenu_Post`}>
+            <li>
+              <button onClick={deletePost}>ELIMINAR</button>
+            </li>
+            <li>
+              <button
+                onClick={() => {
+                  console.log('editar');
+                }}
+              >
+                Editar
+              </button>
+            </li>
+          </ul>
+        </div>
+      </span>
       <p className="post_text">{renderPost?.text}</p>
       <div className="postFooter">
         <ul className="postFooter_list">
           <li>
-            <div
-              className="icon"
-              onClick={() => {
-                makingComment(postData, profile?.profileData);
-              }}
-            >
-              <AiOutlineMessage className="messageIcon" />
-            </div>
+            {/* if is phone  */}
+            {isPhone ? (
+              <div
+                className="icon"
+                onClick={() => {
+                  navigate(`/compose/${renderPost?._id}/comment`, {
+                    replace: false,
+                  });
+                  // makingComment(postData, profile?.profileData);
+                }}
+              >
+                <AiOutlineMessage className="messageIcon" />
+              </div>
+            ) : (
+              <div
+                className="icon"
+                onClick={() => {
+                  // makingComment(postData, profile?.profileData);
+                  console.log('abrir modal');
+                }}
+              >
+                <AiOutlineMessage className="messageIcon" />
+              </div>
+            )}
+
             <span>
               {renderPost?.repliesLength ? renderPost?.repliesLength : 0}
             </span>
@@ -160,6 +228,9 @@ const mapDispatchToProps = (dispatch) => ({
   makingComment(postData, profile) {
     dispatch(getPostFromHome(postData, profile));
     dispatch(handleWriteComment(true));
+  },
+  fetchUserProfile(profileID) {
+    dispatch(getPostsWithProfile(profileID));
   },
 });
 

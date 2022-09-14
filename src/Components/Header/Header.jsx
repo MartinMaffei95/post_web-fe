@@ -1,10 +1,19 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { TbMessage2Share } from 'react-icons/tb';
-import { AiFillCaretDown } from 'react-icons/ai';
+import {
+  AiOutlineArrowLeft,
+  AiOutlineUser,
+  AiFillStar,
+  AiOutlineStar,
+  AiOutlineSetting,
+} from 'react-icons/ai';
 import { connect } from 'react-redux';
 import { useEffect } from 'react';
-const Header = ({ userData }) => {
+import ProfileImage from '../../Molecules/ProfileImage/ProfileImage';
+import './styles.Header.css';
+
+const Header = ({ userData, children, section }) => {
   let navigate = useNavigate();
   const [isActive, setIsActive] = useState(false);
   const handleLogout = () => {
@@ -13,7 +22,7 @@ const Header = ({ userData }) => {
     navigate('/login', { replace: true });
   };
   const goToProfile = (e) => {
-    navigate(`/profile/${e.target.getAttribute('data-user-id')}`, {
+    navigate(`/profile/${localStorage.getItem('userID')}`, {
       replace: true,
     });
   };
@@ -28,8 +37,7 @@ const Header = ({ userData }) => {
         }}
       >
         <span className="logoIcon">
-          <span className="logoIcon_text">Inicio</span>
-          <hr />
+          <span className="logoIcon_text">POSTWEB</span>
         </span>
       </div>
       <div className={`backgroundMenu ${isActive ? 'active' : ''}`}></div>
@@ -37,12 +45,11 @@ const Header = ({ userData }) => {
       <div className="menuContainer">
         <div className="openMenu">
           <div
-            className="userImage"
             onClick={() => {
               setIsActive(true);
             }}
           >
-            <img className="userImage_image" src={userData?.image} />
+            <ProfileImage src={userData?.image} />
           </div>
         </div>
         {/* In this menu have Count information */}
@@ -52,23 +59,32 @@ const Header = ({ userData }) => {
               onClick={() => {
                 setIsActive(false);
               }}
+              className="btn secondary"
             >
               X
             </button>
             <span>Informacion de la cuenta</span>
           </div>
-          <div className="accountInfo_menu">
-            <div className="userImage">
-              <img className="userImage_image" src={userData?.image} />
-            </div>
+          <div className="accountInfo_menu" onClick={goToProfile}>
+            <ProfileImage src={userData?.image} />
             <span>{userData?.username}</span>
-            <hr />
           </div>
-          <li>Mi perfil</li>
-          <li>Opcion 2</li>
-          <li>Opcion 3</li>
           <li>
-            <button onClick={handleLogout}> Cerrar Sesion </button>
+            <AiOutlineUser />
+            Mi perfil
+          </li>
+          <li>
+            <AiOutlineStar /> {/* <AiFillStar/> */} Guardados
+          </li>
+
+          <li>
+            <AiOutlineSetting />
+            Mis datos
+          </li>
+          <li>
+            <button className="btn secondary" onClick={handleLogout}>
+              Cerrar Sesion
+            </button>
           </li>
         </ul>
       </div>

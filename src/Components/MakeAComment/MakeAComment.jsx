@@ -5,6 +5,8 @@ import { AiOutlineArrowLeft } from 'react-icons/ai';
 import * as Yup from 'yup';
 import { useFormik } from 'formik';
 import { getInitPosts } from '../../Redux/actions/postsActions';
+import ProfileImage from '../../Molecules/ProfileImage/ProfileImage';
+import { useNavigate } from 'react-router-dom';
 
 const MakeAComment = ({
   actualPost,
@@ -12,19 +14,19 @@ const MakeAComment = ({
   handleWrittingComment,
   myUserImage,
   reloadHomePage,
+  postInfo,
+  profile,
 }) => {
-  const [renderpost, setRenderPost] = useState(actualPost);
+  const [renderpost, setRenderPost] = useState({ postInfo, profile });
   const [isActive, setIsActive] = useState(writtingComment);
-  const [comment, setComment] = useState();
   const initialValues = {
     userID: localStorage.getItem('userID'),
     username: localStorage.getItem('username'),
     text: '',
   };
-
+  const navigate = useNavigate();
   const onSubmit = () => {
-    console.log('ok');
-    fetch(`${process.env.REACT_APP_URI}post/${actualPost?.postData?._id}`, {
+    fetch(`${process.env.REACT_APP_URI}post/${postInfo?._id}`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -42,9 +44,7 @@ const MakeAComment = ({
       .then((data) => {
         if (data.message === 'POST_CREATED') {
           resetForm();
-          setRenderPost(data?.post);
-          handleWrittingComment(false);
-          reloadHomePage();
+          navigate(-1);
         } else {
           alert(data.message);
         }
@@ -52,9 +52,9 @@ const MakeAComment = ({
   };
 
   useEffect(() => {
-    setRenderPost(actualPost);
     setIsActive(writtingComment);
-  }, [actualPost, writtingComment]);
+    setRenderPost(postInfo);
+  }, [postInfo, writtingComment]);
 
   const errorMessages = {
     required: '* Este campo es requerido',
@@ -78,34 +78,24 @@ const MakeAComment = ({
   return (
     //modal?
     <div className={`comment-modal ${isActive ? 'active' : ''}`}>
-      <button
-        onClick={() => {
-          handleWrittingComment(false);
-        }}
-      >
-        <AiOutlineArrowLeft />
-      </button>
-      {/* Post to amke a comment */}
+      {/* Post to make a comment */}
       <div className={'writeCommentContainer Posts_Container'}>
         <div className={'Post postBox '}>
-          <div className="userImage">
-            <img
-              className="userImage_image"
-              src={renderpost?.profileData?.image}
-            />
-          </div>
+          <ProfileImage src={profile?.profileData?.image} />
           <div className="postData">
-            <span>{renderpost?.postData?.author?.username}</span>
-            <p className="post_text">{renderpost?.postData?.text}</p>
+            <span>{renderpost?.author?.username}</span>
+            <p className="post_text">{renderpost?.text}</p>
           </div>
         </div>
+        <hr />
+
         {/* space to write a comment */}
 
         <div className={'Post postBox '}>
           <div className="userImage">
             <img className="userImage_image" src={myUserImage} />
           </div>
-          <form onSubmit={handleSubmit}>
+          <form onSubmit={handleSubmit} id={'composePost'}>
             <textarea
               name="text"
               className="yourComment"
@@ -114,9 +104,6 @@ const MakeAComment = ({
               onChange={handleChange}
               onBlur={handleBlur}
             />
-            <button className="postButton" type="submit">
-              Postear!
-            </button>
           </form>
         </div>
       </div>

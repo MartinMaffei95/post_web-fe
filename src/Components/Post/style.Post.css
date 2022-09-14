@@ -1,0 +1,124 @@
+.gridPost {
+  display: grid;
+  grid-template-areas:
+    'image username username time'
+    'image post post post'
+    'image footer footer footer';
+  grid-template-columns: 4rem 1fr 1fr 1fr;
+}
+
+.gridPost .post_timeLast {
+  color: var(--dominantColor);
+  font-size: 0.7rem;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+  grid-area: time;
+}
+
+.gridPost .userImage {
+  border-radius: 50%;
+  overflow: hidden;
+  grid-area: image;
+}
+
+.postBox .post_user {
+  font-weight: bold;
+  cursor: pointer;
+  grid-area: username;
+}
+.postBox .post_text {
+  grid-area: post;
+}
+
+.postBox .postFooter {
+  margin-top: auto;
+  min-width: 100%;
+  grid-area: footer;
+}
+
+/* FOOTER */
+.postFooter_list {
+  display: flex;
+  justify-content: space-around;
+  list-style: none;
+}
+
+.postFooter_list li {
+  display: flex;
+  margin-top: 0.5rem;
+  padding: 0.2rem;
+  cursor: pointer;
+}
+
+.postFooter_list .icon {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+  width: 2rem;
+  height: 2rem;
+}
+
+.postFooter_list .icon {
+  border-radius: 50%;
+  color: var(--dominantColor);
+}
+
+.postFooter_list li .icon svg {
+  transition: 0.5s;
+}
+.postFooter_list li span {
+  align-self: center;
+  color: var(--dominantColor);
+}
+
+.postFooter_list li:hover .heartIcon svg {
+  background-color: var(--likeColorSoft);
+  box-shadow: 0 0 5px 5px var(--likeColorSoft);
+  color: var(--likeColorIcon);
+  border-radius: 50%;
+}
+
+.icon.reaction_active {
+  color: var(--likeColorIcon);
+}
+
+.postFooter_list li:hover .messageIcon {
+  background-color: var(--msgColorSoft);
+  box-shadow: 0 0 5px 5px var(--msgColorSoft);
+  color: var(--msgColorIcon);
+  border-radius: 50%;
+}
+
+.postFooter_list li:hover .shareIcon {
+  background-color: var(--shareColorSoft);
+  box-shadow: 0 0 5px 5px var(--shareColorSoft);
+  color: var(--shareColorIcon);
+  border-radius: 50%;
+}
+
+.moreOptions_Post {
+  /* rotate: 90deg; */
+  font-size: 1.5rem;
+  cursor: pointer;
+  /* z-index: auto; */
+}
+
+.moreOptions_Post svg {
+  transform: rotate(90deg);
+  position: relative;
+  z-index: -1;
+  /* rotate: 90deg; */
+}
+
+.contextMenu_Post {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.moreOptions_Post span:hover {
+  background-color: rgba(0, 0, 0, 0.141);
+}

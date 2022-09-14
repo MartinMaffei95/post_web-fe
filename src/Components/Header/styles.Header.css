@@ -1,0 +1,99 @@
+/* HEADER */
+.header {
+  background-color: #fff;
+  position: fixed;
+  min-width: 100vw;
+  display: flex;
+  justify-content: space-between;
+  min-height: var(--headerHeight);
+  padding-inline: var(--marginInLine);
+  border-bottom: 2px solid #000000;
+  top: 0;
+  left: 0;
+  margin-bottom: 6rem;
+}
+.logoContainer {
+  cursor: pointer;
+}
+
+.logoContainer .logoIcon svg {
+  color: #000000d4;
+  width: var(--headerHeight);
+  height: var(--headerHeight);
+}
+.logoContainer:hover .logoIcon svg,
+.logoContainer:hover .logoIcon_text {
+  color: #000000;
+}
+
+.logoContainer .logoIcon_text {
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+.header .menuContainer {
+  position: relative;
+}
+.header .openMenu {
+  display: flex;
+}
+
+/* .marginHeader {
+  margin-top: calc(var(--headerHeight) + 1rem);
+} */
+
+.backgroundMenu {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  width: 100vw;
+  background-color: #0000004b;
+  pointer-events: none;
+  opacity: 0;
+}
+
+.backgroundMenu.active {
+  pointer-events: all;
+  opacity: 1;
+}
+
+.menu_list {
+  list-style: none;
+  position: fixed;
+  background-color: #fff;
+  top: 0;
+  left: calc(100% + var(--marginInLine));
+  height: 100vh;
+  width: 60vw;
+  transition: 0.5s;
+}
+
+.menu_list.active {
+  transform: translateX(calc(-100% - var(--marginInLine)));
+}
+
+.menu_list .accountInfo_menu {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  background-color: var(--dominantColorSoft);
+  margin: 0.5rem 1rem;
+  border-radius: var(--borderRadiusCard);
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.menu_list .accountInfo_menu:hover {
+  background-color: var(--dominantColor);
+}
+
+.menu_list li:first-of-type {
+  border-top: solid 1px var(--dominantColor);
+  margin-top: 1rem;
+}
+
+.menu_list li {
+  padding-inline: var(--marginInLine);
+  margin-bottom: var(--marginBlock);
+}

@@ -4,11 +4,13 @@ import {
   GET_INIT_POSTS_FAILURE,
   CREATE_COMMENT_IN_POST,
   WRITING_COMMENT_IN_POST,
+  GET_MY_POSTS,
 } from '../../actions/actions';
 
 const initialStore = {
   loading: false,
   posts: [],
+  myPosts: {},
   actualPost: {},
   writtingComment: false,
   error: '',
@@ -32,6 +34,13 @@ export const postReducer = (state = initialStore, action) => {
         loading: false, //## web is not loading
         errors: action.payload, //## saving errors on this array
         posts: [], //## dont have posts so its a empty array
+      };
+    case GET_MY_POSTS: //## GET as a bad request :(
+      return {
+        ...state,
+        loading: false, //## web is not loading
+        errors: '', //## saving errors on this array
+        myPosts: action.payload, //## dont have posts so its a empty array
       };
 
     case CREATE_COMMENT_IN_POST:

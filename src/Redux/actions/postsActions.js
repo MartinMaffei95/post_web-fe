@@ -4,6 +4,7 @@ import {
   GET_INIT_POSTS_FAILURE,
   CREATE_COMMENT_IN_POST,
   WRITING_COMMENT_IN_POST,
+  GET_MY_POSTS,
 } from './actions';
 import axios from 'axios';
 
@@ -25,6 +26,12 @@ export const handleComment = (state) => ({
   payload: state,
 });
 
+export const getMyPosts = (data) => ({
+  type: GET_MY_POSTS,
+  payload: data,
+});
+
+//Get all posts
 export const getInitPosts = () => (dispatch) => {
   dispatch(postRequest());
 
@@ -41,6 +48,7 @@ export const getInitPosts = () => (dispatch) => {
     });
 };
 
+//Get my posts
 export const getPostsWithProfile = (profileID) => (dispatch) => {
   dispatch(postRequest());
 
@@ -51,7 +59,7 @@ export const getPostsWithProfile = (profileID) => (dispatch) => {
       authorization: 'Bearer ' + localStorage.getItem('token'),
     },
   })
-    .then((res) => dispatch(postSucces(res.data.post)))
+    .then((res) => dispatch(getMyPosts(res.data.post)))
     .catch((err) => {
       dispatch(postFailure(err));
     });

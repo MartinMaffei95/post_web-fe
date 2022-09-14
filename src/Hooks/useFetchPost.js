@@ -2,21 +2,30 @@ import { useState, useEffect } from 'react';
 import axios from 'axios';
 const useFetchPost = (postId) => {
   const [post, setPost] = useState(null);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
 
-  useEffect(() => {
-    axios(`${process.env.REACT_APP_URI}post/${postId}`, {
+  const fetchPost = async () => {
+    setLoading(true);
+    await axios(`${process.env.REACT_APP_URI}post/${postId}`, {
       method: 'GET',
       headers: {
         contentType: 'application/json',
         Authorization: 'Bearer ' + localStorage.getItem('token'),
       },
     })
-      .then((res) => setPost(res.data))
+      .then((res) => {
+        setLoading(false);
+        setPost(res.data);
+      })
       .catch((err) => {
+        setLoading(false);
         setError(err);
       });
+  };
+
+  useEffect(() => {
+    fetchPost();
   }, []);
   return { post, loading, error };
 };

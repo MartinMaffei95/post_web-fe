@@ -1,0 +1,23 @@
+.newPostBtn {
+  height: 2rem;
+  width: 2rem;
+  border-radius: 50%;
+
+  position: fixed;
+  bottom: 1rem;
+  right: 1rem;
+  background-color: var(--dominantColor);
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  font-size: 1.1rem;
+  color: #fff;
+
+  cursor: pointer;
+}
+
+.newPostBtn:hover {
+  opacity: 0.95;
+}

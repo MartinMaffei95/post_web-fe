@@ -10,10 +10,12 @@ const PostBoard = ({
   reloadHomePage,
   postFromUser = false,
   geterPostFromUser,
+  myPosts,
 }) => {
   let isProfile = postFromUser;
 
   const [renderPosts, setRenderPosts] = useState();
+
   const navigate = useNavigate();
   useEffect(() => {
     if (postFromUser) {
@@ -24,10 +26,9 @@ const PostBoard = ({
       // is NOT a user POST
       return setRenderPosts(posts);
     }
-  }, [posts, geterPostFromUser]);
+  }, [posts, geterPostFromUser, myPosts]);
   return (
     <>
-      <MakeAComment />
       {isProfile && <div></div>}
       {isProfile ? (
         <div className="Posts_Container">
@@ -36,7 +37,7 @@ const PostBoard = ({
           ))}
         </div>
       ) : (
-        <div className="Posts_Container">
+        <div className="Posts_Container marginHeader">
           {renderPosts?.map((p) => (
             <Post postData={p} key={p._id} reloadFunction={reloadHomePage} />
           ))}
@@ -48,6 +49,7 @@ const PostBoard = ({
 
 const mapStateToProps = (state) => ({
   posts: state.postReducer.posts,
+  myPosts: state.postReducer.myPosts,
 });
 
 const mapDispatchToProps = (dispatch) => ({

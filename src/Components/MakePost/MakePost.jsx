@@ -1,21 +1,28 @@
-import React from 'react';
+import { useState } from 'react';
 import * as Yup from 'yup';
 import { useFormik } from 'formik';
 import axios from 'axios';
 
 import { connect } from 'react-redux';
 import { getInitPosts } from '../../Redux/actions/postsActions';
+import { useResize } from '../../Hooks/useResize';
+import ProfileImage from '../../Molecules/ProfileImage/ProfileImage';
+import Input from '../Input/Input';
 
-const MakePost = ({ reloadHomePage }) => {
+import { useNavigate } from 'react-router-dom';
+
+const MakePost = ({ reloadHomePage, myUser }) => {
   const initialValues = {
     username: localStorage.getItem('username'),
     userID: localStorage.getItem('userID'),
     // title: '',
     text: '',
   };
+  const navigate = useNavigate();
+
+  const { isPhone } = useResize();
 
   const onSubmit = () => {
-    console.log(values);
     axios(`http://localhost:4000/post/`, {
       method: 'POST',
       headers: {
@@ -33,6 +40,7 @@ const MakePost = ({ reloadHomePage }) => {
     }).then((res) => {
       resetForm();
       reloadHomePage();
+      navigate(-1);
     });
   };
 
@@ -55,19 +63,24 @@ const MakePost = ({ reloadHomePage }) => {
     handleBlur,
     resetForm,
   } = formik;
-  return (
-    <div className="newPost postBox">
-      <h3 className="title"> Escribamos algo!</h3>
 
-      <form onSubmit={handleSubmit}>
-        <textarea
-          name="text"
-          value={values.text}
-          onChange={handleChange}
-          onBlur={handleBlur}
-        />
-        <button type="submit">Postear!</button>
-      </form>
+  return (
+    <div>
+      <div className="newPost postBox">
+        <ProfileImage src={myUser?.image} />
+        <form onSubmit={handleSubmit} id="composePost">
+          <div className="newPostForm">
+            <Input
+              type={'textarea'}
+              name={'text'}
+              placeholder={'¿Que esta pasando?'}
+              value={values.text}
+              onChange={handleChange}
+              onBlur={handleBlur}
+            />
+          </div>
+        </form>
+      </div>
     </div>
   );
 };
@@ -77,6 +90,8 @@ const mapDispatchToProps = (dispatch) => ({
     dispatch(getInitPosts());
   },
 });
-const mapStateToProps = (state) => ({});
+const mapStateToProps = (state) => ({
+  myUser: state.profileReducer.myProfileInformation,
+});
 
 export default connect(mapStateToProps, mapDispatchToProps)(MakePost);

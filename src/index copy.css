@@ -1,0 +1,581 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans:wght@100;300;600;700;900&display=swap');
+
+:root {
+  /*## COLOR VARIABLES ##*/
+  --dominantColor: #6e6c6f;
+  --dominantColorSoft: #e3e2e3;
+  --complementaryColor: #4b464b;
+  --accentColor: #1eb7a8;
+  --accentColorDark: #126a7a;
+
+  --likeColorIcon: #ff0936;
+  --likeColor: #d24444cd;
+  --likeColorSoft: #d24444a2;
+
+  --msgColor: #5481b7;
+  --msgColorSoft: #5481b78d;
+  --msgColorIcon: #1e00ff;
+
+  --shareColor: #66bf56;
+  --shareColorSoft: #63b754ba;
+  --shareColorIcon: #0d5600;
+
+  /*## MARGIN VARIABLES ##*/
+  --marginInLine: 1rem;
+  --marginBlock: 0.2rem;
+
+  /*## BLOCK SIZES VARIABLES ##*/
+  --headerHeight: 3rem;
+  --footerHeight: 2rem;
+
+  /* -- ##  POST BOX SIZES ##*/
+  --boxPostMinHeight: 6rem;
+  /* --boxPostMinHeight: 6rem; */
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Noto Sans', sans-serif;
+}
+
+body {
+  height: 100vh;
+  width: 100vw;
+  background-color: #fff;
+}
+/* HEADER */
+.header {
+  background-color: #fff;
+
+  display: flex;
+  justify-content: space-between;
+  min-height: var(--headerHeight);
+  padding-inline: var(--marginInLine);
+  border-bottom: 2px solid #000000;
+}
+
+.logoContainer {
+  cursor: pointer;
+}
+
+.logoContainer .logoIcon svg {
+  color: #000000d4;
+  width: var(--headerHeight);
+  height: var(--headerHeight);
+}
+.logoContainer:hover .logoIcon svg,
+.logoContainer:hover .logoIcon_text {
+  color: #000000;
+}
+
+.logoContainer .logoIcon_text {
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+.header .menuContainer {
+  position: relative;
+}
+.header .openMenu {
+  display: flex;
+}
+.backgroundMenu {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  width: 100vw;
+  background-color: #0000004b;
+
+  pointer-events: none;
+  opacity: 0;
+}
+
+.backgroundMenu.active {
+  pointer-events: all;
+  opacity: 1;
+}
+.menu_list {
+  list-style: none;
+  position: absolute;
+  background-color: #fff;
+  top: 0;
+  left: calc(100% + var(--marginInLine));
+  height: 100vh;
+  width: 60vw;
+  transition: 0.5s;
+}
+
+.menu_list.active {
+  transform: translateX(calc(-100% + var(--marginInLine)));
+}
+/* POST */
+
+.postBox {
+  /* min-height: var(--boxPostMinHeight); */
+  width: 100vw;
+  /* height: 75vh; */
+}
+
+.makePostCellphoneView {
+  background-color: red;
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  width: 100vw;
+}
+.newPost_background {
+  display: flex;
+  justify-items: center;
+  /* align-items: center; */
+  width: 100vw;
+  height: calc(100vh - var(--headerHeight));
+  top: var(--headerHeight);
+  left: 0;
+  background-color: #fff;
+}
+.newPost_background .newPost {
+  display: flex;
+  flex-direction: row;
+}
+
+.newPost {
+  display: flex;
+  flex-direction: column;
+}
+
+.newPost form {
+  display: flex;
+  flex-direction: column;
+}
+
+.Posts_Container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 100vh;
+}
+
+.newPost_icon {
+  background-color: red;
+  position: absolute;
+  height: 2rem;
+  width: 2rem;
+
+  bottom: 1rem;
+  right: 1rem;
+}
+
+.gridPost {
+  display: grid;
+  grid-template-areas:
+    'image username username time'
+    'image post post post'
+    'image footer footer footer';
+  grid-template-columns: 4rem 1fr 1fr 1fr;
+}
+
+.Posts_Container .Post {
+  background-color: #fff;
+  padding: var(--marginBlock) var(--marginInLine);
+  padding-top: var(--marginInLine);
+  border-bottom: solid 1px var(--dominantColorSoft);
+}
+.post_timeLast {
+  color: var(--dominantColor);
+  font-size: 0.7rem;
+  display: flex;
+  justify-content: flex-end;
+  grid-area: time;
+}
+
+.Posts_Container .Post:hover {
+  background-color: rgb(212, 210, 210);
+}
+
+.Post .userImage {
+  background-color: var(--complementarySoftColor);
+  height: 3rem;
+  width: 3rem;
+  background-color: var(--dominantColorSoft);
+  border-radius: 50%;
+  overflow: hidden;
+  grid-area: image;
+}
+
+.userImage .userImage_image {
+  background-size: contain;
+  height: 3rem;
+  width: 3rem;
+  cursor: pointer;
+}
+
+.userImage_image.editProfile_image,
+.userImage.editProfile_image {
+  height: 6rem;
+  min-width: 6rem;
+}
+
+.editProfile .userImage_image:hover {
+  outline: red 3px solid;
+  cursor: pointer;
+}
+
+.pickAvatarContainer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  background-color: rgba(0, 0, 0, 0.494);
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+
+  opacity: 0;
+  pointer-events: none;
+}
+
+.pickAvatarContainer.active {
+  opacity: 1;
+  pointer-events: all;
+}
+
+.postBox .post_user {
+  font-weight: bold;
+  cursor: pointer;
+  grid-area: username;
+}
+.postBox .post_text {
+  grid-area: post;
+}
+
+.postBox .postFooter {
+  margin-top: auto;
+  min-width: 100%;
+  grid-area: footer;
+}
+
+.postBox .postFooter_list {
+  display: flex;
+  justify-content: space-around;
+  list-style: none;
+}
+
+.postFooter_list li {
+  display: flex;
+  margin-top: 0.5rem;
+  padding: 0.2rem;
+  cursor: pointer;
+}
+
+.postFooter_list .icon {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+  width: 2rem;
+  height: 2rem;
+}
+
+.postFooter_list .icon {
+  border-radius: 50%;
+  color: var(--dominantColor);
+}
+
+.postFooter_list li .icon svg {
+  transition: 0.5s;
+}
+.postFooter_list li span {
+  align-self: center;
+  color: var(--dominantColor);
+}
+
+.postFooter_list li:hover .heartIcon svg {
+  background-color: var(--likeColorSoft);
+  box-shadow: 0 0 5px 5px var(--likeColorSoft);
+  color: var(--likeColorIcon);
+  border-radius: 50%;
+}
+
+.icon.reaction_active {
+  color: var(--likeColorIcon);
+}
+
+.postFooter_list li:hover .messageIcon {
+  background-color: var(--msgColorSoft);
+  box-shadow: 0 0 5px 5px var(--msgColorSoft);
+  color: var(--msgColorIcon);
+  border-radius: 50%;
+}
+
+.postFooter_list li:hover .shareIcon {
+  background-color: var(--shareColorSoft);
+  box-shadow: 0 0 5px 5px var(--shareColorSoft);
+  color: var(--shareColorIcon);
+  border-radius: 50%;
+}
+
+.informationPanel {
+  display: flex;
+  justify-content: space-between;
+  padding-inline: var(--marginInLine);
+}
+
+.informationPanel .userImage {
+  height: 3rem;
+  width: 3rem;
+  border: solid 2px var(--complementaryColor);
+  border-radius: 50%;
+  overflow: hidden;
+  background-color: var(--complementarySoftColor);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.userImage .userImage_image {
+  width: 3rem;
+  background-color: var(--dominantColorSoft);
+  border-radius: 50%;
+}
+
+.userInformation {
+  display: flex;
+  flex-direction: column;
+}
+
+.comment-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  display: flex;
+  flex-direction: column;
+  background-color: #fff;
+  width: 100%;
+  height: 100%;
+
+  opacity: 0;
+  pointer-events: none;
+}
+
+.comment-modal.active {
+  opacity: 1;
+  pointer-events: all;
+  overflow: scroll;
+}
+
+.writeCommentContainer {
+  margin-top: 2rem;
+}
+.writeCommentContainer .postBox {
+  min-width: 100%;
+}
+
+.writeComment_writeContainer {
+  display: flex;
+}
+
+.yourComment {
+  background-color: #d6d6d6;
+  border: none;
+  resize: none;
+  width: 80vw;
+}
+
+.postButton {
+  position: absolute;
+  top: 2rem;
+  right: 1rem;
+}
+
+.loginPage {
+  height: 100vh;
+  width: 100vw;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  background-image: linear-gradient(60deg, #5481b7, #889bb3);
+}
+
+.formContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  /* background-color: var(--dominantColorSoft); */
+  background-color: #b5b1b150;
+  height: 70vh;
+  width: 80vw;
+}
+.formContainer_form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.inputContainer {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  width: 80%;
+  height: 3.5rem;
+  margin-block: 0.5rem;
+  border: solid var(--dominantColor) 2px;
+  border-radius: 5px;
+}
+
+.inputContainer.isTextarea {
+  height: 6rem;
+}
+.inputContainer label {
+  font-size: 0.9rem;
+  position: absolute;
+  transition: 0.3s;
+  padding-inline: 0.2rem;
+}
+
+.inputContainer input,
+.inputContainer textarea {
+  /* border: solid black 2px; */
+  border: none;
+  width: 100%;
+  height: 100%;
+  resize: none;
+  display: flex;
+  flex-direction: column;
+  justify-items: flex-end;
+  font-size: 1.1rem;
+  border: none;
+  outline: none;
+  padding-top: 1rem;
+  padding-inline: 0.2rem;
+  cursor: pointer;
+  background-color: #fff;
+}
+
+.inputContainer input:focus,
+.inputContainer textarea:focus {
+  cursor: text;
+}
+
+.inputContainer:focus-within label {
+  color: var(--accentColorDark);
+  font-size: 0.75rem;
+}
+.inputContainer:focus-within {
+  border: var(--accentColorDark) 2px solid;
+}
+
+.formContainer.editProfile .inputContainer {
+  width: 80vw;
+}
+
+.EditProfileSection {
+  position: relative;
+  max-width: 100vw;
+}
+.formContainer.editProfile {
+  width: 100vw;
+  height: 100%;
+}
+.newPostForm .inputContainer {
+  height: 60vh;
+  width: 70vw;
+}
+
+.newPost .userImage {
+  margin-inline: 1rem;
+}
+
+.pickAvatar {
+  /* background-color: rgb(134, 44, 44); */
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+  padding-top: 1rem;
+  width: 100vw;
+}
+
+.pickAvatar .pickImageAvatar {
+  height: 5rem;
+  width: 5rem;
+}
+
+.pickAvatar .userImage_image:hover {
+  outline: red solid 3px;
+  cursor: pointer;
+}
+
+/* #### BUTTONS ### */
+
+.btn {
+  background: none;
+  border: none;
+  font-weight: 700;
+  letter-spacing: 0.03rem;
+  border-radius: 8px;
+  padding: 0.2rem 0.5rem;
+  margin: 0.2rem 0.5rem;
+  cursor: pointer;
+}
+
+.btn.link {
+}
+
+.btn.accent {
+  background: var(--accentColorDark);
+  color: #fff;
+}
+.btn.primary {
+  background: var(--dominantColor);
+  color: #fff;
+  transition: color 0.2s;
+}
+.btn.primary:hover {
+  background: var(--dominantColorSoft);
+  color: #000;
+}
+
+.btn.secondary {
+  border: solid 2px var(--dominantColor);
+}
+
+.btn.animate {
+  /* border-bottom: solid 2px var(--dominantColor); */
+  position: relative;
+}
+
+.btn.animate::after {
+  content: '';
+  background-color: var(--complementaryColor);
+  position: absolute;
+  left: 50%;
+  top: 100%;
+  width: 00%;
+  height: 2px;
+  transition: 0.3s ease-in-out;
+}
+
+.btn.animate::before {
+  content: '';
+  background-color: var(--complementaryColor);
+  position: absolute;
+  right: 50%;
+  top: 100%;
+  width: 00%;
+  height: 2px;
+  transition: 0.3s ease-in-out;
+}
+
+.btn.animate:hover::before,
+.btn.animate:hover::after {
+  width: 50%;
+}

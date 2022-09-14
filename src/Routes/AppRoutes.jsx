@@ -7,6 +7,10 @@ import Profile from '../pages/Profile/Profile';
 import PostBoard from '../Components/PostBoard/PostBoard';
 import PostPage from '../pages/PostPage/PostPage';
 import Styles from '../pages/Styles/Styles';
+import ProfileEdit from '../pages/ProfileEdit/ProfileEdit';
+import NewPost from '../pages/Compose/NewPost/NewPost';
+import NewComment from '../pages/Compose/NewComment/NewComment';
+
 const AppRoutes = () => {
   const navigate = useNavigate();
   const RequireAuth = ({ children }) => {
@@ -26,6 +30,26 @@ const AppRoutes = () => {
           </RequireAuth>
         }
       />
+      {/* ## Compose pages - used for phone ## */}
+      <Route path="/compose">
+        <Route
+          path="post"
+          element={
+            <RequireAuth>
+              <NewPost />
+            </RequireAuth>
+          }
+        />
+        <Route
+          path=":postId/comment"
+          element={
+            <RequireAuth>
+              <NewComment />
+            </RequireAuth>
+          }
+        />
+      </Route>
+
       {/* ## Profile pages - DINAMIC with useParams() ## */}
       <Route path="/profile">
         <Route
@@ -33,6 +57,14 @@ const AppRoutes = () => {
           element={
             <RequireAuth>
               <Profile />
+            </RequireAuth>
+          }
+        />
+        <Route
+          path="settings"
+          element={
+            <RequireAuth>
+              <ProfileEdit />
             </RequireAuth>
           }
         />
