@@ -10,12 +10,12 @@ import ProfileImage from '../../Molecules/ProfileImage/ProfileImage';
 import Input from '../Input/Input';
 
 import { useNavigate } from 'react-router-dom';
+import './styles.MakePost.css';
 
 const MakePost = ({ reloadHomePage, myUser }) => {
   const initialValues = {
     username: localStorage.getItem('username'),
     userID: localStorage.getItem('userID'),
-    // title: '',
     text: '',
   };
   const navigate = useNavigate();
@@ -30,7 +30,6 @@ const MakePost = ({ reloadHomePage, myUser }) => {
         authorization: 'Bearer ' + localStorage.getItem('token'),
       },
       data: {
-        // title: values.title,
         text: values.text,
         author: {
           username: values.username,
@@ -38,8 +37,8 @@ const MakePost = ({ reloadHomePage, myUser }) => {
         },
       },
     }).then((res) => {
-      resetForm();
       reloadHomePage();
+      resetForm();
       navigate(-1);
     });
   };

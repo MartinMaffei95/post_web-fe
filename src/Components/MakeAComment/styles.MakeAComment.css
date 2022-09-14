@@ -1,0 +1,27 @@
+.postBox.newComment {
+  display: flex;
+  margin-top: 1rem;
+}
+
+.originalPost .postBox .userImage {
+  position: relative;
+  overflow: initial;
+}
+
+.originalPost .postBox .userImage::before {
+  content: '';
+  height: calc(var(--lineCommentsHeight) - var(--imageWidth));
+  width: 2px;
+  background-color: var(--dominantColorSoft);
+  position: absolute;
+  top: calc(100% + var(--marginInLine) / 2);
+  left: 50%;
+}
+
+.postBox.newComment .userImage::before {
+}
+
+.newComment .inputContainer {
+  width: calc(100vw - var(--imageWidth) - var(--marginInLine) * 2);
+  border: none;
+}

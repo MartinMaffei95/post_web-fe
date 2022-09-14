@@ -26,8 +26,12 @@ const Header = ({ userData, children, section }) => {
       replace: true,
     });
   };
+  const toSettings = () => {
+    navigate('/profile/settings', { replace: false });
+  };
 
   useEffect(() => {}, [isActive]);
+  console.log(userData);
   return (
     <header className="header">
       <div
@@ -79,7 +83,7 @@ const Header = ({ userData, children, section }) => {
 
           <li>
             <AiOutlineSetting />
-            Mis datos
+            <Link to="/profile/settings">Mis datos</Link>
           </li>
           <li>
             <button className="btn secondary" onClick={handleLogout}>

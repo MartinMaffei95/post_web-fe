@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { IoLocationOutline } from 'react-icons/io5';
 import { TbBallon, TbMail, TbCalendar } from 'react-icons/tb';
+import useNumberToDate from '../../Hooks/useNumberToDate';
 
 import './styles.InformationPanel.css';
 
@@ -36,7 +37,7 @@ const InformationPanel = ({
         <span className="biography">{profileData?.biography}</span>
         <span>
           <TbBallon />
-          Fecha de nacimiento: {profileData?.birthdate}
+          Fecha de nacimiento: {useNumberToDate(profileData?.birthdate)}
         </span>
         <span>
           <IoLocationOutline />
@@ -48,7 +49,7 @@ const InformationPanel = ({
         </span>
         <span>
           <TbCalendar />
-          Se unio en: {profileData?.createdAt}
+          Se unio en: {useNumberToDate(profileData?.createdAt)}
         </span>
         {isMyProfile && (
           <button className="btn secondary" onClick={toSettings}>

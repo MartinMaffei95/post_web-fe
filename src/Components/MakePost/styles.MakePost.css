@@ -1,0 +1,8 @@
+.newPost.postBox {
+  display: flex;
+  padding-top: var(--marginInLine);
+}
+
+.newPost.postBox .inputContainer {
+  border: none;
+}

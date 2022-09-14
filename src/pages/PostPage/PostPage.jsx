@@ -8,6 +8,8 @@ import useFetchPost from '../../Hooks/useFetchPost';
 import { connect } from 'react-redux';
 import { handleWriteComment } from '../../Redux/actions/postsActions';
 import { Helmet } from 'react-helmet';
+
+import './styles.PostPage.css';
 const PostPage = ({ handleWriteComment }) => {
   let { postId } = useParams();
   const { post } = useFetchPost(postId);
@@ -25,12 +27,13 @@ const PostPage = ({ handleWriteComment }) => {
         </title>
       </Helmet>
       <Header />
-      <div className="Posts_Container postPage marginHeader">
-        {renderPost?.post && <Post postData={renderPost?.post} />}
+      <div className="Posts_Container postPage marginHeader bigPost">
+        {renderPost?.post && (
+          <Post postData={renderPost?.post} onPostPage={true} />
+        )}
       </div>
-      <hr />
       {/* Coments */}
-      <div>
+      <div className="Posts_Container postPage marginHeader comment">
         {renderPost?.comments?.map((c) => (
           <Post postData={c} key={c?._id} />
         ))}

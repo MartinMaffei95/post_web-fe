@@ -5,6 +5,7 @@
 .formContainer.editProfile {
   width: 100vw;
   height: 100%;
+  padding-top: var(--marginInLine);
 }
 .newPostForm .inputContainer {
   height: 60vh;

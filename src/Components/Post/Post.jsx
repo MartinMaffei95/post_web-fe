@@ -27,6 +27,8 @@ const Post = ({
   reloadFunction,
   makingComment,
   fetchUserProfile,
+  onPostPage,
+  onCommentPage,
 }) => {
   const { profile } = useFetchProfile(postData?.author?.userID);
   const navigate = useNavigate();
@@ -46,7 +48,7 @@ const Post = ({
 
   const { isPhone } = useResize();
   const [renderPost, setRenderPost] = useState(postData);
-
+  const [moreOptActive, setMoreOptActive] = useState(false);
   const myID = localStorage.getItem('userID');
 
   // Functions
@@ -107,9 +109,9 @@ const Post = ({
     // returning the diference in minutes
     const x = (actualDate - postDate) / 1000 / 60;
     let date = Math.round(x);
-
     // RETURN MINUTES or HOURS or DATE
     if (date <= 1) return 'Ahora';
+    if (date >= 2880) return `${actualDate.getDate()}-${actualDate.getMonth()}`;
     if (date >= 1440) return `Ayer`;
     if (date >= 60) return `${Math.floor(date / 60)} h`;
     if (date > 1) return `${date} m`;
@@ -133,90 +135,111 @@ const Post = ({
       </div>
 
       <span className="post_timeLast">
-        <span>{toMinutes(renderPost?.updatedAt)}</span>
-
-        <div className={`moreOptions_Post`}>
-          <span>
-            <AiOutlineMore />
-          </span>
-          <ul className={`contextMenu_Post`}>
-            <li>
-              <button onClick={deletePost}>ELIMINAR</button>
-            </li>
-            <li>
-              <button
-                onClick={() => {
-                  console.log('editar');
-                }}
-              >
-                Editar
-              </button>
-            </li>
-          </ul>
-        </div>
+        {onPostPage ? (
+          <span>{Date(renderPost?.updatedAt)}</span>
+        ) : (
+          <span>{toMinutes(renderPost?.updatedAt)}</span>
+        )}
       </span>
-      <p className="post_text">{renderPost?.text}</p>
-      <div className="postFooter">
-        <ul className="postFooter_list">
-          <li>
-            {/* if is phone  */}
-            {isPhone ? (
-              <div
-                className="icon"
-                onClick={() => {
-                  navigate(`/compose/${renderPost?._id}/comment`, {
-                    replace: false,
-                  });
-                  // makingComment(postData, profile?.profileData);
-                }}
-              >
-                <AiOutlineMessage className="messageIcon" />
-              </div>
-            ) : (
-              <div
-                className="icon"
-                onClick={() => {
-                  // makingComment(postData, profile?.profileData);
-                  console.log('abrir modal');
-                }}
-              >
-                <AiOutlineMessage className="messageIcon" />
-              </div>
-            )}
+      <div className={`moreOptions_Post`}>
+        <span
+          onClick={() => {
+            setMoreOptActive(true);
+          }}
+        >
+          <AiOutlineMore />
+        </span>
 
-            <span>
-              {renderPost?.repliesLength ? renderPost?.repliesLength : 0}
-            </span>
+        <ul className={`contextMenu_Post ${moreOptActive ? 'active' : ''}`}>
+          <button
+            className="btn secondary closeBtn"
+            onClick={() => {
+              setMoreOptActive(false);
+            }}
+          >
+            X
+          </button>
+          <li>
+            <button className="btn secondary" onClick={deletePost}>
+              ELIMINAR
+            </button>
           </li>
           <li>
-            {renderPost?.likes?.includes(myID) ? (
-              <>
-                <div
-                  className="icon reaction_active heartIcon"
-                  onClick={unlikePost}
-                >
-                  <AiFillHeart />
-                </div>
-                <span>{renderPost?.likes?.length}</span>
-              </>
-            ) : (
-              <>
-                <div className="icon heartIcon" onClick={likePost}>
-                  <AiOutlineHeart />
-                </div>
-                <span>{renderPost?.likes?.length}</span>
-              </>
-            )}
-          </li>
-
-          <li>
-            <div className="icon">
-              <AiOutlineRetweet className="shareIcon" />
-            </div>
-            <span>1352</span>
+            <button
+              className="btn secondary"
+              onClick={() => {
+                console.log('editar');
+              }}
+            >
+              Editar
+            </button>
           </li>
         </ul>
       </div>
+      <p className="post_text">{renderPost?.text}</p>
+      {!onCommentPage && (
+        <div className="postFooter">
+          <ul className="postFooter_list">
+            <li>
+              {/* if is phone  */}
+              {isPhone ? (
+                <div
+                  className="icon"
+                  onClick={() => {
+                    navigate(`/compose/${renderPost?._id}/comment`, {
+                      replace: false,
+                    });
+                    // makingComment(postData, profile?.profileData);
+                  }}
+                >
+                  <AiOutlineMessage className="messageIcon" />
+                </div>
+              ) : (
+                <div
+                  className="icon"
+                  onClick={() => {
+                    // makingComment(postData, profile?.profileData);
+                    console.log('abrir modal');
+                  }}
+                >
+                  <AiOutlineMessage className="messageIcon" />
+                </div>
+              )}
+
+              <span>
+                {renderPost?.repliesLength ? renderPost?.repliesLength : 0}
+              </span>
+            </li>
+            <li>
+              {renderPost?.likes?.includes(myID) ? (
+                <>
+                  <div
+                    className="icon reaction_active heartIcon"
+                    onClick={unlikePost}
+                  >
+                    <AiFillHeart />
+                  </div>
+                  <span>{renderPost?.likes?.length}</span>
+                </>
+              ) : (
+                <>
+                  <div className="icon heartIcon" onClick={likePost}>
+                    <AiOutlineHeart />
+                  </div>
+                  <span>{renderPost?.likes?.length}</span>
+                </>
+              )}
+            </li>
+
+            <li>
+              <div className="icon">
+                <AiOutlineRetweet className="shareIcon" />
+              </div>
+              <span>1352</span>
+            </li>
+          </ul>
+        </div>
+      )}
     </div>
   );
 };

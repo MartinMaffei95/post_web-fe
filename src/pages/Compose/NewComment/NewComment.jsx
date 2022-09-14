@@ -22,7 +22,7 @@ const NewComment = ({}) => {
     <div>
       <ComposeHeader>
         <button className="btn primary" type="submit" form="composePost">
-          POSTEAR!
+          Responder
         </button>
       </ComposeHeader>
       <MakeAComment postInfo={renderPost} profile={renderProfile} />

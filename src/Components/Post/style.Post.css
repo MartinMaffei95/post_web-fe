@@ -1,20 +1,10 @@
 .gridPost {
   display: grid;
   grid-template-areas:
-    'image username username time'
+    'image username options time'
     'image post post post'
     'image footer footer footer';
-  grid-template-columns: 4rem 1fr 1fr 1fr;
-}
-
-.gridPost .post_timeLast {
-  color: var(--dominantColor);
-  font-size: 0.7rem;
-  display: flex;
-  flex-direction: row;
-  justify-content: space-around;
-  align-items: center;
-  grid-area: time;
+  grid-template-columns: 4rem 4fr 0.5fr 0.5fr;
 }
 
 .gridPost .userImage {
@@ -28,6 +18,30 @@
   cursor: pointer;
   grid-area: username;
 }
+
+.moreOptions_Post {
+  display: flex;
+  transform: translateY(10%);
+  align-items: center;
+  justify-content: center;
+  height: 1rem;
+  font-size: 1.5rem;
+  cursor: pointer;
+  grid-area: options;
+  width: 2rem;
+}
+
+.gridPost .post_timeLast {
+  color: var(--dominantColor);
+  font-size: 0.7rem;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+  grid-area: time;
+  width: 2rem;
+}
+
 .postBox .post_text {
   grid-area: post;
 }
@@ -38,10 +52,59 @@
   grid-area: footer;
 }
 
+.moreOptions_Post svg {
+  transform: rotate(90deg);
+  position: relative;
+  z-index: -1;
+  /* rotate: 90deg; */
+}
+
+.contextMenu_Post {
+  position: absolute;
+  min-height: 0vh;
+  min-width: 0vw;
+  background-color: var(--dominantColorSoft);
+  border-radius: var(--borderRadiusCard);
+
+  top: 20%;
+  right: 0;
+  opacity: 0;
+  pointer-events: none;
+  list-style: none;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  transition: 0.2s;
+  padding-block: var(--marginInLine);
+}
+
+.contextMenu_Post .closeBtn {
+  align-self: flex-end;
+  position: absolute;
+  top: 0;
+}
+.contextMenu_Post.active {
+  opacity: 1;
+  pointer-events: all;
+  min-height: fit-content;
+  min-width: 60vw;
+}
+
+.moreOptions_Post span:hover {
+}
+
+.moreOptions_Post span:hover svg {
+  background-color: var(--dominantColorSoft);
+  color: #000;
+  box-shadow: 0 0 5px 5px var(--dominantColorSoft);
+  border-radius: 15px;
+}
+
 .Posts_Container .Post {
   padding: var(--marginBlock) var(--marginInLine);
   padding-top: var(--marginInLine);
-  /* border-bottom: solid 1px var(--dominantColorSoft); */
 }
 /* .Posts_Container .Post:hover {
   background-color: rgb(212, 210, 210);
@@ -106,30 +169,4 @@
   box-shadow: 0 0 5px 5px var(--shareColorSoft);
   color: var(--shareColorIcon);
   border-radius: 50%;
-}
-
-.moreOptions_Post {
-  display: flex;
-  font-size: 1.5rem;
-  cursor: pointer;
-}
-
-.moreOptions_Post svg {
-  transform: rotate(90deg);
-  position: relative;
-  z-index: -1;
-  /* rotate: 90deg; */
-}
-
-.contextMenu_Post {
-  position: absolute;
-  opacity: 0;
-  pointer-events: none;
-}
-
-.moreOptions_Post span:hover {
-  /* background-color: var(--dominantColorSoft); */
-  /* background-color: var(--likeColorSoft); */
-  box-shadow: 0 0 5px 5px var(--dominantColorSoft);
-  border-radius: 15px;
 }

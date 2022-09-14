@@ -12,7 +12,7 @@ import { Helmet } from 'react-helmet';
 import ComposeHeader from '../../Components/ComposeHeader/ComposeHeader';
 import './styles.ProfileEdit.css';
 import { getMyProfileData } from '../../Redux/actions/profilesActions';
-
+import useNumberToDate from '../../Hooks/useNumberToDate';
 const ProfileEdit = ({ profile, fetchUserProfile }) => {
   const [profileInformation, setProfileInformation] = useState(profile);
   const [isActive, setIsActive] = useState(false);
@@ -27,21 +27,10 @@ const ProfileEdit = ({ profile, fetchUserProfile }) => {
     username: profileInformation?.username || '',
     biography: profileInformation?.biography || '',
     email: profileInformation?.email || '',
-    birthdate:
-      `${new Date(profileInformation?.birthdate).getFullYear()}-${
-        new Date(profileInformation?.birthdate).getMonth() + 1 >= 10
-          ? new Date(profileInformation?.birthdate).getMonth() + 1 + 1
-          : '0' + (new Date(profileInformation?.birthdate).getMonth() + 1)
-      }-${
-        new Date(profileInformation?.birthdate).getDate() >= 10
-          ? new Date(profileInformation?.birthdate).getDate()
-          : '0' + new Date(profileInformation?.birthdate).getDate()
-      }` || '',
+    birthdate: useNumberToDate(profileInformation?.birthdate) || '',
     location: profileInformation?.location || '',
     image: profileInformation?.image,
   };
-
-  // Open "ChangeAvatar" Tab
 
   //Fetch and reload Avatar
   const { profilePic } = useFetchAvatar();
@@ -73,7 +62,7 @@ const ProfileEdit = ({ profile, fetchUserProfile }) => {
           username: values.username,
           biography: values.biography,
           email: values.email,
-          birthdate: Date.parse(values.birthdate.replace(/-/g, ' ')),
+          birthdate: Date.parse(values.birthdate.replace(/-/g, ' ')), // Transform DATE for HTML5 a reading date format, later trasnform in number
           location: values.location,
           image: imageSRC,
         }),

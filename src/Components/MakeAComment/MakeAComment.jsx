@@ -7,6 +7,10 @@ import { useFormik } from 'formik';
 import { getInitPosts } from '../../Redux/actions/postsActions';
 import ProfileImage from '../../Molecules/ProfileImage/ProfileImage';
 import { useNavigate } from 'react-router-dom';
+import Post from '../Post/Post';
+import Input from '../Input/Input';
+import './styles.MakeAComment.css';
+import { useRef } from 'react';
 
 const MakeAComment = ({
   actualPost,
@@ -43,6 +47,7 @@ const MakeAComment = ({
       .then((res) => res.json())
       .then((data) => {
         if (data.message === 'POST_CREATED') {
+          reloadHomePage();
           resetForm();
           navigate(-1);
         } else {
@@ -51,9 +56,21 @@ const MakeAComment = ({
       });
   };
 
+  const profileImagePost = useRef();
+  const profileImageComment = useRef();
   useEffect(() => {
     setIsActive(writtingComment);
     setRenderPost(postInfo);
+
+    document.documentElement.style.setProperty(
+      '--lineCommentsHeight',
+      `${
+        Math.round(
+          profileImagePost?.current?.childNodes[0]?.getBoundingClientRect()
+            ?.height
+        ) || 50
+      }px`
+    );
   }, [postInfo, writtingComment]);
 
   const errorMessages = {
@@ -75,32 +92,41 @@ const MakeAComment = ({
     resetForm,
   } = formik;
 
+  useEffect(() => {
+    document.documentElement.style.setProperty(
+      '--lineCommentsHeight',
+      `${
+        Math.round(
+          profileImagePost?.current?.childNodes[0]?.getBoundingClientRect()
+            ?.height
+        ) || 50
+      }px`
+    );
+  }, [
+    renderpost,
+    profileImagePost?.current?.childNodes[0]?.getBoundingClientRect()?.height,
+  ]);
   return (
     //modal?
     <div className={`comment-modal ${isActive ? 'active' : ''}`}>
       {/* Post to make a comment */}
-      <div className={'writeCommentContainer Posts_Container'}>
-        <div className={'Post postBox '}>
-          <ProfileImage src={profile?.profileData?.image} />
-          <div className="postData">
-            <span>{renderpost?.author?.username}</span>
-            <p className="post_text">{renderpost?.text}</p>
-          </div>
+      <div
+        className={'writeCommentContainer Posts_Container'}
+        ref={profileImagePost}
+      >
+        <div className={'originalPost'}>
+          <Post postData={renderpost} onCommentPage={true} />
         </div>
-        <hr />
-
         {/* space to write a comment */}
-
-        <div className={'Post postBox '}>
-          <div className="userImage">
-            <img className="userImage_image" src={myUserImage} />
-          </div>
+        <div className={'Post postBox newComment'} ref={profileImageComment}>
+          <ProfileImage src={myUserImage} />
           <form onSubmit={handleSubmit} id={'composePost'}>
-            <textarea
-              name="text"
-              className="yourComment"
-              placeholder="Escribe tu comentario aqui..."
-              value={values.text}
+            <Input
+              // label={'Descripcion'}
+              type={'textarea'}
+              name={'text'}
+              placeholder={'Escribe tu respuesta'}
+              value={values?.biography}
               onChange={handleChange}
               onBlur={handleBlur}
             />

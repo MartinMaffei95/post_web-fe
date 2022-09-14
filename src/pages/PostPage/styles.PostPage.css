@@ -1,0 +1,24 @@
+.postPage {
+  /* background-color: green; */
+}
+
+.postPage.bigPost .Post {
+  /* background-color: red; */
+  font-size: 1.5rem;
+  display: grid;
+  grid-template-areas:
+    'image username username options'
+    'post post post post'
+    'footer footer footer footer'
+    'time time time time';
+  /* grid-template-columns: 4rem 1fr 1fr 1fr; */
+}
+
+.postPage.comment .Post {
+  /* background-color: blue; */
+  font-size: 1rem;
+}
+
+.postPage.bigPost .post_timeLast {
+  width: 100%;
+}

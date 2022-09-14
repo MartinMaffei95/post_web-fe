@@ -6,7 +6,7 @@ const NewPost = () => {
     <div>
       <ComposeHeader>
         <button className="btn primary" type="submit" form="composePost">
-          POSTEAR!
+          Postear!
         </button>
       </ComposeHeader>
       <MakePost />

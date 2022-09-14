@@ -35,6 +35,11 @@
   /* -- ##  BORDER RADIUS  ##*/
   --borderRadiusCircle: 50%;
   --borderRadiusCard: 0.5rem;
+
+  /* PROFILE SIZE */
+  --imageWidth: 3rem;
+
+  --lineCommentsHeight: 0px;
 }
 
 * {
