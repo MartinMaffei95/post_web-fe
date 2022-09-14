@@ -4,7 +4,11 @@ import MakePost from '../../../Components/MakePost/MakePost';
 const NewPost = () => {
   return (
     <div>
-      <ComposeHeader />
+      <ComposeHeader>
+        <button className="btn primary" type="submit" form="composePost">
+          POSTEAR!
+        </button>
+      </ComposeHeader>
       <MakePost />
     </div>
   );

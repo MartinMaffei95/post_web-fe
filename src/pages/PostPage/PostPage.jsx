@@ -7,7 +7,7 @@ import useFetchPost from '../../Hooks/useFetchPost';
 
 import { connect } from 'react-redux';
 import { handleWriteComment } from '../../Redux/actions/postsActions';
-
+import { Helmet } from 'react-helmet';
 const PostPage = ({ handleWriteComment }) => {
   let { postId } = useParams();
   const { post } = useFetchPost(postId);
@@ -19,6 +19,11 @@ const PostPage = ({ handleWriteComment }) => {
 
   return (
     <>
+      <Helmet>
+        <title>
+          PostWeb | {`Posteo de ${renderPost?.post?.author?.username}`}
+        </title>
+      </Helmet>
       <Header />
       <div className="Posts_Container postPage marginHeader">
         {renderPost?.post && <Post postData={renderPost?.post} />}

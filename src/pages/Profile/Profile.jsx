@@ -1,23 +1,25 @@
 import { useEffect, useState } from 'react';
 import Header from '../../Components/Header/Header';
 import PostBoard from '../../Components/PostBoard/PostBoard';
-// REDUX
-
 import { useParams } from 'react-router-dom';
-import InformationPanel from '../../Components/InformationPanel/InformationPanel';
 import useFetchProfile from '../../Hooks/useFetchProfile';
+import InformationPanel from '../../Components/InformationPanel/InformationPanel';
 
+// REDUX
 import { connect } from 'react-redux';
 import { getPostsWithProfile } from '../../Redux/actions/postsActions';
-const Profile = ({ myPosts }) => {
+
+import { Helmet } from 'react-helmet';
+const Profile = ({ myPosts, fetchUserProfile }) => {
   let { userId } = useParams();
   const { profile } = useFetchProfile(userId);
 
-  useEffect(() => {
-    // setProfile(myPosts);
-  }, [myPosts]);
+  useEffect(() => {}, [myPosts]);
   return (
     <>
+      <Helmet>
+        <title>PostWeb | {`Perfil de ${profile?.profileData?.username}`}</title>
+      </Helmet>
       <Header />
       <InformationPanel profileData={profile?.profileData} />
       <PostBoard postFromUser={true} geterPostFromUser={profile?.posts} />
@@ -31,8 +33,8 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  fetchUserProfile(profileID) {
-    dispatch(getPostsWithProfile(profileID));
+  fetchUserProfile(profileID, token) {
+    dispatch(getPostsWithProfile(profileID, token));
   },
 });
 

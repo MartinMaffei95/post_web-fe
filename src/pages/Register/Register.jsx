@@ -2,7 +2,7 @@ import React from 'react';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { Link, useNavigate } from 'react-router-dom';
-
+import { Helmet } from 'react-helmet';
 const Register = () => {
   const initialValues = {
     username: '',
@@ -64,6 +64,9 @@ const Register = () => {
 
   return (
     <div className="loginPage">
+      <Helmet>
+        <title>PostWeb | Registro</title>
+      </Helmet>
       <h3>Registro</h3>
       <div className="formContainer">
         <form className="formContainer_form" onSubmit={handleSubmit}>

@@ -8,12 +8,17 @@ import { Link, useNavigate } from 'react-router-dom';
 import ProfileImage from '../../Molecules/ProfileImage/ProfileImage';
 import { useEffect } from 'react';
 import useFetchAvatar from '../../Hooks/useFetchAvatar';
+import { Helmet } from 'react-helmet';
+import ComposeHeader from '../../Components/ComposeHeader/ComposeHeader';
+import './styles.ProfileEdit.css';
+import { getMyProfileData } from '../../Redux/actions/profilesActions';
 
-const ProfileEdit = ({ profile }) => {
+const ProfileEdit = ({ profile, fetchUserProfile }) => {
   const [profileInformation, setProfileInformation] = useState(profile);
   const [isActive, setIsActive] = useState(false);
   const [avatars, setAvatars] = useState();
   const [pickedAvatar, setPickedAvatar] = useState(profileInformation?.image);
+  const [selectedAvatar, setSelectedAvatar] = useState();
   const [imageSRC, setImageSRC] = useState(profileInformation?.image);
   const navigate = useNavigate();
 
@@ -24,13 +29,13 @@ const ProfileEdit = ({ profile }) => {
     email: profileInformation?.email || '',
     birthdate:
       `${new Date(profileInformation?.birthdate).getFullYear()}-${
-        new Date(profileInformation?.birthdate).getDate() >= 10
-          ? new Date(profileInformation?.birthdate).getDate()
-          : '0' + new Date(profileInformation?.birthdate).getDate()
-      }-${
         new Date(profileInformation?.birthdate).getMonth() + 1 >= 10
           ? new Date(profileInformation?.birthdate).getMonth() + 1 + 1
           : '0' + (new Date(profileInformation?.birthdate).getMonth() + 1)
+      }-${
+        new Date(profileInformation?.birthdate).getDate() >= 10
+          ? new Date(profileInformation?.birthdate).getDate()
+          : '0' + new Date(profileInformation?.birthdate).getDate()
       }` || '',
     location: profileInformation?.location || '',
     image: profileInformation?.image,
@@ -75,7 +80,17 @@ const ProfileEdit = ({ profile }) => {
       }
     )
       .then((res) => res.json())
-      .then((data) => console.log(data));
+      .then((data) => {
+        console.log(data?.profile);
+
+        navigate(`/profile/${localStorage.getItem('userID')}`, {
+          replace: true,
+        });
+        fetchUserProfile(
+          localStorage.getItem('userID'),
+          localStorage.getItem('token')
+        );
+      });
   };
   const errorMessages = {
     required: '* Este campo es requerido',
@@ -95,7 +110,8 @@ const ProfileEdit = ({ profile }) => {
   const toProfile = () => {
     navigate(`/profile/${profileInformation?._id}`, { replace: true });
   };
-  console.log(values?.birthdate.replace(/-/g, ' '));
+  // console.log(values?.birthdate.replace(/-/g, ' '));
+  // console.log(values?.birthdate);
 
   useEffect(() => {
     setProfileInformation(profile);
@@ -103,11 +119,15 @@ const ProfileEdit = ({ profile }) => {
 
   return (
     <div>
-      <Header>
-        <button className="btn terciary animate" onClick={toProfile}>
-          PATRA
+      <Helmet>
+        <title>PostWeb | Editar perfil</title>
+      </Helmet>
+      <ComposeHeader>
+        <button className="btn primary" type="submit" form="editProfile">
+          Guardar!
         </button>
-      </Header>
+      </ComposeHeader>
+
       <div className="EditProfileSection">
         <div className="formContainer editProfile">
           <div
@@ -118,7 +138,11 @@ const ProfileEdit = ({ profile }) => {
           >
             <ProfileImage src={imageSRC} classname={'editProfile_image'} />
           </div>
-          <form className="formContainer_form" onSubmit={handleSubmit}>
+          <form
+            className="formContainer_form"
+            onSubmit={handleSubmit}
+            id="editProfile"
+          >
             <Input
               label={'Nombre'}
               type={'text'}
@@ -174,7 +198,6 @@ const ProfileEdit = ({ profile }) => {
               onChange={handleChange}
               onBlur={handleBlur}
             />
-            <input value="Guardar" type="submit" className="btn primary" />
           </form>
         </div>
         <div className={`pickAvatarContainer ${isActive ? 'active' : ''}`}>
@@ -190,12 +213,21 @@ const ProfileEdit = ({ profile }) => {
           </button>
           <div className="pickAvatar" onClick={takeAvatar}>
             {avatars &&
-              avatars?.map((avatar) => (
-                <ProfileImage
-                  key={avatar}
-                  src={avatar}
-                  classname={'pickImageAvatar'}
-                />
+              avatars?.map((avatar, index) => (
+                <div
+                  onClick={() => {
+                    setSelectedAvatar(index);
+                    console.log(index);
+                  }}
+                  key={index}
+                >
+                  <ProfileImage
+                    src={avatar}
+                    classname={`pickImageAvatar ${
+                      selectedAvatar === index ? 'selected' : ''
+                    }`}
+                  />
+                </div>
               ))}
           </div>
         </div>
@@ -207,4 +239,11 @@ const ProfileEdit = ({ profile }) => {
 const mapStateToProps = (state) => ({
   profile: state.profileReducer.myProfileInformation,
 });
-export default connect(mapStateToProps, {})(ProfileEdit);
+
+const mapDispatchToProps = (dispatch) => ({
+  fetchUserProfile(profileID, token) {
+    dispatch(getMyProfileData(profileID, token));
+  },
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(ProfileEdit);

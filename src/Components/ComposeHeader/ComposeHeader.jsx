@@ -4,7 +4,7 @@ import { MdArrowBackIosNew } from 'react-icons/md';
 
 import '../Header/styles.Header.css';
 
-const ComposeHeader = ({ children }) => {
+const ComposeHeader = ({ title, children }) => {
   // Recives in the children button to post a Post or Comment
   const navigate = useNavigate();
 
@@ -17,11 +17,7 @@ const ComposeHeader = ({ children }) => {
       >
         <MdArrowBackIosNew />
       </button>
-      <div>
-        <button className="btn primary" type="submit" form="composePost">
-          POSTEAR!
-        </button>
-      </div>
+      <div>{children}</div>
     </header>
   );
 };

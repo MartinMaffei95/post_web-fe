@@ -4,7 +4,7 @@ import * as Yup from 'yup';
 import { useFormik } from 'formik';
 import { connect } from 'react-redux';
 import { getMyProfileData } from '../../Redux/actions/profilesActions';
-
+import { Helmet } from 'react-helmet';
 const Login = ({ getMyData }) => {
   const initialValues = {
     username: '',
@@ -67,6 +67,9 @@ const Login = ({ getMyData }) => {
 
   return (
     <div className="loginPage">
+      <Helmet>
+        <title>PostWeb | Ingresá</title>
+      </Helmet>
       <h3>LOGIN SITE</h3>
 
       <div className="formContainer">

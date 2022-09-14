@@ -1,10 +1,13 @@
 import { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { IoLocationOutline } from 'react-icons/io5';
+import { TbBallon, TbMail, TbCalendar } from 'react-icons/tb';
 
-import { FaUserCircle } from 'react-icons/fa';
+import './styles.InformationPanel.css';
 
 // REDUX
 import { connect } from 'react-redux';
+import ProfileImage from '../../Molecules/ProfileImage/ProfileImage';
 
 const InformationPanel = ({
   profileData, // this is fetched DATA
@@ -15,7 +18,7 @@ const InformationPanel = ({
   const [isMyProfile, setIsMyProfile] = useState(false);
 
   const toSettings = () => {
-    navigate('/profile/settings', { replace: true });
+    navigate('/profile/settings', { replace: false });
   };
 
   useEffect(() => {
@@ -24,17 +27,34 @@ const InformationPanel = ({
 
   return (
     <div className="informationPanel marginHeader">
-      <div className="userImage">
-        <img className="userImage_image" src={profileData?.image} />
+      <div className="userImageInformation">
+        <ProfileImage src={profileData?.image} />
       </div>
       <div className="userInformation">
+        <span className="name">{profileData?.name}</span>
+        <span className="username">{profileData?.username}</span>
+        <span className="biography">{profileData?.biography}</span>
+        <span>
+          <TbBallon />
+          Fecha de nacimiento: {profileData?.birthdate}
+        </span>
+        <span>
+          <IoLocationOutline />
+          {profileData?.location}
+        </span>
+        <span>
+          <TbMail />
+          {profileData?.email}
+        </span>
+        <span>
+          <TbCalendar />
+          Se unio en: {profileData?.createdAt}
+        </span>
         {isMyProfile && (
-          <button className="btn primary" onClick={toSettings}>
+          <button className="btn secondary" onClick={toSettings}>
             Editar perfil
           </button>
         )}
-        <span>{profileData?.username}</span>
-        <span>{profileData?.email}</span>
       </div>
     </div>
   );

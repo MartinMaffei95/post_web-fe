@@ -20,7 +20,11 @@ const NewComment = ({}) => {
 
   return (
     <div>
-      <ComposeHeader />
+      <ComposeHeader>
+        <button className="btn primary" type="submit" form="composePost">
+          POSTEAR!
+        </button>
+      </ComposeHeader>
       <MakeAComment postInfo={renderPost} profile={renderProfile} />
     </div>
   );

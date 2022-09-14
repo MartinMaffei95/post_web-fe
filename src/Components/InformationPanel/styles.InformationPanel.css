@@ -1,0 +1,46 @@
+.informationPanel .userImageInformation {
+  display: flex;
+  justify-content: space-around;
+  align-items: flex-end;
+  background: linear-gradient(
+    90deg,
+    var(--dominantColor),
+    var(--dominantColorSoft),
+    var(--dominantColor)
+  );
+}
+
+.userImageInformation .userImage {
+  height: 5rem;
+  width: 5rem;
+}
+.userImageInformation .userImage_image {
+  height: 5rem;
+  width: 5rem;
+}
+
+.userImageInformation .btn {
+  height: 2rem;
+}
+
+.informationPanel .userInformation {
+  display: flex;
+  flex-direction: column;
+
+  margin-inline: var(--marginInLine);
+  margin-block: var(--marginInLine);
+}
+
+.userInformation .name {
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+
+.userInformation .biography {
+  margin-block: 0.5rem;
+}
+
+.userInformation .name,
+.userInformation .username {
+  justify-self: flex;
+}
