@@ -53,7 +53,7 @@ const Post = ({
 
   // Functions
   const likePost = () => {
-    axios(`http://localhost:4000/post/${renderPost?._id}/like_post`, {
+    axios(`${process.env.REACT_APP_URI}post/${renderPost?._id}/like_post`, {
       method: 'POST',
       headers: {
         contentType: 'application/json',
@@ -63,7 +63,7 @@ const Post = ({
   };
 
   const unlikePost = () => {
-    axios(`http://localhost:4000/post/${renderPost?._id}/unlike_post`, {
+    axios(`${process.env.REACT_APP_URI}post/${renderPost?._id}/unlike_post`, {
       method: 'POST',
       headers: {
         contentType: 'application/json',
@@ -73,7 +73,7 @@ const Post = ({
   };
 
   const deletePost = () => {
-    axios(`http://localhost:4000/post/${renderPost?._id}`, {
+    axios(`${process.env.REACT_APP_URI}post/${renderPost?._id}`, {
       method: 'DELETE',
       headers: {
         contentType: 'application/json',

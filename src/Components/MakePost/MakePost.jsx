@@ -23,7 +23,7 @@ const MakePost = ({ reloadHomePage, myUser }) => {
   const { isPhone } = useResize();
 
   const onSubmit = () => {
-    axios(`http://localhost:4000/post/`, {
+    axios(`${process.env.REACT_APP_URI}post`, {
       method: 'POST',
       headers: {
         contentType: 'application/json',

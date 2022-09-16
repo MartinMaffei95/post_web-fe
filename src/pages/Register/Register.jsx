@@ -10,10 +10,9 @@ const Register = () => {
     password: '',
   };
   let navigate = useNavigate();
-  const { REACT_APP_URI } = process.env;
 
   const onSubmit = () => {
-    fetch(`http://localhost:4000/auth/register`, {
+    fetch(`${process.env.REACT_APP_URI}auth/register`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
