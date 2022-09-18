@@ -151,32 +151,35 @@ const Post = ({
         >
           <AiOutlineMore />
         </span>
-
-        <ul className={`contextMenu_Post ${moreOptActive ? 'active' : ''}`}>
-          <button
-            className="btn secondary closeBtn"
-            onClick={() => {
-              setMoreOptActive(false);
-            }}
-          >
-            X
-          </button>
-          <li>
-            <button className="btn secondary" onClick={deletePost}>
-              ELIMINAR
-            </button>
-          </li>
-          <li>
-            <button
-              className="btn secondary"
-              onClick={() => {
-                console.log('editar');
-              }}
-            >
-              Editar
-            </button>
-          </li>
-        </ul>
+        <div className={`contextMenu_Post ${moreOptActive ? 'active' : ''}`}>
+          <ul>
+            <li>
+              <button className="btn secondary" onClick={deletePost}>
+                Eliminar Post
+              </button>
+            </li>
+            <li>
+              <button
+                className="btn secondary"
+                onClick={() => {
+                  console.log('editar');
+                }}
+              >
+                Editar
+              </button>
+            </li>
+            <li>
+              <button
+                className="btn secondary closeBtn"
+                onClick={() => {
+                  setMoreOptActive(false);
+                }}
+              >
+                X Cancelar
+              </button>
+            </li>
+          </ul>
+        </div>
       </div>
       <p className="post_text">{renderPost?.text}</p>
       {!onCommentPage && (

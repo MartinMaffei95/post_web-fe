@@ -61,30 +61,34 @@
 
 .contextMenu_Post {
   position: fixed;
+  top: 0;
+  right: 0;
+  opacity: 0;
+  pointer-events: none;
+  height: 100vh;
+  width: 100vw;
+  background-color: var(--shadedBackgroundColor);
+  display: flex;
+  align-items: flex-end;
+  z-index: 10;
+}
+
+.contextMenu_Post ul {
+  list-style: none;
   min-height: 50vh;
   min-width: 100vw;
   background-color: var(--dominantColorSoft);
   border-radius: var(--borderRadiusCard);
 
-  bottom: 0;
-  right: 0;
-  opacity: 0;
-  pointer-events: none;
-  list-style: none;
-
   display: flex;
   flex-direction: column;
-  align-items: center;
+  /* align-items: center; */
   justify-content: center;
   transition: 0.2s;
   padding-block: var(--marginInLine);
 }
 
 .contextMenu_Post .closeBtn {
-  /* align-self: flex-end; */
-  top: 0;
-  right: 0;
-  position: absolute;
 }
 .contextMenu_Post.active {
   opacity: 1;
