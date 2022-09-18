@@ -5,6 +5,11 @@ import Post from '../Post/Post';
 import { getInitPosts } from '../../Redux/actions/postsActions';
 import MakeAComment from '../MakeAComment/MakeAComment';
 import { useNavigate } from 'react-router-dom';
+
+// TOASTIFY
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 const PostBoard = ({
   posts,
   reloadHomePage,
@@ -17,6 +22,7 @@ const PostBoard = ({
   const [renderPosts, setRenderPosts] = useState();
 
   const navigate = useNavigate();
+  const notify = () => toast('Wow so easy!');
   useEffect(() => {
     if (postFromUser) {
       // is a user POST
@@ -29,6 +35,7 @@ const PostBoard = ({
   }, [posts, geterPostFromUser, myPosts]);
   return (
     <>
+      <ToastContainer />
       {isProfile && <div></div>}
       {isProfile ? (
         <div className="Posts_Container">

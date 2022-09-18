@@ -13,6 +13,13 @@ import ComposeHeader from '../../Components/ComposeHeader/ComposeHeader';
 import './styles.ProfileEdit.css';
 import { getMyProfileData } from '../../Redux/actions/profilesActions';
 import useNumberToDate from '../../Hooks/useNumberToDate';
+import {
+  AiOutlineReload,
+  AiOutlineClose,
+  AiFillEdit,
+  AiOutlineCheck,
+} from 'react-icons/ai';
+
 const ProfileEdit = ({ profile, fetchUserProfile }) => {
   const [profileInformation, setProfileInformation] = useState(profile);
   const [isActive, setIsActive] = useState(false);
@@ -101,7 +108,11 @@ const ProfileEdit = ({ profile, fetchUserProfile }) => {
   };
   // console.log(values?.birthdate.replace(/-/g, ' '));
   // console.log(values?.birthdate);
-
+  const openTab = () => {
+    console.log('asd');
+    reloadAvatar();
+    setIsActive(true);
+  };
   useEffect(() => {
     setProfileInformation(profile);
   }, [profile]);
@@ -111,7 +122,7 @@ const ProfileEdit = ({ profile, fetchUserProfile }) => {
       <Helmet>
         <title>PostWeb | Editar perfil</title>
       </Helmet>
-      <ComposeHeader>
+      <ComposeHeader title={'Editá tu perfil'}>
         <button className="btn primary" type="submit" form="editProfile">
           Guardar!
         </button>
@@ -119,13 +130,11 @@ const ProfileEdit = ({ profile, fetchUserProfile }) => {
 
       <div className="EditProfileSection">
         <div className="formContainer editProfile">
-          <div
-            onClick={() => {
-              reloadAvatar();
-              setIsActive(true);
-            }}
-          >
+          <div className="changeUserImage">
             <ProfileImage src={imageSRC} classname={'editProfile_image'} />
+            <div className={' backdrop'} onClick={openTab}>
+              <AiFillEdit />
+            </div>
           </div>
           <form
             className="formContainer_form"
@@ -190,23 +199,38 @@ const ProfileEdit = ({ profile, fetchUserProfile }) => {
           </form>
         </div>
         <div className={`pickAvatarContainer ${isActive ? 'active' : ''}`}>
-          Elige tu avatar!
-          <button onClick={reloadAvatar}>Reload</button>
-          <button onClick={saveAvatarPicked}>Guardar</button>
-          <button
-            onClick={() => {
-              setIsActive(false);
-            }}
-          >
-            X
-          </button>
+          <h3>Elige tu avatar!</h3>
+          <div className="buttonsContainer">
+            <button
+              className="btn informative"
+              onClick={() => {
+                setPickedAvatar(profileInformation?.image);
+                setSelectedAvatar('');
+                reloadAvatar();
+              }}
+            >
+              <AiOutlineReload />
+            </button>
+            <button className="btn success" onClick={saveAvatarPicked}>
+              <AiOutlineCheck />
+              Seleccionar
+            </button>
+            <button
+              className="btn danger"
+              onClick={() => {
+                setIsActive(false);
+              }}
+            >
+              <AiOutlineClose />
+              Descartar
+            </button>
+          </div>
           <div className="pickAvatar" onClick={takeAvatar}>
             {avatars &&
               avatars?.map((avatar, index) => (
                 <div
                   onClick={() => {
                     setSelectedAvatar(index);
-                    console.log(index);
                   }}
                   key={index}
                 >

@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
-import { handleWriteComment } from '../../Redux/actions/postsActions';
-import { AiOutlineArrowLeft } from 'react-icons/ai';
+import {
+  handleWriteComment,
+  makeToast,
+} from '../../Redux/actions/postsActions';
 import * as Yup from 'yup';
 import { useFormik } from 'formik';
 import { getInitPosts } from '../../Redux/actions/postsActions';
@@ -20,6 +22,7 @@ const MakeAComment = ({
   reloadHomePage,
   postInfo,
   profile,
+  handleToast,
 }) => {
   const [renderpost, setRenderPost] = useState({ postInfo, profile });
   const [isActive, setIsActive] = useState(writtingComment);
@@ -49,6 +52,7 @@ const MakeAComment = ({
         if (data.message === 'POST_CREATED') {
           reloadHomePage();
           resetForm();
+          handleToast('success', 'Tu comentario fue creado!');
           navigate(-1);
         } else {
           alert(data.message);
@@ -148,6 +152,9 @@ const mapDispatchToProps = (dispatch) => ({
   },
   reloadHomePage() {
     dispatch(getInitPosts());
+  },
+  handleToast(status, msg) {
+    dispatch(makeToast(status, msg));
   },
 });
 

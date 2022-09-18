@@ -5,6 +5,7 @@ import { useFormik } from 'formik';
 import { connect } from 'react-redux';
 import { getMyProfileData } from '../../Redux/actions/profilesActions';
 import { Helmet } from 'react-helmet';
+import Input from '../../Components/Input/Input';
 const Login = ({ getMyData }) => {
   const initialValues = {
     username: '',
@@ -70,40 +71,43 @@ const Login = ({ getMyData }) => {
       <Helmet>
         <title>PostWeb | Ingresá</title>
       </Helmet>
-      <h3>LOGIN SITE</h3>
-
+      <div className="initialText">
+        <h3>Bienvenido!</h3>
+        <span>
+          Ingresa tus datos y comencemos a <span>escribir!</span>
+        </span>
+      </div>
       <div className="formContainer">
         <form className="formContainer_form" onSubmit={handleSubmit}>
-          <div className="inputContainer">
-            <label>Nombre de usuario:</label>
-            <input
-              type="text"
-              name="username"
-              value={values.username}
-              onChange={handleChange}
-              onBlur={handleBlur}
-            />
-          </div>
+          <Input
+            label={'Nombre de usuario:'}
+            type={'text'}
+            name={'username'}
+            value={values?.username}
+            onChange={handleChange}
+            onBlur={handleBlur}
+          />
           {errors.username && touched.username && (
             <span className="error-message">{errors.username}</span>
           )}
-          <div className="inputContainer">
-            <label>Contraseña:</label>
-            <input
-              type="password"
-              name="password"
-              value={values.password}
-              onChange={handleChange}
-              onBlur={handleBlur}
-            />
-          </div>
+          <Input
+            label={'Contraseña:'}
+            type={'password'}
+            name={'password'}
+            value={values?.password}
+            onChange={handleChange}
+            onBlur={handleBlur}
+          />
           {errors.password && touched.password && (
             <span className="error-message">{errors.password}</span>
           )}
-          <input type="submit" />
+          <div className="inputContainer_submit">
+            <input className="btn primary" value={'Ingresar'} type="submit" />
+          </div>
         </form>
-
-        <Link to="/register">Aun no tienes cuenta?</Link>
+        <div className="link">
+          <Link to="/register">Aun no tienes cuenta? Registrate!</Link>
+        </div>
       </div>
     </div>
   );

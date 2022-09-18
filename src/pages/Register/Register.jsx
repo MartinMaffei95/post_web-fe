@@ -108,9 +108,17 @@ const Register = () => {
           {errors.password && touched.password && (
             <span className="error-message">{errors.password}</span>
           )}
-          <input type="submit" />
+          <div className="inputContainer_submit">
+            <input
+              className="btn primary"
+              value={'Quiero registrarme'}
+              type="submit"
+            />
+          </div>
         </form>
-        <Link to="/login"> Ya tienes un cuenta?</Link>
+        <div className="link">
+          <Link to="/login"> Ya tienes un cuenta? Haz click aqui!</Link>
+        </div>
       </div>
     </div>
   );

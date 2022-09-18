@@ -7,6 +7,7 @@ import {
   AiFillStar,
   AiOutlineStar,
   AiOutlineSetting,
+  AiOutlineClose,
 } from 'react-icons/ai';
 import { connect } from 'react-redux';
 import { useEffect } from 'react';
@@ -31,7 +32,6 @@ const Header = ({ userData, children, section }) => {
   };
 
   useEffect(() => {}, [isActive]);
-  console.log(userData);
   return (
     <header className="header">
       <div
@@ -58,14 +58,14 @@ const Header = ({ userData, children, section }) => {
         </div>
         {/* In this menu have Count information */}
         <ul className={`menu_list ${isActive ? 'active' : ''}`}>
-          <div>
+          <div className="closeMenuContainer">
             <button
               onClick={() => {
                 setIsActive(false);
               }}
-              className="btn secondary"
+              className="btn secondary closeBtn"
             >
-              X
+              <AiOutlineClose />
             </button>
             <span>Informacion de la cuenta</span>
           </div>
@@ -75,17 +75,26 @@ const Header = ({ userData, children, section }) => {
           </div>
           <li>
             <AiOutlineUser />
-            Mi perfil
+            <div className="link">
+              <Link to={`/profile/${localStorage.getItem('userID')}`}>
+                Mi perfil
+              </Link>
+            </div>
           </li>
           <li>
-            <AiOutlineStar /> {/* <AiFillStar/> */} Guardados
+            <AiOutlineStar />
+            <div className="link">
+              <Link to="/profile/settings">Guardados</Link>
+            </div>
           </li>
-
+          {/* <AiFillStar/> */}
           <li>
             <AiOutlineSetting />
-            <Link to="/profile/settings">Mis datos</Link>
+            <div className="link">
+              <Link to="/profile/settings">Mis datos</Link>
+            </div>
           </li>
-          <li>
+          <li className="menu_list_closeSession">
             <button className="btn secondary" onClick={handleLogout}>
               Cerrar Sesion
             </button>

@@ -7,6 +7,7 @@ import {
   GET_MY_POSTS,
 } from './actions';
 import axios from 'axios';
+import { toast } from 'react-toastify';
 
 export const postRequest = () => ({ type: GET_INIT_POSTS_REQUEST });
 export const postSucces = (data) => ({
@@ -72,3 +73,57 @@ export const getPostFromHome = (postData, profile) => (dispatch) => {
 export const handleWriteComment = (state) => (dispatch) => {
   dispatch(handleComment(state));
 };
+
+export function makeToast(status, msg) {
+  return function (dispatch) {
+    switch (status) {
+      case 'success':
+        toast.success(msg, {
+          position: 'top-right',
+          autoClose: 2000,
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: false,
+          progress: undefined,
+        });
+        break;
+      case 'error':
+        toast.error(msg, {
+          position: 'top-right',
+          autoClose: 2000,
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: false,
+          progress: undefined,
+        });
+        break;
+      case 'warning':
+        toast.warning(msg, {
+          position: 'top-right',
+          autoClose: 2000,
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: false,
+          progress: undefined,
+        });
+        break;
+      case 'information':
+        toast.information(msg, {
+          position: 'top-right',
+          autoClose: 2000,
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: false,
+          progress: undefined,
+        });
+        break;
+
+      default:
+        break;
+    }
+  };
+}

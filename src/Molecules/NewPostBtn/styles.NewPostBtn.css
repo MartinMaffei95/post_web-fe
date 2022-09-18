@@ -1,18 +1,18 @@
 .newPostBtn {
-  height: 2rem;
-  width: 2rem;
+  height: 4rem;
+  width: 4rem;
   border-radius: 50%;
 
   position: fixed;
   bottom: 1rem;
   right: 1rem;
-  background-color: var(--dominantColor);
+  background-color: var(--accentColor);
 
   display: flex;
   justify-content: center;
   align-items: center;
 
-  font-size: 1.1rem;
+  font-size: 1.5rem;
   color: #fff;
 
   cursor: pointer;

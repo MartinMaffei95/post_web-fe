@@ -17,11 +17,12 @@
   font-weight: bold;
   cursor: pointer;
   grid-area: username;
+  /* position: relative; */
 }
 
 .moreOptions_Post {
   display: flex;
-  transform: translateY(10%);
+  /* transform: translateY(10%); */
   align-items: center;
   justify-content: center;
   height: 1rem;
@@ -54,19 +55,18 @@
 
 .moreOptions_Post svg {
   transform: rotate(90deg);
-  position: relative;
   z-index: -1;
   /* rotate: 90deg; */
 }
 
 .contextMenu_Post {
-  position: absolute;
-  min-height: 0vh;
-  min-width: 0vw;
+  position: fixed;
+  min-height: 50vh;
+  min-width: 100vw;
   background-color: var(--dominantColorSoft);
   border-radius: var(--borderRadiusCard);
 
-  top: 20%;
+  bottom: 0;
   right: 0;
   opacity: 0;
   pointer-events: none;
@@ -81,15 +81,16 @@
 }
 
 .contextMenu_Post .closeBtn {
-  align-self: flex-end;
-  position: absolute;
+  /* align-self: flex-end; */
   top: 0;
+  right: 0;
+  position: absolute;
 }
 .contextMenu_Post.active {
   opacity: 1;
   pointer-events: all;
-  min-height: fit-content;
-  min-width: 60vw;
+  /* min-height: fit-content;
+  min-width: 60vw; */
 }
 
 .moreOptions_Post span:hover {

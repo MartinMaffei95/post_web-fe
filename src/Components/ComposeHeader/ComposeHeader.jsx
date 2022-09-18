@@ -9,14 +9,16 @@ const ComposeHeader = ({ title, children }) => {
   const navigate = useNavigate();
 
   return (
-    <header className="header">
+    <header className="header header_compose">
       <button
+        className="btn noStyle backBtn"
         onClick={() => {
           navigate(-1);
         }}
       >
         <MdArrowBackIosNew />
       </button>
+      {title && <span className="header_title">{title}</span>}
       <div>{children}</div>
     </header>
   );

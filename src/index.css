@@ -4,8 +4,8 @@
   /*## COLOR VARIABLES ##*/
   --dominantColor: #6e6c6f;
   --dominantColorSoft: #e3e2e3;
-  --complementaryColor: #4b464b;
-  --accentColor: #1eb7a8;
+  --complementaryColor: #1fadb7;
+  --accentColor: #5481b7;
   --accentColorDark: #126a7a;
 
   --likeColorIcon: #ff0936;
@@ -25,7 +25,7 @@
   --marginBlock: 0.2rem;
 
   /*## BLOCK SIZES VARIABLES ##*/
-  --headerHeight: 3rem;
+  --headerHeight: 4rem;
   --footerHeight: 2rem;
 
   /* -- ##  POST BOX SIZES ##*/
@@ -42,7 +42,16 @@
   --lineCommentsHeight: 0px;
 
   /*## FONTS VARIABLES ##*/
-  /* font-size: 0.95rem; */
+  --smallTextSize: ;
+  --normalTextSize: 1rem;
+  --bigTextSize: 1.3rem;
+  --biggerTextSize: 1.6rem;
+
+  --InputLabelFontSize: 1.1rem;
+  --InputLabelFontSize_inFocus: 0.9rem;
+  --InputFontSize: 1.3rem;
+
+  --inputMarginInLine: 0.5rem;
 }
 
 * {
@@ -67,12 +76,24 @@ body {
 .btn {
   background: none;
   border: none;
-  font-weight: 700;
   letter-spacing: 0.03rem;
   border-radius: 8px;
   padding: 0.2rem 0.5rem;
   margin: 0.2rem 0.5rem;
   cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 3rem;
+  min-width: 3rem;
+
+  font-size: var(--nonrmalTextSize);
+  font-weight: 700;
+}
+
+.btn svg {
+  font-size: 1.5rem;
+  font-weight: bold;
 }
 
 .btn.link {
@@ -83,7 +104,7 @@ body {
   color: #fff;
 }
 .btn.primary {
-  background: var(--dominantColor);
+  background: var(--accentColor);
   color: #fff;
   transition: color 0.2s;
 }
@@ -94,6 +115,11 @@ body {
 
 .btn.secondary {
   border: solid 2px var(--dominantColor);
+}
+
+.btn.secondary.invert {
+  border: solid 2px #fff;
+  color: #fff;
 }
 
 .btn.secondary:hover {
@@ -132,25 +158,78 @@ body {
   width: 50%;
 }
 
+.btn.success {
+  background-color: rgb(68, 118, 68);
+  border: 2px solid rgb(43, 76, 43);
+  color: #fff;
+  font-weight: 800;
+  letter-spacing: 0.03rem;
+}
+
+.btn.danger {
+  background-color: rgb(230, 83, 83);
+  border: 2px solid #9c2f2f;
+  color: #fff;
+  font-weight: 800;
+  letter-spacing: 0.03rem;
+}
+
+.btn.informative {
+  background-color: rgb(52, 136, 149);
+  border: 2px solid rgb(35, 93, 102);
+  color: #fff;
+  font-weight: 800;
+  letter-spacing: 0.03rem;
+}
+
 .loginPage {
-  height: 100vh;
-  width: 100vw;
+  min-height: 100vh;
+  min-width: 100vw;
   margin-top: calc(0rem - var(--headerHeight));
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  /* justify-content: ; */
+
+  gap: 2rem;
   align-items: center;
 
   background-image: linear-gradient(60deg, #5481b7, #889bb3);
 }
+
+.loginPage .initialText {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  gap: 0.5rem;
+  margin-top: 20vh;
+  /* background-color: #324b6896; */
+}
+
+.loginPage .initialText h3 {
+  color: #fff;
+  text-align: center;
+  font-size: 2.5rem;
+  letter-spacing: 0.08rem;
+}
+
+.loginPage .initialText span {
+  color: #fff;
+  text-align: center;
+  font-size: 1rem;
+}
+
+.initialText span span {
+  font-weight: bold;
+  text-decoration: underline;
+}
+
 .formContainer {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  align-items: center;
+  /* align-items: center; */
   /* background-color: var(--dominantColorSoft); */
-  background-color: #b5b1b150;
-  height: 70vh;
+  /* background-color: #b5b1b150; */
   width: 80vw;
 }
 .formContainer_form {
@@ -159,25 +238,43 @@ body {
   align-items: center;
 }
 
+.loginPage .inputContainer {
+  /* width: 100%; */
+}
+
 .inputContainer {
   display: flex;
   flex-direction: column;
   position: relative;
-  width: 80%;
-  height: 3.5rem;
+  width: 100%;
+  height: 4rem;
   margin-block: 0.5rem;
   border: solid var(--dominantColor) 2px;
-  border-radius: 5px;
+  border-radius: var(--borderRadiusCard);
 }
 
 .inputContainer.isTextarea {
-  height: 6rem;
+  min-height: 6rem;
+}
+
+.inputContainer_submit {
+  width: 100%;
+
+  /* margin: none; */
+}
+
+.inputContainer_submit input {
+  width: 100%;
+  height: calc(var(--InputFontSize) * 2);
+  font-size: var(--InputFontSize);
+  margin-block: 1rem;
+  margin-inline: 0;
 }
 .inputContainer label {
-  font-size: 0.9rem;
+  font-size: var(--InputLabelFontSize);
   position: absolute;
   transition: 0.3s;
-  padding-inline: 0.2rem;
+  padding-inline: var(--inputMarginInLine);
 }
 
 .inputContainer input,
@@ -190,11 +287,12 @@ body {
   display: flex;
   flex-direction: column;
   justify-items: flex-end;
-  font-size: 1.1rem;
+  font-size: var(--InputFontSize);
   border: none;
+  border-radius: var(--borderRadiusCard);
   outline: none;
-  padding-top: 1rem;
-  padding-inline: 0.2rem;
+  padding-top: 1.1rem;
+  padding-inline: var(--inputMarginInLine);
   cursor: pointer;
   background-color: #fff;
 }
@@ -206,8 +304,21 @@ body {
 
 .inputContainer:focus-within label {
   color: var(--accentColorDark);
-  font-size: 0.75rem;
+  font-size: var(--InputLabelFontSize_inFocus);
 }
 .inputContainer:focus-within {
   border: var(--accentColorDark) 2px solid;
+}
+
+.link {
+  margin-top: var(--marginBlock);
+  margin-inline: auto;
+  display: flex;
+}
+
+.link a {
+  text-decoration: none;
+  color: #fff;
+  font-size: var(--bigTextSize);
+  text-align: center;
 }

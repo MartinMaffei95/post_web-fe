@@ -4,7 +4,7 @@ import { useFormik } from 'formik';
 import axios from 'axios';
 
 import { connect } from 'react-redux';
-import { getInitPosts } from '../../Redux/actions/postsActions';
+import { getInitPosts, makeToast } from '../../Redux/actions/postsActions';
 import { useResize } from '../../Hooks/useResize';
 import ProfileImage from '../../Molecules/ProfileImage/ProfileImage';
 import Input from '../Input/Input';
@@ -12,7 +12,9 @@ import Input from '../Input/Input';
 import { useNavigate } from 'react-router-dom';
 import './styles.MakePost.css';
 
-const MakePost = ({ reloadHomePage, myUser }) => {
+import { toast } from 'react-toastify';
+import { ToastContainer } from 'react-toastify';
+const MakePost = ({ reloadHomePage, myUser, handleToast }) => {
   const initialValues = {
     username: localStorage.getItem('username'),
     userID: localStorage.getItem('userID'),
@@ -37,6 +39,7 @@ const MakePost = ({ reloadHomePage, myUser }) => {
         },
       },
     }).then((res) => {
+      handleToast('success', 'Tu post fue creado!');
       reloadHomePage();
       resetForm();
       navigate(-1);
@@ -65,6 +68,7 @@ const MakePost = ({ reloadHomePage, myUser }) => {
 
   return (
     <div>
+      <ToastContainer autoClose={2000} />
       <div className="newPost postBox">
         <ProfileImage src={myUser?.image} />
         <form onSubmit={handleSubmit} id="composePost">
@@ -87,6 +91,9 @@ const MakePost = ({ reloadHomePage, myUser }) => {
 const mapDispatchToProps = (dispatch) => ({
   reloadHomePage() {
     dispatch(getInitPosts());
+  },
+  handleToast(status, msg) {
+    dispatch(makeToast(status, msg));
   },
 });
 const mapStateToProps = (state) => ({

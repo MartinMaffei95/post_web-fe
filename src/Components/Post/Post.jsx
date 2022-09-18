@@ -73,6 +73,8 @@ const Post = ({
   };
 
   const deletePost = () => {
+    console.log(`${process.env.REACT_APP_URI}post/${renderPost?._id}`);
+
     axios(`${process.env.REACT_APP_URI}post/${renderPost?._id}`, {
       method: 'DELETE',
       headers: {

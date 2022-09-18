@@ -1,12 +1,17 @@
-import React from 'react';
-
+import React, { useEffect } from 'react';
 import PostBoard from '../../Components/PostBoard/PostBoard';
-import MakePost from '../../Components/MakePost/MakePost';
 import Header from '../../Components/Header/Header';
 import NewPostBtn from '../../Molecules/NewPostBtn/NewPostBtn';
 import { Helmet } from 'react-helmet';
 
-const Home = () => {
+// REDUX
+import { connect } from 'react-redux';
+import { getInitPosts } from '../../Redux/actions/postsActions';
+
+const Home = ({ reloadHomePage }) => {
+  useEffect(() => {
+    reloadHomePage();
+  }, []);
   return (
     <>
       <Helmet>
@@ -19,4 +24,13 @@ const Home = () => {
   );
 };
 
-export default Home;
+const mapDispatchToProps = (dispatch) => ({
+  reloadHomePage() {
+    dispatch(getInitPosts());
+  },
+});
+const mapStateToProps = (state) => ({
+  // myUser: state.profileReducer.myProfileInformation,
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Home);
