@@ -10,6 +10,7 @@ import Styles from '../pages/Styles/Styles';
 import ProfileEdit from '../pages/ProfileEdit/ProfileEdit';
 import NewPost from '../pages/Compose/NewPost/NewPost';
 import NewComment from '../pages/Compose/NewComment/NewComment';
+import EditPost from '../pages/Compose/EditPost/EditPost';
 
 const AppRoutes = () => {
   const navigate = useNavigate();
@@ -45,6 +46,14 @@ const AppRoutes = () => {
           element={
             <RequireAuth>
               <NewComment />
+            </RequireAuth>
+          }
+        />
+        <Route
+          path=":postId/editPost"
+          element={
+            <RequireAuth>
+              <EditPost />
             </RequireAuth>
           }
         />

@@ -324,3 +324,12 @@ body {
   font-size: var(--bigTextSize);
   text-align: center;
 }
+
+.test {
+  display: flex;
+  flex-direction: column;
+}
+
+.test .btn {
+  width: 60vw;
+}

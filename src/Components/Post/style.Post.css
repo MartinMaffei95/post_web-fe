@@ -53,7 +53,7 @@
   grid-area: footer;
 }
 
-.moreOptions_Post svg {
+.moreOptions_Post .rotate {
   transform: rotate(90deg);
   z-index: -1;
   /* rotate: 90deg; */
@@ -65,7 +65,7 @@
   right: 0;
   opacity: 0;
   pointer-events: none;
-  height: 100vh;
+  min-height: 100%;
   width: 100vw;
   background-color: var(--shadedBackgroundColor);
   display: flex;
@@ -89,6 +89,9 @@
 }
 
 .contextMenu_Post .closeBtn {
+  margin-top: auto;
+  align-self: center;
+  width: 90%;
 }
 .contextMenu_Post.active {
   opacity: 1;
@@ -97,7 +100,16 @@
   min-width: 60vw; */
 }
 
-.moreOptions_Post span:hover {
+.contextMenu_Post ul li {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+  padding-inline: 1rem;
+  margin-block: 0.5rem;
+}
+
+.contextMenu_Post ul li:hover {
+  background-color: var(--dominantColor);
 }
 
 .moreOptions_Post span:hover svg {

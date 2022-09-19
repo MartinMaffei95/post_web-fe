@@ -14,36 +14,65 @@ import './styles.MakePost.css';
 
 import { toast } from 'react-toastify';
 import { ToastContainer } from 'react-toastify';
-const MakePost = ({ reloadHomePage, myUser, handleToast }) => {
+
+const MakePost = ({
+  // THIS IS FOR EDIT A POST
+  postValue,
+  editPost,
+  postId,
+  // REDUX
+  reloadHomePage,
+  myUser,
+  handleToast,
+}) => {
   const initialValues = {
     username: localStorage.getItem('username'),
     userID: localStorage.getItem('userID'),
-    text: '',
+    text: postValue || '',
   };
+
   const navigate = useNavigate();
 
   const { isPhone } = useResize();
 
   const onSubmit = () => {
-    axios(`${process.env.REACT_APP_URI}post`, {
-      method: 'POST',
-      headers: {
-        contentType: 'application/json',
-        authorization: 'Bearer ' + localStorage.getItem('token'),
-      },
-      data: {
-        text: values.text,
-        author: {
-          username: values.username,
-          userID: values.userID,
+    if (editPost) {
+      axios(`${process.env.REACT_APP_URI}post/${postId}`, {
+        method: 'PUT',
+        headers: {
+          contentType: 'application/json',
+          authorization: 'Bearer ' + localStorage.getItem('token'),
         },
-      },
-    }).then((res) => {
-      handleToast('success', 'Tu post fue creado!');
-      reloadHomePage();
-      resetForm();
-      navigate(-1);
-    });
+        data: {
+          text: values.text,
+        },
+      }).then((res) => {
+        handleToast('success', 'Tu post fue editado!');
+        reloadHomePage();
+        resetForm();
+        navigate(-1);
+      });
+    } else {
+      axios(`${process.env.REACT_APP_URI}post`, {
+        method: 'POST',
+        headers: {
+          contentType: 'application/json',
+          authorization: 'Bearer ' + localStorage.getItem('token'),
+        },
+        data: {
+          text: values.text,
+          author: {
+            username: values.username,
+            userID: values.userID,
+          },
+        },
+      }).then((res) => {
+        handleToast('success', 'Tu post fue creado!');
+        reloadHomePage();
+        resetForm();
+        navigate(-1);
+      });
+    }
   };
 
   const errorMessages = {
@@ -80,6 +109,7 @@ const MakePost = ({ reloadHomePage, myUser, handleToast }) => {
               value={values.text}
               onChange={handleChange}
               onBlur={handleBlur}
+              autoFocus={true}
             />
           </div>
         </form>

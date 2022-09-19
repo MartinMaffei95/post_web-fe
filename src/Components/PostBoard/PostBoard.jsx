@@ -9,6 +9,9 @@ import { useNavigate } from 'react-router-dom';
 // TOASTIFY
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+//SKELETON
+import Skeleton, { SkeletonTheme } from 'react-loading-skeleton';
+import 'react-loading-skeleton/dist/skeleton.css';
 
 const PostBoard = ({
   posts,
@@ -20,6 +23,23 @@ const PostBoard = ({
   let isProfile = postFromUser;
 
   const [renderPosts, setRenderPosts] = useState();
+
+  const skeletonPost = (
+    <div className={'Post postBox gridPost'} style={{ marginBlock: '1rem' }}>
+      <Skeleton
+        style={{ margin: ' .2rem .5rem' }}
+        circle={true}
+        width="4rem"
+        height="4rem"
+      />
+      <Skeleton
+        style={{ margin: ' .2rem 1rem' }}
+        width="70vw"
+        height=""
+        count={3}
+      />
+    </div>
+  );
 
   const navigate = useNavigate();
   const notify = () => toast('Wow so easy!');
@@ -43,12 +63,14 @@ const PostBoard = ({
             <Post postData={p} key={p._id} />
           ))}
         </div>
-      ) : (
+      ) : renderPosts ? (
         <div className="Posts_Container marginHeader">
           {renderPosts?.map((p) => (
             <Post postData={p} key={p._id} reloadFunction={reloadHomePage} />
           ))}
         </div>
+      ) : (
+        (skeletonPost, skeletonPost, skeletonPost, skeletonPost)
       )}
     </>
   );

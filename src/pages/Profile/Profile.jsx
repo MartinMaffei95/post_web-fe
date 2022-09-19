@@ -10,6 +10,7 @@ import { connect } from 'react-redux';
 import { getPostsWithProfile } from '../../Redux/actions/postsActions';
 
 import { Helmet } from 'react-helmet';
+import NewPostBtn from '../../Molecules/NewPostBtn/NewPostBtn';
 const Profile = ({ myPosts, fetchUserProfile }) => {
   let { userId } = useParams();
   const { profile } = useFetchProfile(userId);
@@ -21,6 +22,7 @@ const Profile = ({ myPosts, fetchUserProfile }) => {
         <title>PostWeb | {`Perfil de ${profile?.profileData?.username}`}</title>
       </Helmet>
       <Header />
+      <NewPostBtn />
       <InformationPanel profileData={profile?.profileData} />
       <PostBoard postFromUser={true} geterPostFromUser={profile?.posts} />
     </>

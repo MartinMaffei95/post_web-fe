@@ -11,6 +11,7 @@ const Input = ({
   onBlur,
   min,
   max,
+  autoFocus,
 }) => {
   return (
     <div
@@ -28,6 +29,7 @@ const Input = ({
           onBlur={onBlur}
           min={min}
           max={max}
+          autoFocus={autoFocus}
         />
       ) : (
         <input
@@ -38,6 +40,7 @@ const Input = ({
           value={value}
           onChange={onChange}
           onBlur={onBlur}
+          autoFocus={autoFocus}
         />
       )}
     </div>

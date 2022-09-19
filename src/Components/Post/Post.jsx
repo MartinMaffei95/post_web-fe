@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import {
   AiFillLike,
   AiOutlineLike,
@@ -8,7 +8,10 @@ import {
   AiOutlineMessage,
   AiOutlineRetweet,
   AiOutlineMore,
+  AiOutlineDelete,
 } from 'react-icons/ai';
+import { BiEdit } from 'react-icons/bi';
+
 import useFetchProfile from '../../Hooks/useFetchProfile';
 import axios from 'axios';
 import { connect } from 'react-redux';
@@ -16,12 +19,16 @@ import {
   getPostFromHome,
   handleWriteComment,
   getPostsWithProfile,
+  makeToast,
 } from '../../Redux/actions/postsActions';
 import ProfileImage from '../../Molecules/ProfileImage/ProfileImage';
 import { useResize } from '../../Hooks/useResize';
 
 import './style.Post.css';
 
+// SWAL
+import Swal from 'sweetalert2';
+import withReactContent from 'sweetalert2-react-content';
 const Post = ({
   postData,
   reloadFunction,
@@ -29,9 +36,11 @@ const Post = ({
   fetchUserProfile,
   onPostPage,
   onCommentPage,
+  handleToast,
 }) => {
   const { profile } = useFetchProfile(postData?.author?.userID);
   const navigate = useNavigate();
+  const location = useLocation();
   const profileName = useRef();
   const postConatiner = useRef();
 
@@ -40,9 +49,9 @@ const Post = ({
       replace: true,
     });
   };
-  const goToComment = (e) => {
-    navigate(`/compose/${e.target.getAttribute('data-user-id')}/comment`, {
-      replace: true,
+  const ToEditPost = (e) => {
+    navigate(`/compose/${renderPost?._id}/editPost`, {
+      replace: false,
     });
   };
 
@@ -72,9 +81,30 @@ const Post = ({
     }).then((res) => setRenderPost(res.data.post));
   };
 
-  const deletePost = () => {
-    console.log(`${process.env.REACT_APP_URI}post/${renderPost?._id}`);
+  //SWAL CONFIG
 
+  const deleteBtn = () => {
+    Swal.fire({
+      title: 'Deseas eliminar el post?',
+      showCancelButton: true,
+      cancelButtonText: 'Canclear',
+      confirmButtonText: 'Eliminar post',
+      background: '#fff',
+      customClass: {
+        actions: 'test',
+        cancelButton: 'btn secondary',
+        confirmButton: 'btn danger',
+      },
+      buttonsStyling: false,
+    }).then((result) => {
+      if (result.isConfirmed) {
+        deletePost();
+      }
+    });
+  };
+
+  const deletePost = () => {
+    console.log(location.pathname);
     axios(`${process.env.REACT_APP_URI}post/${renderPost?._id}`, {
       method: 'DELETE',
       headers: {
@@ -84,7 +114,12 @@ const Post = ({
     }).then((res) => {
       if (res.data.message === 'POST_DELETED') {
         fetchUserProfile(localStorage.getItem('userID'));
-        reloadFunction();
+        handleToast('success', 'Tu post fue eliminado');
+        if (location?.pathname?.includes('profile'))
+          return navigate(`/profile/${myID}`, {
+            replace: true,
+          });
+        else navigate(-1);
       }
     });
   };
@@ -135,7 +170,6 @@ const Post = ({
           {renderPost?.author?.username}
         </span>
       </div>
-
       <span className="post_timeLast">
         {onPostPage ? (
           <span>{Date(renderPost?.updatedAt)}</span>
@@ -149,39 +183,30 @@ const Post = ({
             setMoreOptActive(true);
           }}
         >
-          <AiOutlineMore />
+          <AiOutlineMore className={`rotate`} />
         </span>
         <div className={`contextMenu_Post ${moreOptActive ? 'active' : ''}`}>
           <ul>
-            <li>
-              <button className="btn secondary" onClick={deletePost}>
-                Eliminar Post
-              </button>
+            <li onClick={deleteBtn}>
+              <AiOutlineDelete />
+              Eliminar post
             </li>
-            <li>
-              <button
-                className="btn secondary"
-                onClick={() => {
-                  console.log('editar');
-                }}
-              >
-                Editar
-              </button>
+            <li onClick={ToEditPost}>
+              <BiEdit />
+              Editar
             </li>
-            <li>
-              <button
-                className="btn secondary closeBtn"
-                onClick={() => {
-                  setMoreOptActive(false);
-                }}
-              >
-                X Cancelar
-              </button>
-            </li>
+            <span
+              className="btn secondary closeBtn"
+              onClick={() => {
+                setMoreOptActive(false);
+              }}
+            >
+              X Cancelar
+            </span>
           </ul>
         </div>
       </div>
-      <p className="post_text">{renderPost?.text}</p>
+      <pre className="post_text">{renderPost?.text}</pre>
       {!onCommentPage && (
         <div className="postFooter">
           <ul className="postFooter_list">
@@ -259,6 +284,9 @@ const mapDispatchToProps = (dispatch) => ({
   },
   fetchUserProfile(profileID) {
     dispatch(getPostsWithProfile(profileID));
+  },
+  handleToast(status, msg) {
+    dispatch(makeToast(status, msg));
   },
 });
 

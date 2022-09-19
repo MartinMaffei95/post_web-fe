@@ -133,6 +133,7 @@ const MakeAComment = ({
               value={values?.biography}
               onChange={handleChange}
               onBlur={handleBlur}
+              autoFocus
             />
           </form>
         </div>
