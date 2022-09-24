@@ -32,6 +32,12 @@
   width: 2rem;
 }
 
+.post_user .edited {
+  color: var(--dominantColor);
+  font-weight: 400;
+  font-size: var(--smallTextSize);
+}
+
 .gridPost .post_timeLast {
   color: var(--dominantColor);
   font-size: 0.7rem;
@@ -186,4 +192,65 @@
   box-shadow: 0 0 5px 5px var(--shareColorSoft);
   color: var(--shareColorIcon);
   border-radius: 50%;
+}
+
+/* Scroll style */
+
+.Posts_Container {
+  scrollbar-color: var(--accentColor) var(--dominantColorSoft);
+  scrollbar-width: thin;
+}
+
+/* DESKTOP QUERY */
+
+@media (min-width: 768px) {
+  .Posts_Container {
+    width: var(--postSection);
+    grid-area: postContainer;
+    overflow-y: scroll;
+    min-height: 100%;
+    position: relative;
+  }
+  .Posts_Container.isProfile {
+    width: 100%;
+    padding-bottom: 0;
+  }
+  .moreOptions_Post {
+    position: relative;
+  }
+
+  .contextMenu_Post {
+    position: absolute;
+    z-index: 200000;
+
+    top: 0;
+    right: 0;
+    display: flex;
+    justify-content: flex-end;
+    background: none;
+    max-width: 35vw;
+  }
+  .contextMenu_Post ul {
+    min-height: fit-content;
+    min-width: 20vw;
+    top: 0;
+    right: 0;
+    position: initial;
+    box-shadow: 0 0 4px 2px var(--dominantColor);
+  }
+
+  .backgroundModal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    width: 100vw;
+    pointer-events: none;
+  }
+  .backgroundModal.active {
+    height: 100vh;
+    width: 100vw;
+    background-color: rgba(0, 0, 0, 0.282);
+    pointer-events: all;
+  }
 }

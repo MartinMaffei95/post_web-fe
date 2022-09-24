@@ -15,7 +15,9 @@ const Input = ({
 }) => {
   return (
     <div
-      className={`inputContainer ${type === 'textarea' ? 'isTextarea' : ''} `}
+      className={`inputContainer ${
+        type === 'textarea' ? 'isTextarea' : ''
+      } ${inputClassname}`}
     >
       {label && <label>{label}</label>}
       {type === 'textarea' ? (

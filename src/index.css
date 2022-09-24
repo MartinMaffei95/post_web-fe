@@ -1,12 +1,16 @@
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans:wght@100;300;600;700;900&display=swap');
 
 :root {
+  /*## SECTION VARIABLES ##*/
+  --postSection: 50vw;
+
   /*## COLOR VARIABLES ##*/
   --dominantColor: #6e6c6f;
   --dominantColorSoft: #e3e2e3;
   --complementaryColor: #1fadb7;
   --accentColor: #5481b7;
-  --accentColorDark: #126a7a;
+  --accentColorDark: #2353778f;
+  --accentColorTransp: #5481b7b4;
 
   --likeColorIcon: #ff0936;
   --likeColor: #d24444cd;
@@ -40,11 +44,10 @@
 
   /* PROFILE SIZE */
   --imageWidth: 3rem;
-
   --lineCommentsHeight: 0px;
 
   /*## FONTS VARIABLES ##*/
-  --smallTextSize: ;
+  --smallTextSize: 0.8rem;
   --normalTextSize: 1rem;
   --bigTextSize: 1.3rem;
   --biggerTextSize: 1.6rem;
@@ -54,6 +57,12 @@
   --InputFontSize: 1.3rem;
 
   --inputMarginInLine: 0.5rem;
+
+  /*## FONTS VARIABLES ##*/
+  --inputHeigt: 4rem;
+  --inputFocusHeigt: 8rem;
+
+  --transitionDuration_General: 0.5s;
 }
 
 * {
@@ -113,6 +122,10 @@ body {
 .btn.primary:hover {
   background: var(--dominantColorSoft);
   color: #000;
+}
+
+.btn.primary:focus {
+  outline: solid 3px var(--accentColorDark);
 }
 
 .btn.secondary {
@@ -312,6 +325,14 @@ body {
   border: var(--accentColorDark) 2px solid;
 }
 
+.input-error {
+  border-color: red;
+}
+
+.error-message {
+  color: red;
+}
+
 .link {
   margin-top: var(--marginBlock);
   margin-inline: auto;
@@ -333,3 +354,44 @@ body {
 .test .btn {
   width: 60vw;
 }
+
+pre {
+  white-space: pre-wrap;
+  word-break: normal;
+}
+
+/* Scroll style */
+
+/* TABLET QUERY */
+
+@media (min-width: 768px) {
+  .bigView {
+    height: 100vh;
+    width: 100vw;
+    display: grid;
+    grid-template-areas:
+      'one makePost  other'
+      'one postContainer  other'
+      'one postContainer  other';
+    grid-template-columns: 20vw var(--postSection) 1fr;
+    overflow: hidden;
+  }
+
+  .bigView.ProfilePage {
+    height: 100vh;
+    width: 100vw;
+    display: grid;
+    grid-template-areas:
+      'one profilePanel  profilePanel'
+      'one profilePanel  profilePanel'
+      'one postContainer  postContainer';
+    grid-template-columns: 20vw var(--postSection) 1fr;
+    overflow: hidden;
+  }
+
+  #root {
+    padding-top: 0;
+  }
+}
+
+/* DESKTOP QUERY */

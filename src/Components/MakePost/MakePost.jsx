@@ -96,9 +96,9 @@ const MakePost = ({
   } = formik;
 
   return (
-    <div>
+    <div className={`${!isPhone ? 'desktopView' : ''}`}>
       <ToastContainer autoClose={2000} />
-      <div className="newPost postBox">
+      <div className={`newPost postBox`}>
         <ProfileImage src={myUser?.image} />
         <form onSubmit={handleSubmit} id="composePost">
           <div className="newPostForm">
@@ -109,11 +109,16 @@ const MakePost = ({
               value={values.text}
               onChange={handleChange}
               onBlur={handleBlur}
-              autoFocus={true}
+              autoFocus={isPhone && true}
             />
           </div>
         </form>
       </div>
+      {!isPhone && (
+        <div className="makePost_footer">
+          <button className="btn primary"> Postear </button>
+        </div>
+      )}
     </div>
   );
 };

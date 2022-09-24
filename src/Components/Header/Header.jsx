@@ -13,6 +13,8 @@ import { connect } from 'react-redux';
 import { useEffect } from 'react';
 import ProfileImage from '../../Molecules/ProfileImage/ProfileImage';
 import './styles.Header.css';
+import LateralMenu from '../LateralMenu/LateralMenu';
+import Logo from '../../Molecules/Logo/Logo';
 
 const Header = ({ userData, children, section }) => {
   let navigate = useNavigate();
@@ -34,16 +36,7 @@ const Header = ({ userData, children, section }) => {
   useEffect(() => {}, [isActive]);
   return (
     <header className="header">
-      <div
-        className="logoContainer"
-        onClick={() => {
-          navigate('/', { replace: true });
-        }}
-      >
-        <span className="logoIcon">
-          <span className="logoIcon_text">POSTWEB</span>
-        </span>
-      </div>
+      <Logo />
       <div className={`backgroundMenu ${isActive ? 'active' : ''}`}></div>
 
       <div className="menuContainer">
@@ -57,49 +50,14 @@ const Header = ({ userData, children, section }) => {
           </div>
         </div>
         {/* In this menu have Count information */}
-        <ul className={`menu_list ${isActive ? 'active' : ''}`}>
-          <div className="closeMenuContainer">
-            <button
-              onClick={() => {
-                setIsActive(false);
-              }}
-              className="btn secondary closeBtn"
-            >
-              <AiOutlineClose />
-            </button>
-            <span>Informacion de la cuenta</span>
-          </div>
-          <div className="accountInfo_menu" onClick={goToProfile}>
-            <ProfileImage src={userData?.image} />
-            <span>{userData?.username}</span>
-          </div>
-          <li>
-            <AiOutlineUser />
-            <div className="link">
-              <Link to={`/profile/${localStorage.getItem('userID')}`}>
-                Mi perfil
-              </Link>
-            </div>
-          </li>
-          <li>
-            <AiOutlineStar />
-            <div className="link">
-              <Link to="/profile/settings">Guardados</Link>
-            </div>
-          </li>
-          {/* <AiFillStar/> */}
-          <li>
-            <AiOutlineSetting />
-            <div className="link">
-              <Link to="/profile/settings">Mis datos</Link>
-            </div>
-          </li>
-          <li className="menu_list_closeSession">
-            <button className="btn secondary" onClick={handleLogout}>
-              Cerrar Sesion
-            </button>
-          </li>
-        </ul>
+        <LateralMenu
+          onHeader={true}
+          isActive={isActive}
+          setIsActive={setIsActive}
+          userData={userData}
+          goToProfile={goToProfile}
+          handleLogout={handleLogout}
+        />
       </div>
     </header>
   );

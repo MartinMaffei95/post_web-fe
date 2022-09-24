@@ -3,6 +3,11 @@ import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { Link, useNavigate } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
+import Input from '../../Components/Input/Input';
+
+// SWAL
+import Swal from 'sweetalert2';
+
 const Register = () => {
   const initialValues = {
     username: '',
@@ -28,8 +33,62 @@ const Register = () => {
         if (data.message === 'USER_CREATED') {
           return navigate('/', { replace: true });
         } else {
-          // alert(data.)
-          console.log(data.errors);
+          if (data?.errors?.username) {
+            switch (data?.errors?.username?.message) {
+              case 'TAKEN_USERNAME':
+                Swal.fire({
+                  title: 'El usuario ya existe',
+                  icon: 'error',
+                  showCancelButton: true,
+                  cancelButtonText: 'Ya tengo usuario',
+                  focusConfirm: true,
+                  confirmButtonText: 'Reintentar',
+                  background: '#fff',
+                  customClass: {
+                    actions: 'test',
+                    cancelButton: 'btn secondary',
+                    confirmButton: 'btn primary',
+                  },
+                  buttonsStyling: false,
+                }).then((result) => {
+                  if (result.isDismissed) {
+                    navigate('/register', { replace: true });
+                  }
+                });
+                break;
+
+              default:
+                break;
+            }
+          }
+          if (data?.errors?.email) {
+            switch (data?.errors?.email?.message) {
+              case 'TAKEN_MAIL':
+                Swal.fire({
+                  title: 'La direccion de mail ya existe',
+                  icon: 'error',
+                  showCancelButton: true,
+                  cancelButtonText: 'Ya tengo usuario',
+                  focusConfirm: true,
+                  confirmButtonText: 'Reintentar',
+                  background: '#fff',
+                  customClass: {
+                    actions: 'test',
+                    cancelButton: 'btn secondary',
+                    confirmButton: 'btn primary',
+                  },
+                  buttonsStyling: false,
+                }).then((result) => {
+                  if (result.isDismissed) {
+                    navigate('/register', { replace: true });
+                  }
+                });
+                break;
+
+              default:
+                break;
+            }
+          }
         }
       });
   };
@@ -66,45 +125,52 @@ const Register = () => {
       <Helmet>
         <title>PostWeb | Registro</title>
       </Helmet>
-      <h3>Registro</h3>
+      <div className="initialText">
+        <h3>Creemos un usuario!</h3>
+        <span>
+          Ingresa tus datos y comencemos a <span>escribir!</span>
+        </span>
+      </div>
       <div className="formContainer">
         <form className="formContainer_form" onSubmit={handleSubmit}>
-          <div className="inputContainer">
-            <label>Nombre de usuario:</label>
-            <input
-              type="text"
-              name="username"
-              value={values.username}
-              onChange={handleChange}
-              onBlur={handleBlur}
-            />
-          </div>
+          <Input
+            label={'Nombre de usuario:'}
+            type={'text'}
+            name={'username'}
+            value={values?.username}
+            onChange={handleChange}
+            onBlur={handleBlur}
+            autoFocus
+            inputClassname={`${
+              errors.username && touched.username && 'input-error'
+            }`}
+          />
           {errors.username && touched.username && (
             <span className="error-message">{errors.username}</span>
           )}
-          <div className="inputContainer">
-            <label>Email:</label>
-            <input
-              type="text"
-              name="email"
-              value={values.email}
-              onChange={handleChange}
-              onBlur={handleBlur}
-            />
-          </div>
+          <Input
+            label={'Direccion de mail:'}
+            type={'email'}
+            name={'email'}
+            value={values?.email}
+            onChange={handleChange}
+            onBlur={handleBlur}
+            inputClassname={`${errors.email && touched.email && 'input-error'}`}
+          />
           {errors.email && touched.email && (
             <span className="error-message">{errors.email}</span>
           )}
-          <div className="inputContainer">
-            <label>Contraseña:</label>
-            <input
-              type="password"
-              name="password"
-              value={values.password}
-              onChange={handleChange}
-              onBlur={handleBlur}
-            />
-          </div>
+          <Input
+            label={'Contraseña:'}
+            type={'password'}
+            name={'password'}
+            value={values?.password}
+            onChange={handleChange}
+            onBlur={handleBlur}
+            inputClassname={`${
+              errors.password && touched.password && 'input-error'
+            }`}
+          />
           {errors.password && touched.password && (
             <span className="error-message">{errors.password}</span>
           )}

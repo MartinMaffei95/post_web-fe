@@ -1,3 +1,7 @@
+.informationPanel {
+  grid-area: profilePanel;
+}
+
 .informationPanel .userImageInformation {
   display: flex;
   justify-content: space-around;
@@ -8,6 +12,7 @@
     var(--dominantColorSoft),
     var(--dominantColor)
   );
+  grid-area: profilePanel;
 }
 
 .userImageInformation .userImage {

@@ -6,6 +6,10 @@ import { connect } from 'react-redux';
 import { getMyProfileData } from '../../Redux/actions/profilesActions';
 import { Helmet } from 'react-helmet';
 import Input from '../../Components/Input/Input';
+
+// SWAL
+import Swal from 'sweetalert2';
+
 const Login = ({ getMyData }) => {
   const initialValues = {
     username: '',
@@ -37,7 +41,54 @@ const Login = ({ getMyData }) => {
 
           return navigate('/', { replace: true });
         } else {
-          alert(data.message);
+          console.log(data.message);
+          switch (data.message) {
+            case 'IVALID_PASSWORD':
+              Swal.fire({
+                title: 'Contraseña incorrecta',
+                icon: 'error',
+                showCancelButton: true,
+                cancelButtonText: 'No tengo usuario',
+                focusConfirm: true,
+                confirmButtonText: 'Reintentar',
+                background: '#fff',
+                customClass: {
+                  actions: 'test',
+                  cancelButton: 'btn secondary',
+                  confirmButton: 'btn primary',
+                },
+                buttonsStyling: false,
+              }).then((result) => {
+                if (result.isDismissed) {
+                  navigate('/register', { replace: true });
+                }
+              });
+              break;
+            case 'IVALID_USER':
+              Swal.fire({
+                title: 'El usuario no existe',
+                icon: 'error',
+                showCancelButton: true,
+                cancelButtonText: 'No tengo usuario',
+                focusConfirm: true,
+                confirmButtonText: 'Reintentar',
+                background: '#fff',
+                customClass: {
+                  actions: 'test',
+                  cancelButton: 'btn secondary',
+                  confirmButton: 'btn primary',
+                },
+                buttonsStyling: false,
+              }).then((result) => {
+                if (result.isDismissed) {
+                  navigate('/register', { replace: true });
+                }
+              });
+              break;
+
+            default:
+              break;
+          }
         }
       });
   };
@@ -86,6 +137,10 @@ const Login = ({ getMyData }) => {
             value={values?.username}
             onChange={handleChange}
             onBlur={handleBlur}
+            autoFocus
+            inputClassname={`${
+              errors.username && touched.username && 'input-error'
+            }`}
           />
           {errors.username && touched.username && (
             <span className="error-message">{errors.username}</span>
@@ -97,6 +152,9 @@ const Login = ({ getMyData }) => {
             value={values?.password}
             onChange={handleChange}
             onBlur={handleBlur}
+            inputClassname={`${
+              errors.password && touched.password && 'input-error'
+            }`}
           />
           {errors.password && touched.password && (
             <span className="error-message">{errors.password}</span>

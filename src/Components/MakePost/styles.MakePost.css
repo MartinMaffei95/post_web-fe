@@ -10,3 +10,77 @@
   border: solid var(--dominantColorSoft) 2px;
   min-height: 12rem;
 }
+
+/* Scroll style */
+.desktopView .newPost.postBox .inputContainer input,
+.desktopView .newPost.postBox .inputContainer textarea {
+  scrollbar-color: var(--accentColor) var(--dominantColorSoft);
+  scrollbar-width: thin;
+}
+
+/* TABLET QUERY */
+
+@media (min-width: 768px) {
+  .desktopView {
+    grid-area: makePost;
+    width: var(--postSection);
+  }
+}
+
+/* DESKTOP QUERY */
+
+@media (min-width: 768px) {
+  .desktopView {
+    grid-area: makePost;
+    width: var(--postSection);
+  }
+
+  .desktopView .newPost.postBox {
+    min-width: var(--postSection);
+    display: flex;
+  }
+
+  .desktopView .newPost.postBox .newPostForm {
+    height: var(--inputHeigt);
+    overflow: hidden;
+    transition: var(--transitionDuration_General);
+  }
+
+  .desktopView .newPost.postBox .inputContainer {
+    border: solid var(--dominantColorSoft) 2px;
+    min-height: initial;
+    height: calc(var(--inputHeigt) - 1rem);
+    transition: var(--transitionDuration_General);
+    width: calc(
+      var(--postSection) - var(--imageWidth) - var(--marginInLine) * 2 -
+        var(--marginInLine)
+    );
+  }
+
+  .desktopView .newPost.postBox .inputContainer input,
+  .desktopView .newPost.postBox .inputContainer textarea {
+    padding-top: calc(var(--marginBlock) * 2.5);
+  }
+
+  .desktopView .newPost.postBox .newPostForm:focus-within {
+    height: var(--inputFocusHeigt);
+  }
+
+  .desktopView .newPost.postBox .inputContainer:focus-within {
+    height: calc(var(--inputFocusHeigt) - 1rem);
+  }
+
+  .desktopView .makePost_footer {
+    display: flex;
+    flex-direction: row-reverse;
+    margin: var(--marginBlock) var(--marginInLine);
+  }
+
+  .desktopView .makePost_footer .btn {
+    margin: 0;
+  }
+
+  .desktopView {
+    margin-bottom: var(--marginBlock);
+  }
+}

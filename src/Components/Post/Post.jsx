@@ -28,7 +28,7 @@ import './style.Post.css';
 
 // SWAL
 import Swal from 'sweetalert2';
-import withReactContent from 'sweetalert2-react-content';
+
 const Post = ({
   postData,
   reloadFunction,
@@ -43,6 +43,14 @@ const Post = ({
   const location = useLocation();
   const profileName = useRef();
   const postConatiner = useRef();
+  const moreOption = useRef();
+  const moreOption_container = useRef();
+  const moreOption_list = useRef();
+  const [clickPosition, setClickPosition] = useState({
+    top: 0,
+    left: 0,
+    orientation: 'bottom',
+  });
 
   const goToProfile = (e) => {
     navigate(`/profile/${e.target.getAttribute('data-user-id')}`, {
@@ -115,11 +123,12 @@ const Post = ({
       if (res.data.message === 'POST_DELETED') {
         fetchUserProfile(localStorage.getItem('userID'));
         handleToast('success', 'Tu post fue eliminado');
+        setMoreOptActive(false);
         if (location?.pathname?.includes('profile'))
           return navigate(`/profile/${myID}`, {
             replace: true,
           });
-        else navigate(-1);
+        else navigate(location);
       }
     });
   };
@@ -168,6 +177,9 @@ const Post = ({
           data-user-id={renderPost?.author?.userID}
         >
           {renderPost?.author?.username}
+          {postData?.createdAt !== postData?.updatedAt && (
+            <span className="edited"> · editado</span>
+          )}
         </span>
       </div>
       <span className="post_timeLast">
@@ -177,24 +189,52 @@ const Post = ({
           <span>{toMinutes(renderPost?.updatedAt)}</span>
         )}
       </span>
-      <div className={`moreOptions_Post`}>
-        <span
+      <div ref={moreOption} className={`moreOptions_Post`}>
+        <div
+          className={`backgroundModal ${moreOptActive ? 'active' : ''}`}
           onClick={() => {
+            setMoreOptActive(false);
+          }}
+        ></div>
+        <span
+          onClick={(e) => {
             setMoreOptActive(true);
           }}
         >
           <AiOutlineMore className={`rotate`} />
         </span>
-        <div className={`contextMenu_Post ${moreOptActive ? 'active' : ''}`}>
-          <ul>
-            <li onClick={deleteBtn}>
-              <AiOutlineDelete />
-              Eliminar post
-            </li>
-            <li onClick={ToEditPost}>
-              <BiEdit />
-              Editar
-            </li>
+        <div
+          ref={moreOption_container}
+          onClick={() => {
+            setMoreOptActive(false);
+          }}
+          className={`contextMenu_Post ${moreOptActive ? 'active' : ''}`}
+        >
+          <ul
+            ref={moreOption_list}
+            style={{ top: clickPosition?.top, left: clickPosition?.left }}
+          >
+            {localStorage.getItem('userID') === postData?.author?.userID ? (
+              <>
+                <li onClick={deleteBtn}>
+                  <AiOutlineDelete />
+                  Eliminar post
+                </li>
+                <li onClick={ToEditPost}>
+                  <BiEdit />
+                  Editar
+                </li>
+              </>
+            ) : (
+              <>
+                <li>No me interesa esto</li>
+                <li>
+                  Dejar de ver publicaciones de: {postData?.author?.username}
+                </li>
+                <li></li>
+              </>
+            )}
+
             <span
               className="btn secondary closeBtn"
               onClick={() => {
@@ -261,12 +301,12 @@ const Post = ({
               )}
             </li>
 
-            <li>
+            {/* <li>
               <div className="icon">
                 <AiOutlineRetweet className="shareIcon" />
               </div>
               <span>1352</span>
-            </li>
+            </li> */}
           </ul>
         </div>
       )}
