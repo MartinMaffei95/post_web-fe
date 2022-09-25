@@ -12,11 +12,11 @@ import { getInitPosts } from '../../Redux/actions/postsActions';
 import { useResize } from '../../Hooks/useResize';
 import MakePost from '../../Components/MakePost/MakePost';
 import LateralMenu from '../../Components/LateralMenu/LateralMenu';
+import FavoritesBoard from '../../Components/FavoritesBoard/FavoritesBoard';
 const Home = ({ reloadHomePage, myUser }) => {
   const { isPhone } = useResize();
   useEffect(() => {
     reloadHomePage();
-    console.log(isPhone);
   }, [isPhone]);
 
   return (
@@ -33,6 +33,7 @@ const Home = ({ reloadHomePage, myUser }) => {
       ) : (
         <div className="bigView">
           <LateralMenu userData={myUser} />
+          <FavoritesBoard />
           <MakePost />
           <PostBoard />
         </div>

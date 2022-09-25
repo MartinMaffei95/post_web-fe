@@ -3,6 +3,8 @@
 :root {
   /*## SECTION VARIABLES ##*/
   --postSection: 50vw;
+  --favoritesSection: 25vw;
+  --menuSection: 20vw;
 
   /*## COLOR VARIABLES ##*/
   --dominantColor: #6e6c6f;
@@ -19,6 +21,10 @@
   --msgColor: #5481b7;
   --msgColorSoft: #5481b78d;
   --msgColorIcon: #1e00ff;
+
+  --favoriteColor: #afad1f;
+  --favoriteColorSoft: #e4e12f;
+  --favoriteColorIcon: #e4e12f;
 
   --shareColor: #66bf56;
   --shareColorSoft: #63b754ba;
@@ -373,7 +379,9 @@ pre {
       'one makePost  other'
       'one postContainer  other'
       'one postContainer  other';
-    grid-template-columns: 20vw var(--postSection) 1fr;
+    grid-template-columns: var(--menuSection) var(--postSection) var(
+        --favoritesSection
+      );
     overflow: hidden;
   }
 
@@ -385,8 +393,15 @@ pre {
       'one profilePanel  profilePanel'
       'one profilePanel  profilePanel'
       'one postContainer  postContainer';
-    grid-template-columns: 20vw var(--postSection) 1fr;
+    grid-template-columns: var(--menuSection) var(--postSection) var(
+        --favoritesSection
+      );
     overflow: hidden;
+  }
+
+  .favoritesBoard {
+    grid-area: other;
+    /* width: 20vw; */
   }
 
   #root {

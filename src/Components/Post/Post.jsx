@@ -6,7 +6,8 @@ import {
   AiFillHeart,
   AiOutlineHeart,
   AiOutlineMessage,
-  AiOutlineRetweet,
+  AiOutlineStar,
+  AiFillStar,
   AiOutlineMore,
   AiOutlineDelete,
 } from 'react-icons/ai';
@@ -28,6 +29,7 @@ import './style.Post.css';
 
 // SWAL
 import Swal from 'sweetalert2';
+import { getMyProfileData } from '../../Redux/actions/profilesActions';
 
 const Post = ({
   postData,
@@ -37,6 +39,8 @@ const Post = ({
   onPostPage,
   onCommentPage,
   handleToast,
+  userData,
+  getMyData,
 }) => {
   const { profile } = useFetchProfile(postData?.author?.userID);
   const navigate = useNavigate();
@@ -87,6 +91,30 @@ const Post = ({
         authorization: 'Bearer ' + localStorage.getItem('token'),
       },
     }).then((res) => setRenderPost(res.data.post));
+  };
+
+  const favoritePost = () => {
+    axios(`${process.env.REACT_APP_URI}post/${renderPost?._id}/save_post`, {
+      method: 'POST',
+      headers: {
+        contentType: 'application/json',
+        authorization: 'Bearer ' + localStorage.getItem('token'),
+      },
+    }).then((res) =>
+      getMyData(localStorage.getItem('userID'), localStorage.getItem('token'))
+    );
+  };
+
+  const unFavoritePost = () => {
+    axios(`${process.env.REACT_APP_URI}post/${renderPost?._id}/unsave_post`, {
+      method: 'POST',
+      headers: {
+        contentType: 'application/json',
+        authorization: 'Bearer ' + localStorage.getItem('token'),
+      },
+    }).then((res) =>
+      getMyData(localStorage.getItem('userID'), localStorage.getItem('token'))
+    );
   };
 
   //SWAL CONFIG
@@ -165,7 +193,7 @@ const Post = ({
 
   useEffect(() => {
     setRenderPost(postData);
-  }, [postData]);
+  }, [postData, userData]);
 
   return (
     <div className="Post postBox gridPost" onClick={toPost} ref={postConatiner}>
@@ -284,7 +312,7 @@ const Post = ({
               {renderPost?.likes?.includes(myID) ? (
                 <>
                   <div
-                    className="icon reaction_active heartIcon"
+                    className="icon heart reaction_active heartIcon"
                     onClick={unlikePost}
                   >
                     <AiFillHeart />
@@ -301,12 +329,24 @@ const Post = ({
               )}
             </li>
 
-            {/* <li>
-              <div className="icon">
-                <AiOutlineRetweet className="shareIcon" />
-              </div>
-              <span>1352</span>
-            </li> */}
+            <li>
+              {userData?.favoritePosts?.includes(renderPost?._id) ? (
+                <>
+                  <div
+                    className="icon star reaction_active"
+                    onClick={unFavoritePost}
+                  >
+                    <AiFillStar className="starIcon " />
+                  </div>
+                </>
+              ) : (
+                <>
+                  <div className="icon " onClick={favoritePost}>
+                    <AiOutlineStar className="starIcon" />
+                  </div>
+                </>
+              )}
+            </li>
           </ul>
         </div>
       )}
@@ -316,6 +356,7 @@ const Post = ({
 
 const mapStateToProps = (state) => ({
   posts: state.postReducer.posts,
+  userData: state.profileReducer.myProfileInformation,
 });
 const mapDispatchToProps = (dispatch) => ({
   makingComment(postData, profile) {
@@ -327,6 +368,9 @@ const mapDispatchToProps = (dispatch) => ({
   },
   handleToast(status, msg) {
     dispatch(makeToast(status, msg));
+  },
+  getMyData(profileID, token) {
+    dispatch(getMyProfileData(profileID, token));
   },
 });
 

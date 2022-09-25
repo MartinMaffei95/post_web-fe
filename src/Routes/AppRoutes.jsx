@@ -4,13 +4,13 @@ import Login from '../pages/Login/Login';
 import Home from '../pages/Home/Home';
 import { Routes, Route, Navigate, useNavigate } from 'react-router-dom';
 import Profile from '../pages/Profile/Profile';
-import PostBoard from '../Components/PostBoard/PostBoard';
 import PostPage from '../pages/PostPage/PostPage';
 import Styles from '../pages/Styles/Styles';
 import ProfileEdit from '../pages/ProfileEdit/ProfileEdit';
 import NewPost from '../pages/Compose/NewPost/NewPost';
 import NewComment from '../pages/Compose/NewComment/NewComment';
 import EditPost from '../pages/Compose/EditPost/EditPost';
+import FavoritesPage from '../pages/FavoritesPage/FavoritesPage';
 
 const AppRoutes = () => {
   const navigate = useNavigate();
@@ -54,6 +54,14 @@ const AppRoutes = () => {
           element={
             <RequireAuth>
               <EditPost />
+            </RequireAuth>
+          }
+        />
+        <Route
+          path="favorites"
+          element={
+            <RequireAuth>
+              <FavoritesPage />
             </RequireAuth>
           }
         />

@@ -1,0 +1,8 @@
+.composeFavorites .post_text {
+}
+
+.composeFavorites pre {
+  white-space: pre-wrap;
+  word-break: break-all;
+  width: var(--favoritesSection);
+}

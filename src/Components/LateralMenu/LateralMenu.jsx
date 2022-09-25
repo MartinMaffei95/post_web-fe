@@ -53,7 +53,7 @@ const LateralMenu = ({
         <li>
           <AiOutlineStar />
           <div className="link">
-            <Link to="/profile/settings">Guardados</Link>
+            <Link to="/compose/favorites">Favoritos</Link>
           </div>
         </li>
         {/* <AiFillStar/> */}
