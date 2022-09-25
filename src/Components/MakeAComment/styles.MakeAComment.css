@@ -29,3 +29,7 @@
   border: solid var(--dominantColorSoft) 2px;
   min-height: 12rem;
 }
+
+.modalStyle .inputContainer {
+  width: calc(var(--postSection) - var(--imageWidth) - var(--imageWidth));
+}

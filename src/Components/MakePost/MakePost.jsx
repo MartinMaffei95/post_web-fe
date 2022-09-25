@@ -16,6 +16,7 @@ import { toast } from 'react-toastify';
 import { ToastContainer } from 'react-toastify';
 
 const MakePost = ({
+  isModal,
   // THIS IS FOR EDIT A POST
   postValue,
   editPost,
@@ -36,6 +37,8 @@ const MakePost = ({
   const { isPhone } = useResize();
 
   const onSubmit = () => {
+    console.log('asd');
+
     if (editPost) {
       axios(`${process.env.REACT_APP_URI}post/${postId}`, {
         method: 'PUT',
@@ -112,13 +115,17 @@ const MakePost = ({
               autoFocus={isPhone && true}
             />
           </div>
+          {!isPhone || isModal ? (
+            <div className="ComposePost_footer">
+              <button className="btn primary" type="submit">
+                Postear
+              </button>
+            </div>
+          ) : (
+            <></>
+          )}
         </form>
       </div>
-      {!isPhone && (
-        <div className="makePost_footer">
-          <button className="btn primary"> Postear </button>
-        </div>
-      )}
     </div>
   );
 };

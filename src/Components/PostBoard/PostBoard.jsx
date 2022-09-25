@@ -57,7 +57,7 @@ const PostBoard = ({
     <>
       <ToastContainer />
       {isProfile ? (
-        <div className="Posts_Container isProfile">
+        <div className="Posts_Container isPro">
           {renderPosts?.map((p) => (
             <Post postData={p} key={p._id} />
           ))}

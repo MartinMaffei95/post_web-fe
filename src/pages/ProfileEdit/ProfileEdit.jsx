@@ -12,6 +12,7 @@ import { Helmet } from 'react-helmet';
 import ComposeHeader from '../../Components/ComposeHeader/ComposeHeader';
 import './styles.ProfileEdit.css';
 import { getMyProfileData } from '../../Redux/actions/profilesActions';
+import { makeToast } from '../../Redux/actions/postsActions';
 import useNumberToDate from '../../Hooks/useNumberToDate';
 import {
   AiOutlineReload,
@@ -20,7 +21,12 @@ import {
   AiOutlineCheck,
 } from 'react-icons/ai';
 
-const ProfileEdit = ({ profile, fetchUserProfile }) => {
+// TOASTIFY
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import Swal from 'sweetalert2';
+
+const ProfileEdit = ({ profile, fetchUserProfile, handleToast }) => {
   const [profileInformation, setProfileInformation] = useState(profile);
   const [isActive, setIsActive] = useState(false);
   const [avatars, setAvatars] = useState();
@@ -77,15 +83,37 @@ const ProfileEdit = ({ profile, fetchUserProfile }) => {
     )
       .then((res) => res.json())
       .then((data) => {
-        console.log(data?.profile);
+        console.log(data);
+        switch (data.message) {
+          case 'PROFILE_MODIFIED':
+            handleToast('success', 'Tu perfil fue editado!');
+            navigate(`/profile/${localStorage.getItem('userID')}`, {
+              replace: true,
+            });
+            fetchUserProfile(
+              localStorage.getItem('userID'),
+              localStorage.getItem('token')
+            );
+            break;
+          case 'INVALID_NAME':
+            Swal.fire({
+              title: 'No se pudo actualizar',
+              text: 'El nombre no es valido :(',
+              icon: 'error',
+              focusConfirm: true,
+              confirmButtonText: 'Reintentar',
+              background: '#fff',
+              customClass: {
+                actions: 'test',
+                confirmButton: 'btn danger',
+              },
+              buttonsStyling: false,
+            });
+            break;
 
-        navigate(`/profile/${localStorage.getItem('userID')}`, {
-          replace: true,
-        });
-        fetchUserProfile(
-          localStorage.getItem('userID'),
-          localStorage.getItem('token')
-        );
+          default:
+            break;
+        }
       });
   };
   const errorMessages = {
@@ -96,7 +124,7 @@ const ProfileEdit = ({ profile, fetchUserProfile }) => {
     username: Yup.string()
       .min(4, 'La cantidad minima de caracteres es 4')
       .required(errorMessages.required),
-    birthdate: Yup.string().required(errorMessages.required),
+    image: Yup.string().required(errorMessages.required),
   });
 
   const formik = useFormik({ initialValues, onSubmit, validationSchema });
@@ -109,12 +137,12 @@ const ProfileEdit = ({ profile, fetchUserProfile }) => {
   // console.log(values?.birthdate.replace(/-/g, ' '));
   // console.log(values?.birthdate);
   const openTab = () => {
-    console.log('asd');
     reloadAvatar();
     setIsActive(true);
   };
   useEffect(() => {
     setProfileInformation(profile);
+    console.log(imageSRC);
   }, [profile]);
 
   return (
@@ -256,6 +284,9 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
   fetchUserProfile(profileID, token) {
     dispatch(getMyProfileData(profileID, token));
+  },
+  handleToast(status, msg) {
+    dispatch(makeToast(status, msg));
   },
 });
 

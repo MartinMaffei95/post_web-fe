@@ -12,6 +12,11 @@ import { Helmet } from 'react-helmet';
 import NewPostBtn from '../../Molecules/NewPostBtn/NewPostBtn';
 import { useResize } from '../../Hooks/useResize';
 import LateralMenu from '../../Components/LateralMenu/LateralMenu';
+
+// TOASTIFY
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 const Profile = ({ myPosts, fetchUserProfile, myUser }) => {
   let { userId } = useParams();
   const { profile } = useFetchProfile(userId);
@@ -19,6 +24,7 @@ const Profile = ({ myPosts, fetchUserProfile, myUser }) => {
   useEffect(() => {}, [myPosts]);
   return (
     <>
+      <ToastContainer />
       <Helmet>
         <title>PostWeb | {`Perfil de ${profile?.profileData?.username}`}</title>
       </Helmet>
@@ -33,8 +39,10 @@ const Profile = ({ myPosts, fetchUserProfile, myUser }) => {
       ) : (
         <div className="bigView ProfilePage">
           <LateralMenu userData={myUser} />
-          <InformationPanel profileData={profile?.profileData} />
-          <PostBoard postFromUser={true} geterPostFromUser={profile?.posts} />
+          <div className="ProfileContainer">
+            <InformationPanel profileData={profile?.profileData} />
+            <PostBoard postFromUser={true} geterPostFromUser={profile?.posts} />
+          </div>
         </div>
       )}
     </>

@@ -1,5 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
+import { FaUserAstronaut } from 'react-icons/fa';
 
 const Logo = () => {
   const navigate = useNavigate();
@@ -11,7 +12,7 @@ const Logo = () => {
       }}
     >
       <span className="logoIcon">
-        <span className="logoIcon_text">POSTWEB</span>
+        <FaUserAstronaut />
       </span>
     </div>
   );

@@ -42,6 +42,11 @@ const FavoritesBoard = ({ userData, isFavPage }) => {
           userData?.favoritePosts?.map((postID) => (
             <ComposePost key={postID} postID={postID} isFavPage={isFavPage} />
           ))}
+        {!isFavPage &&
+          userData?.favoritePosts &&
+          userData?.favoritePosts?.map((postID) => (
+            <ComposePost key={postID} postID={postID} />
+          ))}
       </div>
     </div>
   );

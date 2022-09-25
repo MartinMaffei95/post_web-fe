@@ -15,13 +15,7 @@ import { BiEdit } from 'react-icons/bi';
 
 import useFetchProfile from '../../Hooks/useFetchProfile';
 import axios from 'axios';
-import { connect } from 'react-redux';
-import {
-  getPostFromHome,
-  handleWriteComment,
-  getPostsWithProfile,
-  makeToast,
-} from '../../Redux/actions/postsActions';
+
 import ProfileImage from '../../Molecules/ProfileImage/ProfileImage';
 import { useResize } from '../../Hooks/useResize';
 
@@ -29,7 +23,16 @@ import './style.Post.css';
 
 // SWAL
 import Swal from 'sweetalert2';
+// REDUX
+import { connect } from 'react-redux';
+import {
+  getPostFromHome,
+  handleWriteComment,
+  getPostsWithProfile,
+  makeToast,
+} from '../../Redux/actions/postsActions';
 import { getMyProfileData } from '../../Redux/actions/profilesActions';
+import PostFooter from '../../Molecules/PostFooter/PostFooter';
 
 const Post = ({
   postData,
@@ -72,51 +75,6 @@ const Post = ({
   const [moreOptActive, setMoreOptActive] = useState(false);
   const myID = localStorage.getItem('userID');
 
-  // Functions
-  const likePost = () => {
-    axios(`${process.env.REACT_APP_URI}post/${renderPost?._id}/like_post`, {
-      method: 'POST',
-      headers: {
-        contentType: 'application/json',
-        authorization: 'Bearer ' + localStorage.getItem('token'),
-      },
-    }).then((res) => setRenderPost(res.data.post));
-  };
-
-  const unlikePost = () => {
-    axios(`${process.env.REACT_APP_URI}post/${renderPost?._id}/unlike_post`, {
-      method: 'POST',
-      headers: {
-        contentType: 'application/json',
-        authorization: 'Bearer ' + localStorage.getItem('token'),
-      },
-    }).then((res) => setRenderPost(res.data.post));
-  };
-
-  const favoritePost = () => {
-    axios(`${process.env.REACT_APP_URI}post/${renderPost?._id}/save_post`, {
-      method: 'POST',
-      headers: {
-        contentType: 'application/json',
-        authorization: 'Bearer ' + localStorage.getItem('token'),
-      },
-    }).then((res) =>
-      getMyData(localStorage.getItem('userID'), localStorage.getItem('token'))
-    );
-  };
-
-  const unFavoritePost = () => {
-    axios(`${process.env.REACT_APP_URI}post/${renderPost?._id}/unsave_post`, {
-      method: 'POST',
-      headers: {
-        contentType: 'application/json',
-        authorization: 'Bearer ' + localStorage.getItem('token'),
-      },
-    }).then((res) =>
-      getMyData(localStorage.getItem('userID'), localStorage.getItem('token'))
-    );
-  };
-
   //SWAL CONFIG
 
   const deleteBtn = () => {
@@ -127,7 +85,7 @@ const Post = ({
       confirmButtonText: 'Eliminar post',
       background: '#fff',
       customClass: {
-        actions: 'test',
+        actions: 'sweetAlertModal',
         cancelButton: 'btn secondary',
         confirmButton: 'btn danger',
       },
@@ -275,81 +233,17 @@ const Post = ({
         </div>
       </div>
       <pre className="post_text">{renderPost?.text}</pre>
-      {!onCommentPage && (
-        <div className="postFooter">
-          <ul className="postFooter_list">
-            <li>
-              {/* if is phone  */}
-              {isPhone ? (
-                <div
-                  className="icon"
-                  onClick={() => {
-                    navigate(`/compose/${renderPost?._id}/comment`, {
-                      replace: false,
-                    });
-                    // makingComment(postData, profile?.profileData);
-                  }}
-                >
-                  <AiOutlineMessage className="messageIcon" />
-                </div>
-              ) : (
-                <div
-                  className="icon"
-                  onClick={() => {
-                    // makingComment(postData, profile?.profileData);
-                    console.log('abrir modal');
-                  }}
-                >
-                  <AiOutlineMessage className="messageIcon" />
-                </div>
-              )}
-
-              <span>
-                {renderPost?.repliesLength ? renderPost?.repliesLength : 0}
-              </span>
-            </li>
-            <li>
-              {renderPost?.likes?.includes(myID) ? (
-                <>
-                  <div
-                    className="icon heart reaction_active heartIcon"
-                    onClick={unlikePost}
-                  >
-                    <AiFillHeart />
-                  </div>
-                  <span>{renderPost?.likes?.length}</span>
-                </>
-              ) : (
-                <>
-                  <div className="icon heartIcon" onClick={likePost}>
-                    <AiOutlineHeart />
-                  </div>
-                  <span>{renderPost?.likes?.length}</span>
-                </>
-              )}
-            </li>
-
-            <li>
-              {userData?.favoritePosts?.includes(renderPost?._id) ? (
-                <>
-                  <div
-                    className="icon star reaction_active"
-                    onClick={unFavoritePost}
-                  >
-                    <AiFillStar className="starIcon " />
-                  </div>
-                </>
-              ) : (
-                <>
-                  <div className="icon " onClick={favoritePost}>
-                    <AiOutlineStar className="starIcon" />
-                  </div>
-                </>
-              )}
-            </li>
-          </ul>
-        </div>
-      )}
+      <PostFooter
+        postID={renderPost?._id}
+        onCommentPage={onCommentPage}
+        isPhone={isPhone}
+        likes={renderPost?.likes?.length}
+        iLiked={renderPost?.likes?.includes(myID)}
+        comments={renderPost?.repliesLength}
+        isOnFavorites={userData?.favoritePosts?.includes(renderPost?._id)}
+        renderPost={renderPost}
+        setRenderPost={setRenderPost}
+      />
     </div>
   );
 };

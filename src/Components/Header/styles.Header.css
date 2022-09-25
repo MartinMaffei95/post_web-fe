@@ -18,13 +18,18 @@
 }
 
 .logoContainer .logoIcon svg {
-  color: #000000d4;
-  width: var(--headerHeight);
-  height: var(--headerHeight);
+  color: var(--accentColorTransp);
+  width: calc(var(--headerHeight) * 0.8);
+  height: calc(var(--headerHeight) * 0.8);
 }
 .logoContainer:hover .logoIcon svg,
 .logoContainer:hover .logoIcon_text {
-  color: #000000;
+  color: var(--accentColor);
+}
+
+.logoContainer:active .logoIcon svg,
+.logoContainer:active .logoIcon_text {
+  color: var(--accentColorDark);
 }
 
 .logoContainer .logoIcon_text {

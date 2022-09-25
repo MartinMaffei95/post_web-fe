@@ -256,7 +256,7 @@ pre {
     top: 0;
     right: 0;
     position: initial;
-    box-shadow: 0 0 4px 2px var(--dominantColor);
+    box-shadow: var(--boxShadowProp);
   }
 
   .backgroundModal {

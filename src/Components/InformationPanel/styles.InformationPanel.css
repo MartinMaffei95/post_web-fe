@@ -12,7 +12,6 @@
     var(--dominantColorSoft),
     var(--dominantColor)
   );
-  grid-area: profilePanel;
 }
 
 .userImageInformation .userImage {

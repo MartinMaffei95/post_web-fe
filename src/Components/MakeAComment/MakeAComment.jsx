@@ -23,6 +23,7 @@ const MakeAComment = ({
   postInfo,
   profile,
   handleToast,
+  isModal,
 }) => {
   const [renderpost, setRenderPost] = useState({ postInfo, profile });
   const [isActive, setIsActive] = useState(writtingComment);
@@ -135,6 +136,13 @@ const MakeAComment = ({
               onBlur={handleBlur}
               autoFocus
             />
+            {isModal && (
+              <div className="ComposePost_footer">
+                <button className="btn primary" type="submit">
+                  Comentar
+                </button>
+              </div>
+            )}
           </form>
         </div>
       </div>

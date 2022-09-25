@@ -11,7 +11,7 @@
   --dominantColorSoft: #e3e2e3;
   --complementaryColor: #1fadb7;
   --accentColor: #5481b7;
-  --accentColorDark: #2353778f;
+  --accentColorDark: #235377;
   --accentColorTransp: #5481b7b4;
 
   --likeColorIcon: #ff0936;
@@ -43,6 +43,7 @@
   /* -- ##  POST BOX SIZES ##*/
   --boxPostMinHeight: 6rem;
   /* --boxPostMinHeight: 6rem; */
+  --boxShadowProp: 0 0 4px 2px var(--dominantColor);
 
   /* -- ##  BORDER RADIUS  ##*/
   --borderRadiusCircle: 50%;
@@ -352,18 +353,48 @@ body {
   text-align: center;
 }
 
-.test {
+.sweetAlertModal {
   display: flex;
   flex-direction: column;
+  width: 90%;
 }
 
-.test .btn {
-  width: 60vw;
+.sweetAlertModal .btn {
+  width: 100%;
 }
 
 pre {
   white-space: pre-wrap;
   word-break: normal;
+}
+
+.modalStyle_Container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.modalStyle {
+  background-color: #fff;
+  /* height: 60vh; */
+  box-shadow: var(--boxShadowProp);
+  border-radius: var(--borderRadiusCard);
+
+  /* width: 40vw; */
+}
+
+.modalStyle .inputContainer {
+  width: inherit;
+}
+
+.ComposePost_footer {
+  display: flex;
+  flex-direction: row-reverse;
+  margin-block: var(--marginBlock);
+}
+
+.ComposePost_footer .btn {
+  margin: 0;
 }
 
 /* Scroll style */
@@ -392,11 +423,18 @@ pre {
     grid-template-areas:
       'one profilePanel  profilePanel'
       'one profilePanel  profilePanel'
-      'one postContainer  postContainer';
-    grid-template-columns: var(--menuSection) var(--postSection) var(
-        --favoritesSection
-      );
+      'one profilePanel  profilePanel';
+    grid-template-columns: var(--menuSection) var(--postSection);
     overflow: hidden;
+  }
+  .ProfileContainer {
+    grid-area: profilePanel;
+    overflow-y: auto;
+  }
+
+  .ProfileContainer .Posts_Container {
+    overflow: hidden;
+    width: initial;
   }
 
   .favoritesBoard {
