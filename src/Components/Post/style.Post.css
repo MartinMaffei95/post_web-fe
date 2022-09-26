@@ -111,12 +111,17 @@ pre {
   min-width: 60vw; */
 }
 
-.contextMenu_Post ul li {
+.MenuItem {
   display: flex;
   gap: 0.5rem;
   align-items: center;
   padding-inline: 1rem;
   margin-block: 0.5rem;
+  font-size: var(--normalTextSize);
+}
+
+.MenuItem svg {
+  font-size: var(--bigTextSize);
 }
 
 .contextMenu_Post ul li:hover {

@@ -1,16 +1,10 @@
 import { useEffect, useRef, useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import {
-  AiFillLike,
-  AiOutlineLike,
-  AiFillHeart,
-  AiOutlineHeart,
-  AiOutlineMessage,
-  AiOutlineStar,
-  AiFillStar,
-  AiOutlineMore,
-  AiOutlineDelete,
-} from 'react-icons/ai';
+import { AiOutlineMore, AiOutlineDelete } from 'react-icons/ai';
+
+import { TiCancel } from 'react-icons/ti';
+import { FiUserX } from 'react-icons/fi';
+
 import { BiEdit } from 'react-icons/bi';
 
 import useFetchProfile from '../../Hooks/useFetchProfile';
@@ -20,6 +14,13 @@ import ProfileImage from '../../Molecules/ProfileImage/ProfileImage';
 import { useResize } from '../../Hooks/useResize';
 
 import './style.Post.css';
+
+// MUI COMPONENT
+import { Drawer } from '@mui/material';
+import Menu from '@mui/material/Menu';
+import MenuItem from '@mui/material/MenuItem';
+
+import useLogOut from '../../Hooks/useLogOut';
 
 // SWAL
 import Swal from 'sweetalert2';
@@ -74,6 +75,15 @@ const Post = ({
   const [renderPost, setRenderPost] = useState(postData);
   const [moreOptActive, setMoreOptActive] = useState(false);
   const myID = localStorage.getItem('userID');
+
+  const [anchorEl, setAnchorEl] = useState(null);
+  const open = anchorEl;
+  const handleClick = (e) => {
+    setAnchorEl(e.currentTarget);
+  };
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
 
   //SWAL CONFIG
 
@@ -175,62 +185,80 @@ const Post = ({
           <span>{toMinutes(renderPost?.updatedAt)}</span>
         )}
       </span>
-      <div ref={moreOption} className={`moreOptions_Post`}>
-        <div
-          className={`backgroundModal ${moreOptActive ? 'active' : ''}`}
-          onClick={() => {
-            setMoreOptActive(false);
-          }}
-        ></div>
-        <span
-          onClick={(e) => {
-            setMoreOptActive(true);
+      {!isPhone ? (
+        <Menu
+          id="basic-menu"
+          open={open}
+          anchorEl={anchorEl}
+          onClose={handleClose}
+          MenuListProps={{
+            'aria-labelledby': 'basic-button',
           }}
         >
+          {localStorage.getItem('userID') === postData?.author?.userID ? (
+            <>
+              <MenuItem className="MenuItem" onClick={ToEditPost}>
+                <BiEdit />
+                Editar
+              </MenuItem>
+
+              <MenuItem className="MenuItem" onClick={deleteBtn}>
+                <AiOutlineDelete />
+                Eliminar post
+              </MenuItem>
+            </>
+          ) : (
+            <>
+              <MenuItem className="MenuItem" onClick={ToEditPost}>
+                <TiCancel /> No me interesa esto
+              </MenuItem>
+
+              <MenuItem className="MenuItem" onClick={deleteBtn}>
+                <FiUserX /> Dejar de ver publicaciones de:
+                {postData?.author?.username}
+              </MenuItem>
+            </>
+          )}
+        </Menu>
+      ) : (
+        <Drawer open={open} onClose={handleClose} anchor="bottom">
+          {localStorage.getItem('userID') === postData?.author?.userID ? (
+            <>
+              <MenuItem className="MenuItem" onClick={ToEditPost}>
+                <BiEdit />
+                Editar
+              </MenuItem>
+
+              <MenuItem onClick={deleteBtn}>
+                <AiOutlineDelete />
+                Eliminar post
+              </MenuItem>
+              <div className="btn secondary closeBtn" onClick={handleClose}>
+                X Cancelar
+              </div>
+            </>
+          ) : (
+            <>
+              <MenuItem className="MenuItem" onClick={ToEditPost}>
+                <TiCancel /> No me interesa esto
+              </MenuItem>
+
+              <MenuItem onClick={deleteBtn}>
+                <FiUserX /> Dejar de ver publicaciones de:{' '}
+                {postData?.author?.username}
+              </MenuItem>
+              <div className="btn secondary closeBtn" onClick={handleClose}>
+                X Cancelar
+              </div>
+            </>
+          )}
+        </Drawer>
+      )}
+
+      <div className={`moreOptions_Post`}>
+        <span onClick={handleClick}>
           <AiOutlineMore className={`rotate`} />
         </span>
-        <div
-          ref={moreOption_container}
-          onClick={() => {
-            setMoreOptActive(false);
-          }}
-          className={`contextMenu_Post ${moreOptActive ? 'active' : ''}`}
-        >
-          <ul
-            ref={moreOption_list}
-            style={{ top: clickPosition?.top, left: clickPosition?.left }}
-          >
-            {localStorage.getItem('userID') === postData?.author?.userID ? (
-              <>
-                <li onClick={deleteBtn}>
-                  <AiOutlineDelete />
-                  Eliminar post
-                </li>
-                <li onClick={ToEditPost}>
-                  <BiEdit />
-                  Editar
-                </li>
-              </>
-            ) : (
-              <>
-                <li>No me interesa esto</li>
-                <li>
-                  Dejar de ver publicaciones de: {postData?.author?.username}
-                </li>
-                <li></li>
-              </>
-            )}
-
-            <span
-              className="btn secondary closeBtn"
-              onClick={() => {
-                setMoreOptActive(false);
-              }}
-            >
-              X Cancelar
-            </span>
-          </ul>
-        </div>
       </div>
       <pre className="post_text">{renderPost?.text}</pre>
       <PostFooter

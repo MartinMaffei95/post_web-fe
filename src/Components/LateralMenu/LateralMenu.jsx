@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import {
   AiOutlineArrowLeft,
@@ -14,15 +14,32 @@ import ProfileImage from '../../Molecules/ProfileImage/ProfileImage';
 import './styles.LateralMenu.css';
 import Logo from '../../Molecules/Logo/Logo';
 import ListItem from '../../Molecules/ListItem/ListItem';
+
+// MUI COMPONENT
+import Button from '@mui/material/Button';
+import Menu from '@mui/material/Menu';
+import MenuItem from '@mui/material/MenuItem';
+import useLogOut from '../../Hooks/useLogOut';
+
 const LateralMenu = ({
   onHeader = false,
   isActive,
   setIsActive,
   userData,
   goToProfile,
-  handleLogout,
 }) => {
   const navigate = useNavigate();
+  const { handleLogout } = useLogOut();
+  const [openMenu, setOpenMenu] = useState(false);
+
+  const [anchorEl, setAnchorEl] = useState(null);
+  const open = anchorEl;
+  const handleClick = (e) => {
+    setAnchorEl(e.currentTarget);
+  };
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
 
   if (onHeader) {
     return (
@@ -99,9 +116,20 @@ const LateralMenu = ({
         <ListItem
           icon={<AiOutlineMore />}
           text="Mas opciones"
-          link={true}
-          to={'/profile/settings'}
+          extraAction={handleClick}
         />
+
+        <Menu
+          id="basic-menu"
+          open={open}
+          anchorEl={anchorEl}
+          onClose={handleClose}
+          MenuListProps={{
+            'aria-labelledby': 'basic-button',
+          }}
+        >
+          <MenuItem onClick={handleLogout}>Cerrar Sesion</MenuItem>
+        </Menu>
         <div
           className="accountInfo_menu"
           onClick={() => {

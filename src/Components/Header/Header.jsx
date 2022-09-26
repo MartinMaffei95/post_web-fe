@@ -15,15 +15,17 @@ import ProfileImage from '../../Molecules/ProfileImage/ProfileImage';
 import './styles.Header.css';
 import LateralMenu from '../LateralMenu/LateralMenu';
 import Logo from '../../Molecules/Logo/Logo';
+import useLogOut from '../../Hooks/useLogOut';
 
 const Header = ({ userData, children, section }) => {
   let navigate = useNavigate();
   const [isActive, setIsActive] = useState(false);
-  const handleLogout = () => {
-    localStorage.removeItem('token');
-    localStorage.removeItem('username');
-    navigate('/login', { replace: true });
-  };
+  // const handleLogout = () => {
+  //   localStorage.removeItem('token');
+  //   localStorage.removeItem('username');
+  //   navigate('/login', { replace: true });
+  // };
+  const { handleLogout } = useLogOut();
   const goToProfile = (e) => {
     navigate(`/profile/${localStorage.getItem('userID')}`, {
       replace: true,
@@ -56,7 +58,6 @@ const Header = ({ userData, children, section }) => {
           setIsActive={setIsActive}
           userData={userData}
           goToProfile={goToProfile}
-          handleLogout={handleLogout}
         />
       </div>
     </header>

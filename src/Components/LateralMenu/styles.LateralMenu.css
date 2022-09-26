@@ -129,7 +129,6 @@
 }
 
 .menu_list li .link a {
-  /* margin-left: 0.5rem; */
   color: #000;
 }
 
@@ -160,5 +159,15 @@
   .menu_list .accountInfo_menu {
     margin-top: auto;
     margin-bottom: var(--marginInLine);
+  }
+  .menu_list li {
+    font-size: 1rem;
+  }
+  .menu_list li svg {
+    font-size: 1.5rem;
+  }
+
+  .menu_list li a {
+    font-size: 1rem;
   }
 }

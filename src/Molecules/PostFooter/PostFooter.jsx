@@ -87,7 +87,7 @@ const PostFooter = ({
   };
 
   return (
-    <div>
+    <>
       {!onCommentPage && (
         <div className="postFooter">
           <ul className="postFooter_list">
@@ -160,7 +160,7 @@ const PostFooter = ({
           </ul>
         </div>
       )}
-    </div>
+    </>
   );
 };
 

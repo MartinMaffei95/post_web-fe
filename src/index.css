@@ -442,8 +442,34 @@ pre {
     /* width: 20vw; */
   }
 
+  .bigView.PostPage {
+    height: 100vh;
+    width: 100vw;
+    display: grid;
+    grid-template-areas:
+      'one   PostView other'
+      'one   PostView other'
+      'one   PostView other';
+    grid-template-columns: var(--menuSection) var(--postSection);
+    overflow: hidden;
+  }
+
+  .bigView.PostPage .PostView {
+    grid-area: PostView;
+    height: 100vh;
+  }
+
+  .bigView.PostPage .Posts_Container {
+    min-height: auto;
+  }
+
   #root {
     padding-top: 0;
+  }
+
+  .loginPage {
+    margin-top: 0;
+    padding-bottom: var(--headerHeight);
   }
 }
 
