@@ -3,7 +3,7 @@
 :root {
   /*## SECTION VARIABLES ##*/
   --postSection: 50vw;
-  --favoritesSection: 25vw;
+  --favoriteSection: 30vw;
   --menuSection: 20vw;
 
   /*## COLOR VARIABLES ##*/
@@ -379,6 +379,8 @@ pre {
   box-shadow: var(--boxShadowProp);
   border-radius: var(--borderRadiusCard);
   min-height: 60vh;
+  max-height: 80vh;
+  overflow: scroll;
 }
 
 .ComposePost_footer {
@@ -405,9 +407,23 @@ pre {
       'one postContainer  other'
       'one postContainer  other';
     grid-template-columns: var(--menuSection) var(--postSection) var(
-        --favoritesSection
+        --favoriteSection
       );
     overflow: hidden;
+  }
+
+  .bigView .favoritesBoard {
+    grid-area: other;
+    overflow-y: scroll;
+    width: calc(var(--favoriteSection) -1rem);
+  }
+
+  .favoritesBoard .Posts_Container {
+    width: 100%;
+  }
+  .favoritesBoard .Posts_Container .post_text {
+    width: 100%;
+    word-break: normal;
   }
 
   .bigView.ProfilePage {
@@ -431,11 +447,6 @@ pre {
     width: initial;
   }
 
-  .favoritesBoard {
-    grid-area: other;
-    /* width: 20vw; */
-  }
-
   .bigView.PostPage {
     height: 100vh;
     width: 100vw;
@@ -451,6 +462,7 @@ pre {
   .bigView.PostPage .PostView {
     grid-area: PostView;
     height: 100vh;
+    overflow: scroll;
   }
 
   .bigView.PostPage .Posts_Container {

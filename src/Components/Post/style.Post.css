@@ -55,7 +55,7 @@
 
 pre {
   white-space: pre-wrap;
-  word-break: break-all;
+  word-break: normal;
 }
 
 .postBox .postFooter {
@@ -139,9 +139,9 @@ pre {
   padding: var(--marginBlock) var(--marginInLine);
   padding-top: var(--marginInLine);
 }
-/* .Posts_Container .Post:hover {
-  background-color: rgb(212, 210, 210);
-} */
+.Posts_Container {
+  overflow-y: scroll;
+}
 
 /* FOOTER */
 .postFooter_list {
@@ -232,9 +232,9 @@ pre {
   .Posts_Container {
     width: var(--postSection);
     grid-area: postContainer;
-    overflow-y: scroll;
     min-height: 100%;
     position: relative;
+    overflow-y: scroll;
   }
   .Posts_Container.isProfile {
     width: 100%;
@@ -242,40 +242,5 @@ pre {
   }
   .moreOptions_Post {
     position: relative;
-  }
-
-  .contextMenu_Post {
-    position: absolute;
-    z-index: 200000;
-
-    top: 0;
-    right: 0;
-    display: flex;
-    justify-content: flex-end;
-    background: none;
-    max-width: 35vw;
-  }
-  .contextMenu_Post ul {
-    min-height: fit-content;
-    min-width: 20vw;
-    top: 0;
-    right: 0;
-    position: initial;
-    box-shadow: var(--boxShadowProp);
-  }
-
-  .backgroundModal {
-    position: fixed;
-    top: 0;
-    left: 0;
-    height: 100vh;
-    width: 100vw;
-    pointer-events: none;
-  }
-  .backgroundModal.active {
-    height: 100vh;
-    width: 100vw;
-    background-color: rgba(0, 0, 0, 0.282);
-    pointer-events: all;
   }
 }
