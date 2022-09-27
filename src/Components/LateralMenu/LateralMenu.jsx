@@ -104,7 +104,7 @@ const LateralMenu = ({
           icon={<AiOutlineStar />}
           text="Guardados"
           link={true}
-          to={'/profile/settings'}
+          to={'/compose/favorites'}
         />
         <ListItem
           icon={<AiOutlineSetting />}

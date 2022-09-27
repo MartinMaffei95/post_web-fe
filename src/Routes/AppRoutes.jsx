@@ -63,7 +63,7 @@ const AppRoutes = () => {
             path="favorites"
             element={
               <RequireAuth>
-                <FavoritesPage />
+                <FavoritesPage singlePage />
               </RequireAuth>
             }
           />

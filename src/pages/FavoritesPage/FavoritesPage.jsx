@@ -5,9 +5,14 @@ import NewPostBtn from '../../Molecules/NewPostBtn/NewPostBtn';
 import { Helmet } from 'react-helmet';
 import { useResize } from '../../Hooks/useResize';
 import LateralMenu from '../../Components/LateralMenu/LateralMenu';
+import { useSelector } from 'react-redux';
 
-const FavoritesPage = () => {
+const FavoritesPage = ({ singlePage }) => {
   const { isPhone } = useResize();
+  const myUser = useSelector(
+    (state) => state.profileReducer.myProfileInformation
+  );
+
   return (
     <>
       <Helmet>
@@ -19,9 +24,14 @@ const FavoritesPage = () => {
           <FavoritesBoard isFavPage />
           <NewPostBtn /> {/* ## position:FIXED */}
         </>
+      ) : singlePage ? (
+        <div className="bigView favoritePage">
+          <LateralMenu userData={myUser} />
+          <FavoritesBoard isFavPage />
+        </div>
       ) : (
-        <div className="bigView">
-          <LateralMenu />
+        <div className="bigView favoritePage">
+          <LateralMenu userData={myUser} />
           <FavoritesBoard />
         </div>
       )}

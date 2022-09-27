@@ -11,24 +11,28 @@ const ComposePost = ({ postID, isFavPage }) => {
 
   useEffect(() => {
     setFavoritePost(post?.post);
+    console.log(post);
   }, [loading]);
 
-  return (
-    <div className={`Post postBox ${!isFavPage ? 'composeFavorites' : ''}`}>
-      {isFavPage ? (
-        <>
-          <Post postData={favoritePost} />
-        </>
-      ) : (
-        <>
-          <div>
-            <span className="post_user">{favoritePost?.author?.username}</span>
-          </div>
-          <pre className="post_text">{favoritePost?.text}</pre>
-        </>
-      )}
-    </div>
-  );
+  if (post !== null)
+    return (
+      <div className={`Post postBox ${!isFavPage ? 'composeFavorites' : ''}`}>
+        {isFavPage ? (
+          <>
+            <Post postData={favoritePost} />
+          </>
+        ) : (
+          <>
+            <div>
+              <span className="post_user">
+                {favoritePost?.author?.username}
+              </span>
+            </div>
+            <pre className="post_text">{favoritePost?.text}</pre>
+          </>
+        )}
+      </div>
+    );
 };
 
 export default ComposePost;

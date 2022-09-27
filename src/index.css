@@ -469,6 +469,18 @@ pre {
     min-height: auto;
   }
 
+  .bigView.favoritePage {
+    height: 100vh;
+    width: 100vw;
+    display: grid;
+    grid-template-areas:
+      'one  other'
+      'one  other'
+      'one  other';
+    grid-template-columns: var(--menuSection) 1fr;
+    overflow: hidden;
+  }
+
   #root {
     padding-top: 0;
   }
