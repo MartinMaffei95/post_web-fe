@@ -85,7 +85,6 @@
   }
 
   .modalStyle .newPost.postBox .newPostForm {
-    background-color: green;
     display: flex;
     flex-grow: 1;
   }
