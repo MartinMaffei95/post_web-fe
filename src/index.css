@@ -8,7 +8,7 @@
 
   /*## COLOR VARIABLES ##*/
   --dominantColor: #6e6c6f;
-  --dominantColorSoft: #e3e2e3;
+  --dominantColorSoft: #c6c3c6;
   --complementaryColor: #1fadb7;
   --accentColor: #5481b7;
   --accentColorDark: #235377;
@@ -376,15 +376,9 @@ pre {
 
 .modalStyle {
   background-color: #fff;
-  /* height: 60vh; */
   box-shadow: var(--boxShadowProp);
   border-radius: var(--borderRadiusCard);
-
-  /* width: 40vw; */
-}
-
-.modalStyle .inputContainer {
-  width: inherit;
+  min-height: 60vh;
 }
 
 .ComposePost_footer {

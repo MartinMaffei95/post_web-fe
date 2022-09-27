@@ -21,7 +21,10 @@ import {
   makeToast,
   getPostFromHome,
   handleWriteComment,
+  loading,
 } from '../../Redux/actions/postsActions';
+import { useDispatch } from 'react-redux';
+import { IS_COMMENT, LOADING } from '../../Redux/actions/actions';
 
 const PostFooter = ({
   postID,
@@ -40,50 +43,92 @@ const PostFooter = ({
   handleModal,
 }) => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  //  dispatch(loading(true));
+  //   dispatch(loading(false));
 
   // Functions
   const likePost = () => {
+    dispatch(loading(true));
     axios(`${process.env.REACT_APP_URI}post/${postID}/like_post`, {
       method: 'POST',
       headers: {
         contentType: 'application/json',
         authorization: 'Bearer ' + localStorage.getItem('token'),
       },
-    }).then((res) => setRenderPost(res.data.post));
+    })
+      .then((res) => {
+        dispatch(loading(false));
+        setRenderPost(res.data.post);
+      })
+      .catch((err) => {
+        dispatch(loading(false));
+        alert(err.message);
+      });
   };
 
   const unlikePost = () => {
+    dispatch(loading(true));
     axios(`${process.env.REACT_APP_URI}post/${postID}/unlike_post`, {
       method: 'POST',
       headers: {
         contentType: 'application/json',
         authorization: 'Bearer ' + localStorage.getItem('token'),
       },
-    }).then((res) => setRenderPost(res.data.post));
+    })
+      .then((res) => {
+        dispatch(loading(false));
+        setRenderPost(res.data.post);
+      })
+      .catch((err) => {
+        dispatch(loading(false));
+        alert(err.message);
+      });
   };
 
   const favoritePost = () => {
+    dispatch(loading(true));
     axios(`${process.env.REACT_APP_URI}post/${postID}/save_post`, {
       method: 'POST',
       headers: {
         contentType: 'application/json',
         authorization: 'Bearer ' + localStorage.getItem('token'),
       },
-    }).then((res) =>
-      getMyData(localStorage.getItem('userID'), localStorage.getItem('token'))
-    );
+    })
+      .then((res) => {
+        dispatch(loading(false));
+        getMyData(
+          localStorage.getItem('userID'),
+          localStorage.getItem('token')
+        );
+      })
+      .catch((err) => {
+        dispatch(loading(false));
+        alert(err.message);
+      });
   };
 
   const unFavoritePost = () => {
+    dispatch(loading(true));
     axios(`${process.env.REACT_APP_URI}post/${postID}/unsave_post`, {
       method: 'POST',
       headers: {
         contentType: 'application/json',
         authorization: 'Bearer ' + localStorage.getItem('token'),
       },
-    }).then((res) =>
-      getMyData(localStorage.getItem('userID'), localStorage.getItem('token'))
-    );
+    })
+      .then((res) => {
+        dispatch(loading(false));
+        getMyData(
+          localStorage.getItem('userID'),
+          localStorage.getItem('token')
+        );
+      })
+      .catch((err) => {
+        dispatch(loading(false));
+        alert(err.message);
+      });
   };
 
   return (
@@ -172,7 +217,7 @@ const mapDispatchToProps = (dispatch) => ({
     dispatch(getPostFromHome(postData, profile));
   },
   handleModal() {
-    dispatch(handleWriteComment(true));
+    dispatch(handleWriteComment(true, IS_COMMENT));
   },
   handleToast(status, msg) {
     dispatch(makeToast(status, msg));

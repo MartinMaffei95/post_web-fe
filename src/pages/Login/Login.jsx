@@ -2,13 +2,21 @@ import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import * as Yup from 'yup';
 import { useFormik } from 'formik';
-import { connect } from 'react-redux';
-import { getMyProfileData } from '../../Redux/actions/profilesActions';
+
 import { Helmet } from 'react-helmet';
 import Input from '../../Components/Input/Input';
 
 // SWAL
 import Swal from 'sweetalert2';
+
+// LOADING
+import { Backdrop, CircularProgress } from '@mui/material';
+//REDUX
+import { connect } from 'react-redux';
+import { getMyProfileData } from '../../Redux/actions/profilesActions';
+import { loading } from '../../Redux/actions/profilesActions';
+import { useSelector, useDispatch } from 'react-redux';
+import { useEffect, useState } from 'react';
 
 const Login = ({ getMyData }) => {
   const initialValues = {
@@ -17,9 +25,22 @@ const Login = ({ getMyData }) => {
   };
 
   let navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  const [isloading, setIsLoading] = useState(false);
+
+  const postLoading = useSelector((state) => state.postReducer.loading);
+  const profileLoading = useSelector((state) => state.profileReducer.loading);
+
+  useEffect(() => {
+    if (postLoading || profileLoading) return setIsLoading(true);
+    if (!postLoading && !profileLoading) return setIsLoading(false);
+  }, [postLoading, profileLoading]);
 
   const onSubmit = () => {
-    console.log('ok');
+    console.log('SENDING_SUBMIT');
+    console.log(postLoading, profileLoading);
+    dispatch(loading(true));
     fetch(`${process.env.REACT_APP_URI}auth/login`, {
       method: 'POST',
       headers: {
@@ -33,6 +54,7 @@ const Login = ({ getMyData }) => {
     })
       .then((res) => res.json())
       .then((data) => {
+        dispatch(loading(false));
         if (data.message === 'LOGIN_SUCCESS') {
           localStorage.setItem('token', data?.token);
           localStorage.setItem('username', data?.user?.username);
@@ -122,6 +144,14 @@ const Login = ({ getMyData }) => {
       <Helmet>
         <title>PostWeb | Ingresá</title>
       </Helmet>
+
+      <Backdrop
+        sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
+        open={isloading}
+      >
+        <CircularProgress color="inherit" />
+      </Backdrop>
+
       <div className="initialText">
         <h3>Bienvenido!</h3>
         <span>

@@ -16,12 +16,11 @@ import LateralMenu from '../../Components/LateralMenu/LateralMenu';
 import FavoritesBoard from '../../Components/FavoritesBoard/FavoritesBoard';
 
 import { Modal } from '@mui/material';
-import SectionModal, {
-  sectionNames,
-} from '../../Components/SectionModal/SectionModal';
+import SectionModal from '../../Components/SectionModal/SectionModal';
 
 const PostPage = ({
   handleWriteComment,
+  modalAction,
   handleModal,
   modalPostOpen,
   actualPost,
@@ -68,7 +67,7 @@ const PostPage = ({
             open={modalPostOpen}
             children={
               <SectionModal
-                section={sectionNames.MAKE_COMMENT}
+                section={modalAction}
                 className={`modalStyle`}
                 postInfo={actualPost?.postData}
               />
@@ -97,6 +96,7 @@ const PostPage = ({
 
 const mapStateToProps = (state) => ({
   writtingComment: state.postReducer.writtingComment,
+  modalAction: state.postReducer.modalAction,
   modalPostOpen: state.postReducer.writtingComment,
   actualPost: state.postReducer.actualPost,
 });

@@ -73,7 +73,7 @@ const MakePost = ({
         handleToast('success', 'Tu post fue creado!');
         reloadHomePage();
         resetForm();
-        navigate(-1);
+        if (isPhone) navigate(-1);
       });
     }
   };
@@ -99,7 +99,11 @@ const MakePost = ({
   } = formik;
 
   return (
-    <div className={`${!isPhone ? 'desktopView' : ''}`}>
+    <div
+      className={`${!isPhone ? 'desktopView' : ''} ${
+        !isModal ? 'openable' : ''
+      }`}
+    >
       <ToastContainer autoClose={2000} />
       <div className={`newPost postBox`}>
         <ProfileImage src={myUser?.image} />
@@ -118,7 +122,7 @@ const MakePost = ({
           {!isPhone || isModal ? (
             <div className="ComposePost_footer">
               <button className="btn primary" type="submit">
-                Postear
+                {editPost ? 'Editar' : 'Postear'}
               </button>
             </div>
           ) : (

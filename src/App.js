@@ -6,6 +6,7 @@ import {
   getPostsWithProfile,
 } from './Redux/actions/postsActions';
 import { getMyProfileData } from './Redux/actions/profilesActions';
+
 store.dispatch(getInitPosts());
 getPostsWithProfile(localStorage.getItem('userID')) &&
   store.dispatch(getPostsWithProfile(localStorage.getItem('userID')));

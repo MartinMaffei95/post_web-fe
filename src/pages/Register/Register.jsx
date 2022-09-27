@@ -8,15 +8,39 @@ import Input from '../../Components/Input/Input';
 // SWAL
 import Swal from 'sweetalert2';
 
+// LOADING
+import { Backdrop, CircularProgress } from '@mui/material';
+//REDUX
+import { loading } from '../../Redux/actions/profilesActions';
+import { useSelector, useDispatch } from 'react-redux';
+import { useEffect, useState } from 'react';
+
 const Register = () => {
+  let navigate = useNavigate();
+
+  const dispatch = useDispatch();
+
+  //  dispatch(loading(true));
+  //  dispatch(loading(false));
+
+  const [isloading, setIsLoading] = useState(false);
+
+  const postLoading = useSelector((state) => state.postReducer.loading);
+  const profileLoading = useSelector((state) => state.profileReducer.loading);
+
+  useEffect(() => {
+    if (postLoading || profileLoading) return setIsLoading(true);
+    if (!postLoading && !profileLoading) return setIsLoading(false);
+  }, [postLoading, profileLoading]);
+
   const initialValues = {
     username: '',
     email: '',
     password: '',
   };
-  let navigate = useNavigate();
 
   const onSubmit = () => {
+    dispatch(loading(true));
     fetch(`${process.env.REACT_APP_URI}auth/register`, {
       method: 'POST',
       headers: {
@@ -30,6 +54,8 @@ const Register = () => {
     })
       .then((res) => res.json())
       .then((data) => {
+        dispatch(loading(false));
+
         if (data.message === 'USER_CREATED') {
           return navigate('/', { replace: true });
         } else {
@@ -125,6 +151,14 @@ const Register = () => {
       <Helmet>
         <title>PostWeb | Registro</title>
       </Helmet>
+
+      <Backdrop
+        sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
+        open={isloading}
+      >
+        <CircularProgress color="inherit" />
+      </Backdrop>
+
       <div className="initialText">
         <h3>Creemos un usuario!</h3>
         <span>

@@ -5,6 +5,7 @@ import {
   CREATE_COMMENT_IN_POST,
   WRITING_COMMENT_IN_POST,
   GET_MY_POSTS,
+  LOADING,
 } from './actions';
 import axios from 'axios';
 import { toast } from 'react-toastify';
@@ -22,14 +23,19 @@ export const makeComment = (postData, profileData) => ({
   type: CREATE_COMMENT_IN_POST,
   payload: { postData, profileData },
 });
-export const handleComment = (state) => ({
+export const handleComment = (state, action) => ({
   type: WRITING_COMMENT_IN_POST,
-  payload: state,
+  payload: { state, action },
 });
 
 export const getMyPosts = (data) => ({
   type: GET_MY_POSTS,
   payload: data,
+});
+
+export const loading = (state) => ({
+  type: LOADING,
+  payload: state,
 });
 
 //Get all posts
@@ -70,8 +76,8 @@ export const getPostFromHome = (postData, profile) => (dispatch) => {
   dispatch(makeComment(postData, profile));
 };
 
-export const handleWriteComment = (state) => (dispatch) => {
-  dispatch(handleComment(state));
+export const handleWriteComment = (state, action) => (dispatch) => {
+  dispatch(handleComment(state, action));
 };
 
 export function makeToast(status, msg) {

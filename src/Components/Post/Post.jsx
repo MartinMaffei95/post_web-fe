@@ -34,6 +34,7 @@ import {
 } from '../../Redux/actions/postsActions';
 import { getMyProfileData } from '../../Redux/actions/profilesActions';
 import PostFooter from '../../Molecules/PostFooter/PostFooter';
+import { IS_EDIT_POST } from '../../Redux/actions/actions';
 
 const Post = ({
   postData,
@@ -45,6 +46,8 @@ const Post = ({
   handleToast,
   userData,
   getMyData,
+  //open modal to edit comment
+  handleModal,
 }) => {
   const { profile } = useFetchProfile(postData?.author?.userID);
   const navigate = useNavigate();
@@ -59,6 +62,7 @@ const Post = ({
     left: 0,
     orientation: 'bottom',
   });
+  const { isPhone } = useResize();
 
   const goToProfile = (e) => {
     navigate(`/profile/${e.target.getAttribute('data-user-id')}`, {
@@ -66,12 +70,16 @@ const Post = ({
     });
   };
   const ToEditPost = (e) => {
-    navigate(`/compose/${renderPost?._id}/editPost`, {
-      replace: false,
-    });
+    if (isPhone) {
+      return navigate(`/compose/${renderPost?._id}/editPost`, {
+        replace: false,
+      });
+    }
+
+    makingComment(renderPost);
+    handleModal(true, IS_EDIT_POST);
   };
 
-  const { isPhone } = useResize();
   const [renderPost, setRenderPost] = useState(postData);
   const [moreOptActive, setMoreOptActive] = useState(false);
   const myID = localStorage.getItem('userID');
@@ -197,23 +205,47 @@ const Post = ({
         >
           {localStorage.getItem('userID') === postData?.author?.userID ? (
             <>
-              <MenuItem className="MenuItem" onClick={ToEditPost}>
+              <MenuItem
+                className="MenuItem"
+                onClick={() => {
+                  handleClose();
+                  ToEditPost();
+                }}
+              >
                 <BiEdit />
                 Editar
               </MenuItem>
 
-              <MenuItem className="MenuItem" onClick={deleteBtn}>
+              <MenuItem
+                className="MenuItem"
+                onClick={() => {
+                  handleClose();
+                  deleteBtn();
+                }}
+              >
                 <AiOutlineDelete />
                 Eliminar post
               </MenuItem>
             </>
           ) : (
             <>
-              <MenuItem className="MenuItem" onClick={ToEditPost}>
+              <MenuItem
+                className="MenuItem"
+                onClick={() => {
+                  handleClose();
+                  ToEditPost();
+                }}
+              >
                 <TiCancel /> No me interesa esto
               </MenuItem>
 
-              <MenuItem className="MenuItem" onClick={deleteBtn}>
+              <MenuItem
+                className="MenuItem"
+                onClick={() => {
+                  handleClose();
+                  deleteBtn();
+                }}
+              >
                 <FiUserX /> Dejar de ver publicaciones de:
                 {postData?.author?.username}
               </MenuItem>
@@ -283,7 +315,9 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
   makingComment(postData, profile) {
     dispatch(getPostFromHome(postData, profile));
-    dispatch(handleWriteComment(true));
+  },
+  handleModal(state, action) {
+    dispatch(handleWriteComment(state, action));
   },
   fetchUserProfile(profileID) {
     dispatch(getPostsWithProfile(profileID));

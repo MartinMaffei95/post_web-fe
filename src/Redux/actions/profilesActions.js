@@ -3,6 +3,7 @@ import {
   GET_INIT_PROFILE_REQUEST,
   GET_INIT_PROFILE_FAILURE,
   GET_MY_PROFILE,
+  LOADING,
 } from './actions';
 import axios from 'axios';
 
@@ -19,6 +20,10 @@ export const profileFailure = (error) => ({
 export const sendMyProfile = (myProfileData) => ({
   type: GET_MY_PROFILE,
   payload: myProfileData,
+});
+export const loading = (state) => ({
+  type: LOADING,
+  payload: state,
 });
 
 export const getProfileInformation = (profileID) => (dispatch) => {

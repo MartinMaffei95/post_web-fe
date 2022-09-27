@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Register from '../pages/Register/Register';
 import Login from '../pages/Login/Login';
 import Home from '../pages/Home/Home';
@@ -14,6 +14,7 @@ import FavoritesPage from '../pages/FavoritesPage/FavoritesPage';
 
 const AppRoutes = () => {
   const navigate = useNavigate();
+
   const RequireAuth = ({ children }) => {
     if (!localStorage.getItem('token')) {
       return <Navigate to="/login" replace={true} />;
@@ -21,89 +22,91 @@ const AppRoutes = () => {
     return children;
   };
   return (
-    <Routes>
-      {/* ## Home page ## */}
-      <Route
-        path="/"
-        element={
-          <RequireAuth>
-            <Home />
-          </RequireAuth>
-        }
-      />
-      {/* ## Compose pages - used for phone ## */}
-      <Route path="/compose">
+    <>
+      <Routes>
+        {/* ## Home page ## */}
         <Route
-          path="post"
+          path="/"
           element={
             <RequireAuth>
-              <NewPost />
+              <Home />
             </RequireAuth>
           }
         />
-        <Route
-          path=":postId/comment"
-          element={
-            <RequireAuth>
-              <NewComment />
-            </RequireAuth>
-          }
-        />
-        <Route
-          path=":postId/editPost"
-          element={
-            <RequireAuth>
-              <EditPost />
-            </RequireAuth>
-          }
-        />
-        <Route
-          path="favorites"
-          element={
-            <RequireAuth>
-              <FavoritesPage />
-            </RequireAuth>
-          }
-        />
-      </Route>
+        {/* ## Compose pages - used for phone ## */}
+        <Route path="/compose">
+          <Route
+            path="post"
+            element={
+              <RequireAuth>
+                <NewPost />
+              </RequireAuth>
+            }
+          />
+          <Route
+            path=":postId/comment"
+            element={
+              <RequireAuth>
+                <NewComment />
+              </RequireAuth>
+            }
+          />
+          <Route
+            path=":postId/editPost"
+            element={
+              <RequireAuth>
+                <EditPost />
+              </RequireAuth>
+            }
+          />
+          <Route
+            path="favorites"
+            element={
+              <RequireAuth>
+                <FavoritesPage />
+              </RequireAuth>
+            }
+          />
+        </Route>
 
-      {/* ## Profile pages - DINAMIC with useParams() ## */}
-      <Route path="/profile">
-        <Route
-          path=":userId"
-          element={
-            <RequireAuth>
-              <Profile />
-            </RequireAuth>
-          }
-        />
-        <Route
-          path="settings"
-          element={
-            <RequireAuth>
-              <ProfileEdit />
-            </RequireAuth>
-          }
-        />
-      </Route>
-      {/* ## Post pages - DINAMIC with useParams() ## */}
-      <Route path="/post">
-        <Route
-          path=":postId"
-          element={
-            <RequireAuth>
-              <PostPage />
-            </RequireAuth>
-          }
-        />
-      </Route>
-      {/* ## Register page ## */}
-      <Route path="/register" element={<Register />}></Route>
-      {/* ## Login page ## */}
-      <Route path="/login" element={<Login />}></Route>
-      {/* ## Styles page ## */}
-      <Route path="/styles" element={<Styles />}></Route>
-    </Routes>
+        {/* ## Profile pages - DINAMIC with useParams() ## */}
+        <Route path="/profile">
+          <Route
+            path=":userId"
+            element={
+              <RequireAuth>
+                <Profile />
+              </RequireAuth>
+            }
+          />
+          <Route
+            path="settings"
+            element={
+              <RequireAuth>
+                <ProfileEdit />
+              </RequireAuth>
+            }
+          />
+        </Route>
+        {/* ## Post pages - DINAMIC with useParams() ## */}
+        <Route path="/post">
+          <Route
+            path=":postId"
+            element={
+              <RequireAuth>
+                <PostPage />
+              </RequireAuth>
+            }
+          />
+        </Route>
+        {/* ## Register page ## */}
+        <Route path="/register" element={<Register />}></Route>
+        {/* ## Login page ## */}
+        <Route path="/login" element={<Login />}></Route>
+        {/* ## Styles page ## */}
+        <Route path="/styles" element={<Styles />}></Route>
+      </Routes>
+    </>
   );
 };
 

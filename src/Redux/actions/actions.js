@@ -11,3 +11,8 @@ export const GET_INIT_PROFILE_SUCCESS = 'GET_INIT_PROFILE_SUCCESS'; // Getting p
 export const GET_INIT_PROFILE_REQUEST = 'GET_INIT_PROFILE_REQUEST'; // Getting posts in home page STATE= SUCCESS
 export const GET_INIT_PROFILE_FAILURE = 'GET_INIT_PROFILE_FAILURE'; // Getting posts in home page STATE= FAILURE
 export const GET_MY_PROFILE = 'GET_MY_PROFILE'; // Getting posts in home page STATE= FAILURE
+
+export const LOADING = 'LOADING'; // Loading
+export const IS_COMMENT = 'IS_COMMENT'; // modal Commenting
+export const IS_NEW_POST = 'IS_NEW_POST'; // modal newPOST
+export const IS_EDIT_POST = 'IS_EDIT_POST'; // modal EDIT POST

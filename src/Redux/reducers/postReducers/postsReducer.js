@@ -5,6 +5,7 @@ import {
   CREATE_COMMENT_IN_POST,
   WRITING_COMMENT_IN_POST,
   GET_MY_POSTS,
+  LOADING,
 } from '../../actions/actions';
 
 const initialStore = {
@@ -13,11 +14,17 @@ const initialStore = {
   myPosts: {},
   actualPost: {},
   writtingComment: false,
+  modalAction: '',
   error: '',
 };
 
 export const postReducer = (state = initialStore, action) => {
   switch (action.type) {
+    case LOADING: //## APP IS LOADING - THIS ACTION ONLY PUT LOADING TREO OR FALSE
+      return {
+        ...state,
+        loading: action.payload,
+      };
     case GET_INIT_POSTS_REQUEST: //## GET on server initiated, now web is 'Loading...'
       return {
         ...state,
@@ -52,7 +59,8 @@ export const postReducer = (state = initialStore, action) => {
       console.log(action.payload);
       return {
         ...state,
-        writtingComment: action.payload, //## hosting post data
+        writtingComment: action.payload.state, //## hosting post data
+        modalAction: action.payload.action,
       };
 
     default:

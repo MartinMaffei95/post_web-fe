@@ -3,6 +3,7 @@ import {
   GET_INIT_PROFILE_REQUEST,
   GET_INIT_PROFILE_FAILURE,
   GET_MY_PROFILE,
+  LOADING,
 } from '../../actions/actions';
 
 const initialStore = {
@@ -15,6 +16,11 @@ const initialStore = {
 
 export const profileReducer = (state = initialStore, action) => {
   switch (action.type) {
+    case LOADING: //## APP IS LOADING - THIS ACTION ONLY PUT LOADING TREO OR FALSE
+      return {
+        ...state,
+        loading: action.payload,
+      };
     case GET_INIT_PROFILE_REQUEST: //## GET on server initiated, now web is 'Loading...'
       return {
         ...state,

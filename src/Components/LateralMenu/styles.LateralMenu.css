@@ -26,6 +26,14 @@
   transition: 0.5s;
 }
 
+.menu_list .logoContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-block: calc(var(--marginBlock) * 2);
+  /* margin-bottom: 1rem; */
+}
+
 .menu_list .closeMenuContainer {
   display: flex;
   align-items: center;
@@ -83,7 +91,7 @@
 }
 
 .menu_list li:first-of-type {
-  margin-top: 1rem;
+  /* margin-top: 1rem; */
   /* padding-top: 1rem; */
   position: relative;
 }
@@ -155,6 +163,7 @@
     max-width: 20vw;
 
     white-space: nowrap;
+    background-color: #fff;
   }
   .menu_list .accountInfo_menu {
     margin-top: auto;
@@ -162,6 +171,10 @@
   }
   .menu_list li {
     font-size: 1rem;
+    transition: none;
+  }
+  .menu_list li:hover {
+    background-color: var(--dominantColorSoft);
   }
   .menu_list li svg {
     font-size: 1.5rem;

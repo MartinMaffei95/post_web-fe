@@ -90,7 +90,7 @@ const LateralMenu = ({
   } else {
     return (
       <ul className={`menu_list staticMenu`}>
-        <div>
+        <div className={`logoContainer`}>
           <Logo />
         </div>
         <ListItem icon={<AiOutlineHome />} text="Inicio" link={true} to={`/`} />

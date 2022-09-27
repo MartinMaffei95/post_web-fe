@@ -57,20 +57,39 @@
     );
   }
 
-  .desktopView .newPost.postBox .inputContainer input,
-  .desktopView .newPost.postBox .inputContainer textarea {
+  .desktopView.openable .newPost.postBox .inputContainer input,
+  .desktopView.openable .newPost.postBox .inputContainer textarea {
     padding-top: calc(var(--marginBlock) * 2.5);
   }
 
-  .desktopView .newPost.postBox .newPostForm:focus-within {
+  .desktopView.openable .newPost.postBox:focus-within .newPostForm {
     height: var(--inputFocusHeigt);
   }
 
-  .desktopView .newPost.postBox .inputContainer:focus-within {
+  .desktopView.openable .newPost.postBox:focus-within .inputContainer {
     height: calc(var(--inputFocusHeigt) - 1rem);
   }
 
   .desktopView {
     margin-bottom: var(--marginBlock);
+  }
+
+  .modalStyle .newPost.postBox {
+  }
+
+  .modalStyle .newPost.postBox form {
+    display: flex;
+    min-height: 60vh;
+
+    flex-direction: column;
+  }
+
+  .modalStyle .newPost.postBox .newPostForm {
+    background-color: green;
+    display: flex;
+    flex-grow: 1;
+  }
+  .modalStyle .newPost.postBox .inputContainer {
+    height: 95%;
   }
 }
