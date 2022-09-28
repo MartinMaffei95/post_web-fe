@@ -1,3 +1,20 @@
+.favoritesBoard .title {
+  font-size: var(--bigTextSize);
+  text-align: center;
+  margin-top: calc(var(--headerHeight) / 2);
+}
+
+.Posts_Container.favoritesPosts {
+  scrollbar-color: var(--accentColor) var(--dominantColorSoft);
+  scrollbar-width: thin;
+  overflow-y: scroll;
+  max-height: 100vh;
+}
+
+.composeFavorites {
+  border-bottom: 2px solid var(--dominantColorSoft);
+}
+
 .composeFavorites .post_text {
 }
 

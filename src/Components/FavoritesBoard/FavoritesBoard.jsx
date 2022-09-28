@@ -35,8 +35,8 @@ const FavoritesBoard = ({ userData, isFavPage }) => {
 
   return (
     <div className="favoritesBoard">
-      <h3>Tus post favoritos</h3>
-      <div className="Posts_Container ">
+      <h3 className="title">Tus post favoritos</h3>
+      <div className={`Posts_Container  ${!isFavPage ? 'favoritesPosts' : ''}`}>
         {isFavPage &&
           userData?.favoritePosts &&
           userData?.favoritePosts?.map((postID) => (

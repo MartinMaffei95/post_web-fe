@@ -23,12 +23,7 @@ const ComposePost = ({ postID, isFavPage }) => {
           </>
         ) : (
           <>
-            <div>
-              <span className="post_user">
-                {favoritePost?.author?.username}
-              </span>
-            </div>
-            <pre className="post_text">{favoritePost?.text}</pre>
+            <Post postData={favoritePost} />
           </>
         )}
       </div>
