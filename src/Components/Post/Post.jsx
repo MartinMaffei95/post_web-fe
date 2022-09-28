@@ -233,7 +233,7 @@ const Post = ({
                 className="MenuItem"
                 onClick={() => {
                   handleClose();
-                  ToEditPost();
+                  // ToEditPost();
                 }}
               >
                 <TiCancel /> No me interesa esto
@@ -243,7 +243,7 @@ const Post = ({
                 className="MenuItem"
                 onClick={() => {
                   handleClose();
-                  deleteBtn();
+                  // deleteBtn();
                 }}
               >
                 <FiUserX /> Dejar de ver publicaciones de:
@@ -256,12 +256,23 @@ const Post = ({
         <Drawer open={open} onClose={handleClose} anchor="bottom">
           {localStorage.getItem('userID') === postData?.author?.userID ? (
             <>
-              <MenuItem className="MenuItem" onClick={ToEditPost}>
+              <MenuItem
+                className="MenuItem"
+                onClick={() => {
+                  handleClose();
+                  ToEditPost();
+                }}
+              >
                 <BiEdit />
                 Editar
               </MenuItem>
 
-              <MenuItem onClick={deleteBtn}>
+              <MenuItem
+                onClick={() => {
+                  handleClose();
+                  deleteBtn();
+                }}
+              >
                 <AiOutlineDelete />
                 Eliminar post
               </MenuItem>
@@ -271,12 +282,21 @@ const Post = ({
             </>
           ) : (
             <>
-              <MenuItem className="MenuItem" onClick={ToEditPost}>
+              <MenuItem
+                className="MenuItem"
+                onClick={() => {
+                  handleClose();
+                }}
+              >
                 <TiCancel /> No me interesa esto
               </MenuItem>
 
-              <MenuItem onClick={deleteBtn}>
-                <FiUserX /> Dejar de ver publicaciones de:{' '}
+              <MenuItem
+                onClick={() => {
+                  handleClose();
+                }}
+              >
+                <FiUserX /> Dejar de ver publicaciones de:
                 {postData?.author?.username}
               </MenuItem>
               <div className="btn secondary closeBtn" onClick={handleClose}>
