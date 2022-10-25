@@ -415,7 +415,7 @@ pre {
   .bigView .favoritesBoard {
     grid-area: other;
     overflow-y: scroll;
-    width: calc(var(--favoriteSection) -1rem);
+    /* width: 60rem; */
   }
 
   .favoritesBoard .Posts_Container {

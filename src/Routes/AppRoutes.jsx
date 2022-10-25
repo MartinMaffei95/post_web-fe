@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import Register from '../pages/Register/Register';
 import Login from '../pages/Login/Login';
 import Home from '../pages/Home/Home';
-import { Routes, Route, Navigate, useNavigate } from 'react-router-dom';
+
 import Profile from '../pages/Profile/Profile';
 import PostPage from '../pages/PostPage/PostPage';
 import Styles from '../pages/Styles/Styles';
@@ -12,6 +12,7 @@ import NewComment from '../pages/Compose/NewComment/NewComment';
 import EditPost from '../pages/Compose/EditPost/EditPost';
 import FavoritesPage from '../pages/FavoritesPage/FavoritesPage';
 
+import { Routes, Route, Navigate, useNavigate } from 'react-router-dom';
 const AppRoutes = () => {
   const navigate = useNavigate();
 

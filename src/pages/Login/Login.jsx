@@ -38,8 +38,6 @@ const Login = ({ getMyData }) => {
   }, [postLoading, profileLoading]);
 
   const onSubmit = () => {
-    console.log('SENDING_SUBMIT');
-    console.log(postLoading, profileLoading);
     dispatch(loading(true));
     fetch(`${process.env.REACT_APP_URI}auth/login`, {
       method: 'POST',
